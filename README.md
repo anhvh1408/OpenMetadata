@@ -99,3 +99,14 @@ A HUGE THANK YOU to all our supporters!
 
 ## License
 OpenMetadata is released under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+
+## Note project build
+- Follow the build project here https://docs.open-metadata.org/v1.3.x/developers/contribute/build-code-and-run-tests/prerequisites
+- Then build the project with `mvn clean install -DskipTests`
+- Note to remove image first before each build
+- In docker-compose.yml, note to change to `dockerfile: docker/development/Dockerfile` for fresh build
+## Note docker build
+docker build --no-cache --platform linux/amd64 -t development-openmetadata -f docker/development/Dockerfile .
+
+
