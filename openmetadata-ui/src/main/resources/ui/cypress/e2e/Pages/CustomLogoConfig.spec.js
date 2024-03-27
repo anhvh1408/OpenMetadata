@@ -29,7 +29,7 @@ describe('Custom Logo Config', { tags: 'Settings' }, () => {
 
     interceptURL(
       'GET',
-      'api/v1/system/settings/customLogoConfiguration',
+      'nexus/openmetadata/api/v1/system/settings/customLogoConfiguration',
       'customLogoConfiguration'
     );
     cy.settingClick(GlobalSettingOptions.CUSTOM_LOGO);
@@ -66,11 +66,15 @@ describe('Custom Logo Config', { tags: 'Settings' }, () => {
       .clear()
       .type(config.monogram);
 
-    interceptURL('PUT', 'api/v1/system/settings', 'updatedConfig');
+    interceptURL(
+      'PUT',
+      'nexus/openmetadata/api/v1/system/settings',
+      'updatedConfig'
+    );
 
     interceptURL(
       'GET',
-      'api/v1/system/settings/customLogoConfiguration',
+      'nexus/openmetadata/api/v1/system/settings/customLogoConfiguration',
       'updatedCustomLogoConfiguration'
     );
 
@@ -87,7 +91,11 @@ describe('Custom Logo Config', { tags: 'Settings' }, () => {
     cy.get('[data-testid="edit-button"]').should('be.visible').click();
     cy.get('[data-testid="customLogoUrlPath"]').scrollIntoView().clear();
     cy.get('[data-testid="customMonogramUrlPath"]').scrollIntoView().clear();
-    interceptURL('PUT', 'api/v1/system/settings', 'updatedConfig');
+    interceptURL(
+      'PUT',
+      'nexus/openmetadata/api/v1/system/settings',
+      'updatedConfig'
+    );
 
     cy.get('[data-testid="save-button"]').click();
 

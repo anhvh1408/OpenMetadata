@@ -18,7 +18,7 @@ describe('Entity Summary Panel', () => {
     cy.login();
     interceptURL(
       'GET',
-      '/api/v1/search/query?*&index=table_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*&index=table_search_index*',
       'getTableEntity'
     );
     cy.sidebarClick(SidebarItem.EXPLORE);
@@ -42,7 +42,7 @@ describe('Entity Summary Panel', () => {
   it('Database', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=database_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=database_search_index*',
       'getDatabaseEntity'
     );
     cy.get('[data-testid="databases-tab"]').click();
@@ -66,7 +66,7 @@ describe('Entity Summary Panel', () => {
   it('Database schema', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=database_schema_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=database_schema_search_index*',
       'getDatabaseSchemaEntity'
     );
     cy.get('[data-testid="database schemas-tab"]').click();
@@ -89,7 +89,7 @@ describe('Entity Summary Panel', () => {
   it('Dashboard entity', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=dashboard_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=dashboard_search_index*',
       'getDashboardEntity'
     );
     cy.get('[data-testid="dashboards-tab"]').click();
@@ -110,7 +110,7 @@ describe('Entity Summary Panel', () => {
   it('Dashboard data model entity', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=dashboard_data_model_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=dashboard_data_model_search_index*',
       'getDashboardDataModelEntity'
     );
     cy.get('[data-testid="dashboard data models-tab"]').click();
@@ -134,7 +134,7 @@ describe('Entity Summary Panel', () => {
   it('Pipeline entity', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=pipeline_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=pipeline_search_index*',
       'getPipelineEntity'
     );
     cy.get('[data-testid="pipelines-tab"]').click();
@@ -155,7 +155,7 @@ describe('Entity Summary Panel', () => {
   it('Topic entity', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=topic_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=topic_search_index*',
       'getTopicEntity'
     );
     cy.get('[data-testid="topics-tab"]').click();
@@ -183,7 +183,7 @@ describe('Entity Summary Panel', () => {
   it('ML Model entity', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=mlmodel_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=mlmodel_search_index*',
       'getMLModelEntity'
     );
     cy.get('[data-testid="ml models-tab"]').click();
@@ -207,7 +207,7 @@ describe('Entity Summary Panel', () => {
   it('Container entity', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=container_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=container_search_index*',
       'getContainerEntity'
     );
     cy.get('[data-testid="containers-tab"]').click();
@@ -230,7 +230,7 @@ describe('Entity Summary Panel', () => {
   it('Search Index entity', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?*index=search_entity_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?*index=search_entity_search_index*',
       'getSearchIndexEntity'
     );
     cy.get('[data-testid="search indexes-tab"]').click();

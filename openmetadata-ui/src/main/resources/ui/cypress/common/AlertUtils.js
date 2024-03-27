@@ -30,7 +30,11 @@ export const deleteAlertSteps = (name) => {
     `Delete subscription "${name}"`
   );
   cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
-  interceptURL('DELETE', '/api/v1/events/subscriptions/*', 'deleteAlert');
+  interceptURL(
+    'DELETE',
+    '/nexus/openmetadata/api/v1/events/subscriptions/*',
+    'deleteAlert'
+  );
   cy.get('[data-testid="confirm-button"]').click();
   verifyResponseStatusCode('@deleteAlert', 200);
 
@@ -52,7 +56,11 @@ export const addOwnerFilter = (
     .click();
 
   // Search and select owner
-  interceptURL('GET', `/api/v1/search/query?q=*`, 'getSearchResult');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
+    'getSearchResult'
+  );
   cy.get('[data-testid="owner-name-select"]').click().type(ownerName);
   verifyResponseStatusCode('@getSearchResult', 200);
   cy.get(`[title="${ownerName}"]`).filter(':visible').scrollIntoView().click();
@@ -81,7 +89,11 @@ export const addEntityFQNFilter = (
     .click();
 
   // Search and select entity
-  interceptURL('GET', `/api/v1/search/query?q=*`, 'getSearchResult');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
+    'getSearchResult'
+  );
   cy.get('[data-testid="fqn-list-select"]').click().type(entityFQN);
   verifyResponseStatusCode('@getSearchResult', 200);
   cy.get(`[title="${entityFQN}"]`).filter(':visible').scrollIntoView().click();
@@ -107,7 +119,11 @@ export const addEventTypeFilter = (
   cy.get('[data-testid="Event Type-filter-option"]').filter(':visible').click();
 
   // Search and select event type
-  interceptURL('GET', `/api/v1/search/query?q=*`, 'getSearchResult');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
+    'getSearchResult'
+  );
   cy.get('[data-testid="event-type-select"]').click().type(eventType);
   verifyResponseStatusCode('@getSearchResult', 200);
   cy.get(`[title="${startCase(eventType)}"]`)
@@ -140,7 +156,11 @@ export const addFilterWithUsersListInput = (
   cy.get(`[data-testid="${filterTestId}"]`).filter(':visible').click();
 
   // Search and select user
-  interceptURL('GET', `/api/v1/search/query?q=*`, 'getSearchResult');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
+    'getSearchResult'
+  );
   cy.get('[data-testid="user-name-select"]').click().type(updaterName);
   verifyResponseStatusCode('@getSearchResult', 200);
   cy.get(`[title="${updaterName}"]`)
@@ -165,7 +185,11 @@ export const addDomainFilter = (filterNumber, domainName, exclude = false) => {
   cy.get('[data-testid="Domain-filter-option"]').filter(':visible').click();
 
   // Search and select domain
-  interceptURL('GET', `/api/v1/search/query?q=*`, 'getSearchResult');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
+    'getSearchResult'
+  );
   cy.get('[data-testid="domain-select"]').click().type(domainName);
   verifyResponseStatusCode('@getSearchResult', 200);
   cy.get(`[title="${domainName}"]`).filter(':visible').scrollIntoView().click();
@@ -220,7 +244,11 @@ export const addInternalDestination = (
       )
         .scrollIntoView()
         .click();
-      interceptURL('GET', `/api/v1/search/query?q=*`, 'getSearchResult');
+      interceptURL(
+        'GET',
+        `/nexus/openmetadata/api/v1/search/query?q=*`,
+        'getSearchResult'
+      );
       cy.get(
         `[data-testid="team-user-select-dropdown-${destinationNumber}"] [data-testid="search-input"]`
       )

@@ -69,8 +69,16 @@ const DRAG_AND_DROP_TEAM_DETAILS = [
 
 describe('Teams drag and drop should work properly', () => {
   beforeEach(() => {
-    interceptURL('GET', `/api/v1/users?fields=*`, 'getUserDetails');
-    interceptURL('GET', `/api/v1/permissions/team/name/*`, 'permissions');
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/users?fields=*`,
+      'getUserDetails'
+    );
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/permissions/team/name/*`,
+      'permissions'
+    );
     cy.login();
 
     cy.sidebarClick(SidebarItem.SETTINGS);

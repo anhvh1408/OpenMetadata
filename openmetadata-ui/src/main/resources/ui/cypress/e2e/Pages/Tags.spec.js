@@ -59,13 +59,17 @@ describe('Classification Page', { tags: 'Governance' }, () => {
     cy.login();
     interceptURL(
       'GET',
-      `/api/v1/tags?fields=usageCount&parent=${NEW_CLASSIFICATION.name}&limit=10`,
+      `/nexus/openmetadata/api/v1/tags?fields=usageCount&parent=${NEW_CLASSIFICATION.name}&limit=10`,
       'getTagList'
     );
-    interceptURL('GET', `/api/v1/permissions/classification/*`, 'permissions');
     interceptURL(
       'GET',
-      `/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
+      `/nexus/openmetadata/api/v1/permissions/classification/*`,
+      'permissions'
+    );
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
       'suggestTag'
     );
     visitClassificationPage();
@@ -109,7 +113,11 @@ describe('Classification Page', { tags: 'Governance' }, () => {
   });
 
   it('Create classification with validation checks', () => {
-    interceptURL('POST', 'api/v1/classifications', 'createTagCategory');
+    interceptURL(
+      'POST',
+      'nexus/openmetadata/api/v1/classifications',
+      'createTagCategory'
+    );
     cy.get('[data-testid="add-classification"]').should('be.visible').click();
     cy.get('[data-testid="modal-container"]')
       .should('exist')
@@ -176,7 +184,7 @@ describe('Classification Page', { tags: 'Governance' }, () => {
     cy.get('[data-testid="icon-url"]').scrollIntoView().type(NEW_TAG.icon);
     cy.get('[data-testid="color-input"]').scrollIntoView().type(NEW_TAG.color);
 
-    interceptURL('POST', '/api/v1/tags', 'createTag');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/tags', 'createTag');
     submitForm();
 
     verifyResponseStatusCode('@createTag', 201);
@@ -197,16 +205,24 @@ describe('Classification Page', { tags: 'Governance' }, () => {
   it('Assign tag to DatabaseSchema', () => {
     interceptURL(
       'GET',
-      '/api/v1/permissions/databaseSchema/name/*',
+      '/nexus/openmetadata/api/v1/permissions/databaseSchema/name/*',
       'permissions'
     );
-    interceptURL('PUT', '/api/v1/feed/tasks/*/resolve', 'taskResolve');
+    interceptURL(
+      'PUT',
+      '/nexus/openmetadata/api/v1/feed/tasks/*/resolve',
+      'taskResolve'
+    );
     interceptURL(
       'GET',
-      '/api/v1/databaseSchemas/name/*',
+      '/nexus/openmetadata/api/v1/databaseSchemas/name/*',
       'databaseSchemasPage'
     );
-    interceptURL('PATCH', '/api/v1/databaseSchemas/*', 'addTags');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/databaseSchemas/*',
+      'addTags'
+    );
 
     const entity = SEARCH_ENTITY_TABLE.table_3;
     const tag = 'Sensitive';
@@ -254,7 +270,11 @@ describe('Classification Page', { tags: 'Governance' }, () => {
     // Remove all added tags
     cy.get('[data-testid="remove-tags"]').eq(0).should('be.visible').click();
 
-    interceptURL('PATCH', '/api/v1/databaseSchemas/*', 'removeTags');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/databaseSchemas/*',
+      'removeTags'
+    );
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
     verifyResponseStatusCode('@removeTags', 200);
 
@@ -266,13 +286,17 @@ describe('Classification Page', { tags: 'Governance' }, () => {
   it('Assign tag using Task & Suggestion flow to DatabaseSchema', () => {
     interceptURL(
       'GET',
-      '/api/v1/permissions/databaseSchema/name/*',
+      '/nexus/openmetadata/api/v1/permissions/databaseSchema/name/*',
       'permissions'
     );
-    interceptURL('PUT', '/api/v1/feed/tasks/*/resolve', 'taskResolve');
+    interceptURL(
+      'PUT',
+      '/nexus/openmetadata/api/v1/feed/tasks/*/resolve',
+      'taskResolve'
+    );
     interceptURL(
       'GET',
-      '/api/v1/databaseSchemas/name/*',
+      '/nexus/openmetadata/api/v1/databaseSchemas/name/*',
       'databaseSchemasPage'
     );
 
@@ -295,7 +319,7 @@ describe('Classification Page', { tags: 'Governance' }, () => {
     verifyResponseStatusCode('@permissions', 200);
 
     // Create task to add tags
-    interceptURL('POST', '/api/v1/feed', 'taskCreated');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/feed', 'taskCreated');
     cy.get('[data-testid="request-entity-tags"]').should('exist').click();
 
     // set assignees for task
@@ -336,7 +360,11 @@ describe('Classification Page', { tags: 'Governance' }, () => {
     // Remove all added tags
     cy.get('[data-testid="remove-tags"]').click({ multiple: true });
 
-    interceptURL('PATCH', '/api/v1/databaseSchemas/*', 'removeTags');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/databaseSchemas/*',
+      'removeTags'
+    );
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
     verifyResponseStatusCode('@removeTags', 200);
   });
@@ -371,7 +399,7 @@ describe('Classification Page', { tags: 'Governance' }, () => {
 
     interceptURL(
       'GET',
-      'api/v1/search/query?q=&index=**',
+      'nexus/openmetadata/api/v1/search/query?q=&index=**',
       'getEntityDetailsPage'
     );
     cy.get('@count').click();
@@ -381,7 +409,7 @@ describe('Classification Page', { tags: 'Governance' }, () => {
   it('Remove tag', () => {
     interceptURL(
       'DELETE',
-      '/api/v1/tags/*?recursive=true&hardDelete=true',
+      '/nexus/openmetadata/api/v1/tags/*?recursive=true&hardDelete=true',
       'deleteTag'
     );
     cy.get('[data-testid="data-summary-container"]')

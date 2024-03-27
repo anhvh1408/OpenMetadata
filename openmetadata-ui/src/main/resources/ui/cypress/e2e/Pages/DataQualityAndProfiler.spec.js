@@ -82,7 +82,7 @@ const OWNER2 = 'Cynthia Meyer';
 const goToProfilerTab = () => {
   interceptURL(
     'GET',
-    `api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?fields=*&include=all`,
+    `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?fields=*&include=all`,
     'waitForPageLoad'
   );
   visitEntityDetailsPage({
@@ -112,10 +112,14 @@ const clickOnTestSuite = (testSuiteName) => {
 const visitTestSuiteDetailsPage = (testSuiteName) => {
   interceptURL(
     'GET',
-    '/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
+    '/nexus/openmetadata/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
     'testSuite'
   );
-  interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+    'testCase'
+  );
 
   cy.sidebarClick(SidebarItem.DATA_QUALITY);
 
@@ -141,13 +145,13 @@ describe(
 
         cy.request({
           method: 'POST',
-          url: `/api/v1/dataQuality/testSuites/executable`,
+          url: `/nexus/openmetadata/api/v1/dataQuality/testSuites/executable`,
           headers: { Authorization: `Bearer ${token}` },
           body: testSuite,
         }).then(() => {
           cy.request({
             method: 'POST',
-            url: `/api/v1/dataQuality/testCases`,
+            url: `/nexus/openmetadata/api/v1/dataQuality/testCases`,
             headers: { Authorization: `Bearer ${token}` },
             body: testCase1,
           }).then((response) => {
@@ -155,7 +159,7 @@ describe(
           });
           cy.request({
             method: 'POST',
-            url: `/api/v1/dataQuality/testCases`,
+            url: `/nexus/openmetadata/api/v1/dataQuality/testCases`,
             headers: { Authorization: `Bearer ${token}` },
             body: testCase2,
           });
@@ -169,7 +173,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'DELETE',
-          url: `/api/v1/dataQuality/testCases/${testCaseId}?hardDelete=true&recursive=false`,
+          url: `/nexus/openmetadata/api/v1/dataQuality/testCases/${testCaseId}?hardDelete=true&recursive=false`,
           headers: { Authorization: `Bearer ${token}` },
         });
         hardDeleteService({
@@ -182,8 +186,16 @@ describe(
 
     beforeEach(() => {
       cy.login();
-      interceptURL('GET', `/api/v1/tables/*/systemProfile?*`, 'systemProfile');
-      interceptURL('GET', `/api/v1/tables/*/tableProfile?*`, 'tableProfile');
+      interceptURL(
+        'GET',
+        `/nexus/openmetadata/api/v1/tables/*/systemProfile?*`,
+        'systemProfile'
+      );
+      interceptURL(
+        'GET',
+        `/nexus/openmetadata/api/v1/tables/*/tableProfile?*`,
+        'tableProfile'
+      );
     });
 
     it('Add and ingest mysql data', () => {
@@ -207,7 +219,7 @@ describe(
     it('Add Profiler ingestion', () => {
       interceptURL(
         'POST',
-        '/api/v1/services/ingestionPipelines/deploy/*',
+        '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
         'deployIngestion'
       );
 
@@ -218,10 +230,12 @@ describe(
 
       cy.settingClick(GlobalSettingOptions.DATABASES);
 
-      cy.intercept('/api/v1/services/ingestionPipelines?*').as('ingestionData');
+      cy.intercept(
+        '/nexus/openmetadata/api/v1/services/ingestionPipelines?*'
+      ).as('ingestionData');
       interceptURL(
         'GET',
-        '/api/v1/system/config/pipeline-service-client',
+        '/nexus/openmetadata/api/v1/system/config/pipeline-service-client',
         'airflow'
       );
       searchServiceFromSettingPage(serviceName);
@@ -275,12 +289,16 @@ describe(
       goToProfilerTab();
       interceptURL(
         'GET',
-        `api/v1/tables/name/${serviceName}.*.${term}?include=all`,
+        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${term}?include=all`,
         'addTableTestPage'
       );
       verifyResponseStatusCode('@systemProfile', 200);
       verifyResponseStatusCode('@tableProfile', 200);
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Data Quality')
         .click();
@@ -343,7 +361,11 @@ describe(
         .scrollIntoView()
         .clear()
         .type('test');
-      interceptURL('PATCH', '/api/v1/dataQuality/testCases/*', 'updateTest');
+      interceptURL(
+        'PATCH',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/*',
+        'updateTest'
+      );
       cy.get('.ant-modal-footer').contains('Submit').click();
       verifyResponseStatusCode('@updateTest', 200);
       cy.get('.Toastify__toast-body')
@@ -358,12 +380,16 @@ describe(
       goToProfilerTab();
       interceptURL(
         'GET',
-        `api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
+        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
         'addTableTestPage'
       );
       verifyResponseStatusCode('@systemProfile', 200);
       verifyResponseStatusCode('@tableProfile', 200);
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Data Quality')
         .click();
@@ -414,12 +440,16 @@ describe(
       goToProfilerTab();
       interceptURL(
         'GET',
-        `api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
+        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
         'addTableTestPage'
       );
       verifyResponseStatusCode('@systemProfile', 200);
       verifyResponseStatusCode('@tableProfile', 200);
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Data Quality')
         .click();
@@ -459,7 +489,11 @@ describe(
     });
 
     it('Edit column test case should work properly', () => {
-      interceptURL('GET', '/api/v1/dataQuality/testCases?*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        'testCase'
+      );
       goToProfilerTab();
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Column Profile')
@@ -481,7 +515,11 @@ describe(
         .should('be.visible')
         .clear()
         .type(4);
-      interceptURL('PATCH', '/api/v1/dataQuality/testCases/*', 'updateTest');
+      interceptURL(
+        'PATCH',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/*',
+        'updateTest'
+      );
       cy.get('.ant-modal-footer').contains('Submit').click();
       verifyResponseStatusCode('@updateTest', 200);
       cy.get('.Toastify__toast-body')
@@ -504,7 +542,11 @@ describe(
     });
 
     it('Delete Column Test Case should work properly', () => {
-      interceptURL('GET', '/api/v1/dataQuality/testCases?*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        'testCase'
+      );
       goToProfilerTab();
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Column Profile')
@@ -526,10 +568,14 @@ describe(
           cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
           interceptURL(
             'DELETE',
-            '/api/v1/dataQuality/testCases/*?hardDelete=true&recursive=false',
+            '/nexus/openmetadata/api/v1/dataQuality/testCases/*?hardDelete=true&recursive=false',
             'deleteTest'
           );
-          interceptURL('GET', '/api/v1/dataQuality/testCases?*', 'getTestCase');
+          interceptURL(
+            'GET',
+            '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+            'getTestCase'
+          );
           cy.get('[data-testid="confirm-button"]').click();
           verifyResponseStatusCode('@deleteTest', 200);
           verifyResponseStatusCode('@getTestCase', 200);
@@ -542,12 +588,12 @@ describe(
       const testCaseName = 'column_value_max_to_be_between';
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
+        '/nexus/openmetadata/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
         'testSuite'
       );
       interceptURL(
         'GET',
-        '/api/v1/search/query?q=*&index=test_case_search_index*',
+        '/nexus/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
         'getTestCase'
       );
 
@@ -577,13 +623,17 @@ describe(
     it('User as Owner assign, update & delete for test suite', () => {
       interceptURL(
         'GET',
-        '/api/v1/search/query?q=*&index=test_case_search_index*',
+        '/nexus/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
         'searchTestCase'
       );
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
       interceptURL(
         'PUT',
-        '/api/v1/dataQuality/testCases/logicalTestCases',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/logicalTestCases',
         'putTestCase'
       );
 
@@ -598,13 +648,17 @@ describe(
       const testCaseName = 'column_values_to_be_between';
       interceptURL(
         'GET',
-        '/api/v1/search/query?q=*&index=test_case_search_index*',
+        '/nexus/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
         'searchTestCase'
       );
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
       interceptURL(
         'PUT',
-        '/api/v1/dataQuality/testCases/logicalTestCases',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/logicalTestCases',
         'putTestCase'
       );
 
@@ -624,15 +678,19 @@ describe(
     });
 
     it.skip('Remove test case from logical test suite', () => {
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
       interceptURL(
         'GET',
-        '/api/v1/permissions/testSuite/name/mysql_matrix',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/permissions/testSuite/name/mysql_matrix',
         'testSuitePermission'
       );
       interceptURL(
         'DELETE',
-        '/api/v1/dataQuality/testCases/logicalTestCases/*/*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/logicalTestCases/*/*',
         'removeTestCase'
       );
       visitTestSuiteDetailsPage(NEW_TEST_SUITE.name);
@@ -670,7 +728,7 @@ describe(
         .type(DELETE_TERM);
       interceptURL(
         'DELETE',
-        '/api/v1/dataQuality/testSuites/*?hardDelete=true&recursive=true',
+        '/nexus/openmetadata/api/v1/dataQuality/testSuites/*?hardDelete=true&recursive=true',
         'deleteTestSuite'
       );
       cy.get('[data-testid="confirm-button"]')
@@ -701,10 +759,14 @@ describe(
       cy.get('[data-testid="profiler"]').should('be.visible').click();
       interceptURL(
         'GET',
-        '/api/v1/tables/*/columnProfile?*',
+        '/nexus/openmetadata/api/v1/tables/*/columnProfile?*',
         'getProfilerInfo'
       );
-      interceptURL('GET', '/api/v1/dataQuality/testCases?*', 'getTestCaseInfo');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        'getTestCaseInfo'
+      );
 
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Column Profile')
@@ -723,12 +785,12 @@ describe(
 
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/name/*?fields=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
         'getTestCaseDetails'
       );
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/*/testCaseResult?*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/*/testCaseResult?*',
         'getTestResult'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -755,7 +817,7 @@ describe(
       } = DATA_QUALITY_SAMPLE_DATA_TABLE;
       interceptURL(
         'GET',
-        `api/v1/tables/name/${serviceName}.*.${term}?fields=*&include=all`,
+        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${term}?fields=*&include=all`,
         'waitForPageLoad'
       );
       visitEntityDetailsPage({ term, serviceName, entity });
@@ -766,7 +828,11 @@ describe(
       );
 
       cy.get('[data-testid="profiler"]').click();
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Data Quality')
         .click();
@@ -789,10 +855,14 @@ describe(
         .should('be.visible')
         .click();
 
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testDefinitions/*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testDefinitions/*',
         'testCaseDefinition'
       );
 
@@ -825,12 +895,12 @@ describe(
       const tableName = DATABASE_SERVICE.entity.name;
       interceptURL(
         'GET',
-        `api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${tableName}?fields=*&include=all`,
+        `nexus/openmetadata/api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${tableName}?fields=*&include=all`,
         'waitForPageLoad'
       );
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testDefinitions/*',
+        '/nexus/openmetadata/api/v1/dataQuality/testDefinitions/*',
         'testCaseDefinition'
       );
       visitEntityDetailsPage({
@@ -845,7 +915,11 @@ describe(
       );
 
       cy.get('[data-testid="profiler"]').click();
-      interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        'testCase'
+      );
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Data Quality')
         .click();
@@ -871,7 +945,11 @@ describe(
     });
 
     it('Update displayName of test case', () => {
-      interceptURL('GET', '/api/v1/dataQuality/testCases?*', 'getTestCase');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        'getTestCase'
+      );
 
       cy.sidebarClick(SidebarItem.DATA_QUALITY);
 
@@ -879,7 +957,7 @@ describe(
       verifyResponseStatusCode('@getTestCase', 200);
       interceptURL(
         'GET',
-        `/api/v1/search/query?q=*${testCase1.name}*&index=test_case_search_index*`,
+        `/nexus/openmetadata/api/v1/search/query?q=*${testCase1.name}*&index=test_case_search_index*`,
         'searchTestCase'
       );
       cy.get(
@@ -894,7 +972,7 @@ describe(
       cy.get('#tableTestForm_displayName').type('Table test case display name');
       interceptURL(
         'PATCH',
-        '/api/v1/dataQuality/testCases/*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/*',
         'updateTestCase'
       );
       cy.get('.ant-modal-footer').contains('Submit').click();
@@ -918,11 +996,19 @@ describe(
         partitionIntervalType: 'COLUMN-VALUE',
         partitionValues: 'test',
       };
-      interceptURL('GET', '/api/v1/tables/*/tableProfile?*', 'tableProfiler');
-      interceptURL('GET', '/api/v1/tables/*/systemProfile?*', 'systemProfiler');
       interceptURL(
         'GET',
-        '/api/v1/tables/*/tableProfilerConfig*',
+        '/nexus/openmetadata/api/v1/tables/*/tableProfile?*',
+        'tableProfiler'
+      );
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/tables/*/systemProfile?*',
+        'systemProfiler'
+      );
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/tables/*/tableProfilerConfig*',
         'tableProfilerConfig'
       );
       visitEntityDetailsPage({
@@ -975,7 +1061,7 @@ describe(
 
       interceptURL(
         'PUT',
-        '/api/v1/tables/*/tableProfilerConfig',
+        '/nexus/openmetadata/api/v1/tables/*/tableProfilerConfig',
         'updateTableProfilerConfig'
       );
       cy.get('.ant-modal-footer').contains('Save').scrollIntoView().click();

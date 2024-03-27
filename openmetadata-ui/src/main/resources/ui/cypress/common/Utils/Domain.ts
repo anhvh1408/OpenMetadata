@@ -19,7 +19,7 @@ export const addDomainToEntity = (domainName: string) => {
 
   interceptURL(
     'GET',
-    `/api/v1/search/query?q=*${encodeURI(
+    `/nexus/openmetadata/api/v1/search/query?q=*${encodeURI(
       domainName
     )}*&from=*&size=*&index=domain_search_index`,
     'searchDomain'
@@ -31,7 +31,7 @@ export const addDomainToEntity = (domainName: string) => {
 
   verifyResponseStatusCode('@searchDomain', 200);
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchDomain');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchDomain');
 
   cy.get(`.ant-popover [title="${domainName}"]`).click();
   verifyResponseStatusCode('@patchDomain', 200);
@@ -44,7 +44,7 @@ export const removeDomainFromEntity = (domainName: string) => {
 
   cy.get('[data-testid="selectable-list"]').should('be.visible');
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchDomain');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchDomain');
 
   cy.get(`[title="${domainName}"]`)
     .find('[data-testid="remove-owner"]')

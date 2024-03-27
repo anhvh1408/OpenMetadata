@@ -44,7 +44,11 @@ export const BASE_WAIT_TIME = 20000;
 
 export const goToServiceListingPage = (services: Services) => {
   // Services page
-  interceptURL('GET', '/api/v1/services/*', 'getServiceList');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/services/*',
+    'getServiceList'
+  );
   cy.settingClick(services);
 
   verifyResponseStatusCode('@getServiceList', 200);
@@ -72,10 +76,14 @@ export const getEntityTypeFromService = (service: Services) => {
 };
 
 export const retryIngestionRun = () => {
-  interceptURL('GET', '/api/v1/services/*/name/*', 'serviceDetails');
   interceptURL(
     'GET',
-    '/api/v1/services/ingestionPipelines/*/pipelineStatus/*',
+    '/nexus/openmetadata/api/v1/services/*/name/*',
+    'serviceDetails'
+  );
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus/*',
     'pipelineStatus'
   );
   let timer = BASE_WAIT_TIME;
@@ -118,7 +126,7 @@ export const retryIngestionRun = () => {
 export const deleteService = (typeOfService: Services, serviceName: string) => {
   interceptURL(
     'GET',
-    'api/v1/search/query?q=*&from=0&size=15&index=*',
+    'nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
     'searchService'
   );
   cy.get('[data-testid="searchbar"]').type(serviceName);
@@ -146,12 +154,12 @@ export const deleteService = (typeOfService: Services, serviceName: string) => {
   cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
   interceptURL(
     'DELETE',
-    `/api/v1/${getEntityTypeFromService(typeOfService)}/*`,
+    `/nexus/openmetadata/api/v1/${getEntityTypeFromService(typeOfService)}/*`,
     'deleteService'
   );
   interceptURL(
     'GET',
-    '/api/v1/services/*/name/*?fields=owner',
+    '/nexus/openmetadata/api/v1/services/*/name/*?fields=owner',
     'serviceDetails'
   );
 
@@ -168,19 +176,27 @@ export const testConnection = () => {
   // Test the connection
   interceptURL(
     'GET',
-    '/api/v1/services/testConnectionDefinitions/name/*',
+    '/nexus/openmetadata/api/v1/services/testConnectionDefinitions/name/*',
     'testConnectionStepDefinition'
   );
 
-  interceptURL('POST', '/api/v1/automations/workflows', 'createWorkflow');
+  interceptURL(
+    'POST',
+    '/nexus/openmetadata/api/v1/automations/workflows',
+    'createWorkflow'
+  );
 
   interceptURL(
     'POST',
-    '/api/v1/automations/workflows/trigger/*',
+    '/nexus/openmetadata/api/v1/automations/workflows/trigger/*',
     'triggerWorkflow'
   );
 
-  interceptURL('GET', '/api/v1/automations/workflows/*', 'getWorkflow');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/automations/workflows/*',
+    'getWorkflow'
+  );
 
   cy.get('[data-testid="test-connection-btn"]').should('exist').click();
 

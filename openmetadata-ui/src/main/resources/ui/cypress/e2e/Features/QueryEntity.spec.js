@@ -87,11 +87,11 @@ describe('Query Entity', { tags: 'DataAssets' }, () => {
   it('Create query', () => {
     interceptURL(
       'GET',
-      '/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
+      '/nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
       'explorePageSearch'
     );
-    interceptURL('GET', '/api/v1/queries?*', 'fetchQuery');
-    interceptURL('POST', '/api/v1/queries', 'createQuery');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/queries?*', 'fetchQuery');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/queries', 'createQuery');
     visitEntityDetailsPage({
       term: DATA.term,
       serviceName: DATA.serviceName,
@@ -120,12 +120,12 @@ describe('Query Entity', { tags: 'DataAssets' }, () => {
   });
 
   it('Update owner, description and tag', () => {
-    interceptURL('GET', '/api/v1/queries?*', 'fetchQuery');
-    interceptURL('GET', '/api/v1/users?*', 'getUsers');
-    interceptURL('PATCH', '/api/v1/queries/*', 'patchQuery');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/queries?*', 'fetchQuery');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/queries/*', 'patchQuery');
     interceptURL(
       'GET',
-      '/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
+      '/nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
       'explorePageSearch'
     );
     visitEntityDetailsPage({
@@ -143,7 +143,7 @@ describe('Query Entity', { tags: 'DataAssets' }, () => {
     verifyResponseStatusCode('@getUsers', 200);
     interceptURL(
       'GET',
-      `api/v1/search/query?q=*${encodeURI(DATA.owner)}*`,
+      `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(DATA.owner)}*`,
       'searchOwner'
     );
     cy.get('[data-testid="owner-select-users-search-bar"]').type(DATA.owner);
@@ -168,12 +168,16 @@ describe('Query Entity', { tags: 'DataAssets' }, () => {
   });
 
   it('Update query and QueryUsedIn', () => {
-    interceptURL('GET', '/api/v1/queries?*', 'fetchQuery');
-    interceptURL('GET', '/api/v1/users?&isBot=false&limit=15', 'getUsers');
-    interceptURL('PATCH', '/api/v1/queries/*', 'patchQuery');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/queries?*', 'fetchQuery');
     interceptURL(
       'GET',
-      '/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
+      '/nexus/openmetadata/api/v1/users?&isBot=false&limit=15',
+      'getUsers'
+    );
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/queries/*', 'patchQuery');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
       'explorePageSearch'
     );
     visitEntityDetailsPage({
@@ -199,12 +203,16 @@ describe('Query Entity', { tags: 'DataAssets' }, () => {
   });
 
   it('Visit full screen view of query', () => {
-    interceptURL('GET', '/api/v1/queries?*', 'fetchQuery');
-    interceptURL('GET', '/api/v1/users?&isBot=false&limit=15', 'getUsers');
-    interceptURL('GET', '/api/v1/queries/*', 'getQueryById');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/queries?*', 'fetchQuery');
     interceptURL(
       'GET',
-      '/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
+      '/nexus/openmetadata/api/v1/users?&isBot=false&limit=15',
+      'getUsers'
+    );
+    interceptURL('GET', '/nexus/openmetadata/api/v1/queries/*', 'getQueryById');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=table_search_index',
       'explorePageSearch'
     );
 
@@ -225,7 +233,7 @@ describe('Query Entity', { tags: 'DataAssets' }, () => {
   });
 
   it('Verify query duration', () => {
-    interceptURL('GET', '/api/v1/queries?*', 'fetchQuery');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/queries?*', 'fetchQuery');
 
     visitEntityDetailsPage({
       term: table1.name,

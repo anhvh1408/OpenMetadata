@@ -21,7 +21,11 @@ describe(
     beforeEach(() => {
       cy.login();
 
-      interceptURL('GET', '/api/v1/apps?limit=*', 'getApplications');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/apps?limit=*',
+        'getApplications'
+      );
 
       cy.settingClick(GlobalSettingOptions.APPLICATIONS);
 
@@ -31,10 +35,14 @@ describe(
     it('Edit data insight application', () => {
       interceptURL(
         'GET',
-        '/api/v1/apps/name/DataInsightsApplication?fields=*',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
         'getDataInsightDetails'
       );
-      interceptURL('PATCH', '/api/v1/apps/*', 'updateApplication');
+      interceptURL(
+        'PATCH',
+        '/nexus/openmetadata/api/v1/apps/*',
+        'updateApplication'
+      );
       cy.get(
         '[data-testid="data-insights-application-card"] [data-testid="config-btn"]'
       ).click();
@@ -52,13 +60,17 @@ describe(
     it('Uninstall application', () => {
       interceptURL(
         'GET',
-        '/api/v1/apps/name/DataInsightsApplication?fields=*',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
         'getDataInsightDetails'
       );
-      interceptURL('GET', '/api/v1/apps?limit=*', 'getApplications');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/apps?limit=*',
+        'getApplications'
+      );
       interceptURL(
         'DELETE',
-        '/api/v1/apps/name/DataInsightsApplication?hardDelete=true',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?hardDelete=true',
         'deleteApplication'
       );
       cy.get(
@@ -76,8 +88,16 @@ describe(
     });
 
     it('Install application', () => {
-      interceptURL('GET', '/api/v1/apps/marketplace?limit=*', 'getMarketPlace');
-      interceptURL('POST', '/api/v1/apps', 'installApplication');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/apps/marketplace?limit=*',
+        'getMarketPlace'
+      );
+      interceptURL(
+        'POST',
+        '/nexus/openmetadata/api/v1/apps',
+        'installApplication'
+      );
       cy.get('[data-testid="add-application"]').click();
       verifyResponseStatusCode('@getMarketPlace', 200);
       cy.get(
@@ -99,17 +119,17 @@ describe(
     it('Deploy & run application', () => {
       interceptURL(
         'GET',
-        '/api/v1/apps/name/DataInsightsApplication?fields=*',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
         'getDataInsightDetails'
       );
       interceptURL(
         'POST',
-        '/api/v1/apps/deploy/DataInsightsApplication',
+        '/nexus/openmetadata/api/v1/apps/deploy/DataInsightsApplication',
         'deploy'
       );
       interceptURL(
         'POST',
-        '/api/v1/apps/trigger/DataInsightsApplication',
+        '/nexus/openmetadata/api/v1/apps/trigger/DataInsightsApplication',
         'triggerPipeline'
       );
       cy.get(

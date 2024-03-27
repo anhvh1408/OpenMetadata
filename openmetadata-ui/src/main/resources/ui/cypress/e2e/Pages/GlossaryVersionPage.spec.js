@@ -47,7 +47,7 @@ describe(
         // Create a new user
         cy.request({
           method: 'POST',
-          url: `/api/v1/users/signup`,
+          url: `/nexus/openmetadata/api/v1/users/signup`,
           headers: { Authorization: `Bearer ${token}` },
           body: USER_DETAILS,
         }).then((response) => {
@@ -57,7 +57,7 @@ describe(
         // Create Glossary
         cy.request({
           method: 'PUT',
-          url: `/api/v1/glossaries`,
+          url: `/nexus/openmetadata/api/v1/glossaries`,
           headers: { Authorization: `Bearer ${token}` },
           body: GLOSSARY_FOR_VERSION_TEST,
         }).then((response) => {
@@ -65,7 +65,7 @@ describe(
 
           cy.request({
             method: 'PATCH',
-            url: `/api/v1/glossaries/${data.glossary.id}`,
+            url: `/nexus/openmetadata/api/v1/glossaries/${data.glossary.id}`,
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json-patch+json',
@@ -77,7 +77,7 @@ describe(
         // Create First Glossary Term
         cy.request({
           method: 'PUT',
-          url: `/api/v1/glossaryTerms`,
+          url: `/nexus/openmetadata/api/v1/glossaryTerms`,
           headers: { Authorization: `Bearer ${token}` },
           body: GLOSSARY_TERM_FOR_VERSION_TEST1,
         }).then((response) => {
@@ -87,7 +87,7 @@ describe(
         // Create Second Glossary Term
         cy.request({
           method: 'PUT',
-          url: `/api/v1/glossaryTerms`,
+          url: `/nexus/openmetadata/api/v1/glossaryTerms`,
           headers: { Authorization: `Bearer ${token}` },
           body: GLOSSARY_TERM_FOR_VERSION_TEST2,
         }).then((response) => {
@@ -106,7 +106,7 @@ describe(
 
           cy.request({
             method: 'PATCH',
-            url: `/api/v1/glossaryTerms/${data.glossaryTerm2.id}`,
+            url: `/nexus/openmetadata/api/v1/glossaryTerms/${data.glossaryTerm2.id}`,
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json-patch+json',
@@ -119,10 +119,14 @@ describe(
 
     beforeEach(() => {
       cy.login();
-      interceptURL('GET', `/api/v1/glossaries?fields=*`, 'getGlossaryDetails');
       interceptURL(
         'GET',
-        '/api/v1/glossaryTerms?glossary=*',
+        `/nexus/openmetadata/api/v1/glossaries?fields=*`,
+        'getGlossaryDetails'
+      );
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/glossaryTerms?glossary=*',
         'getGlossaryTerms'
       );
       visitGlossaryPage();
@@ -136,7 +140,7 @@ describe(
         // Delete created user
         cy.request({
           method: 'DELETE',
-          url: `/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
+          url: `/nexus/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
           headers: { Authorization: `Bearer ${token}` },
         });
       });
@@ -177,10 +181,14 @@ describe(
 
       addOwner(data.user.displayName, GLOSSARY_OWNER_LINK_TEST_ID);
 
-      interceptURL('GET', `/api/v1/glossaries/*/versions`, 'getVersionsList');
       interceptURL(
         'GET',
-        `/api/v1/glossaries/*/versions/0.2`,
+        `/nexus/openmetadata/api/v1/glossaries/*/versions`,
+        'getVersionsList'
+      );
+      interceptURL(
+        'GET',
+        `/nexus/openmetadata/api/v1/glossaries/*/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -206,7 +214,7 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/glossaries/*/versions/0.2`,
+        `/nexus/openmetadata/api/v1/glossaries/*/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -234,17 +242,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms/name/*?fields=*`,
+        `/nexus/openmetadata/api/v1/glossaryTerms/name/*?fields=*`,
         'getGlossaryTermDetails'
       );
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms?parent=*&limit=*&fields=*`,
+        `/nexus/openmetadata/api/v1/glossaryTerms?parent=*&limit=*&fields=*`,
         'getGlossaryTermParents'
       );
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms?parent=*&limit=*`,
+        `/nexus/openmetadata/api/v1/glossaryTerms?parent=*&limit=*`,
         'getChildGlossaryTerms'
       );
 
@@ -290,17 +298,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms/name/*?fields=*`,
+        `/nexus/openmetadata/api/v1/glossaryTerms/name/*?fields=*`,
         'getGlossaryTermDetails'
       );
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms?parent=*&limit=*&fields=*`,
+        `/nexus/openmetadata/api/v1/glossaryTerms?parent=*&limit=*&fields=*`,
         'getGlossaryTermParents'
       );
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms?parent=*&limit=*`,
+        `/nexus/openmetadata/api/v1/glossaryTerms?parent=*&limit=*`,
         'getChildGlossaryTerms'
       );
 
@@ -316,17 +324,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms/*/versions`,
+        `/nexus/openmetadata/api/v1/glossaryTerms/*/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms/*/versions/0.2`,
+        `/nexus/openmetadata/api/v1/glossaryTerms/*/versions/0.2`,
         'getSelectedVersionDetails'
       );
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms/${data.glossaryTerm2.id}`,
+        `/nexus/openmetadata/api/v1/glossaryTerms/${data.glossaryTerm2.id}`,
         'getGlossaryTermDetails'
       );
 
@@ -353,7 +361,7 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/glossaryTerms/*/versions/0.2`,
+        `/nexus/openmetadata/api/v1/glossaryTerms/*/versions/0.2`,
         'getSelectedVersionDetails'
       );
 

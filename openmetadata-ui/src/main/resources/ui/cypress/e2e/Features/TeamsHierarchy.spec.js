@@ -42,8 +42,16 @@ describe(
     beforeEach(() => {
       cy.login();
 
-      interceptURL('GET', '/api/v1/teams/name/*', 'getOrganization');
-      interceptURL('GET', '/api/v1/permissions/team/name/*', 'getPermissions');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/teams/name/*',
+        'getOrganization'
+      );
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/permissions/team/name/*',
+        'getPermissions'
+      );
 
       cy.settingClick(GlobalSettingOptions.TEAMS);
 

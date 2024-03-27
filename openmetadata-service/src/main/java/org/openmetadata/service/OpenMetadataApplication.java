@@ -16,6 +16,7 @@ package org.openmetadata.service;
 import static org.openmetadata.service.util.MicrometerBundleSingleton.setWebAnalyticsEvents;
 
 import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
@@ -332,6 +333,7 @@ public class OpenMetadataApplication extends Application<OpenMetadataApplication
             return configuration.getWebConfiguration();
           }
         });
+    bootstrap.addBundle(new AssetsBundle("/assets", "/nexus/openmetadata", "index.html"));
     super.initialize(bootstrap);
   }
 
@@ -463,7 +465,7 @@ public class OpenMetadataApplication extends Application<OpenMetadataApplication
   private void initializeWebsockets(
       OpenMetadataApplicationConfig catalogConfig, Environment environment) {
     SocketAddressFilter socketAddressFilter;
-    String pathSpec = "/api/v1/push/feed/*";
+    String pathSpec = "/nexus/openmetadata/api/v1/push/feed/*";
     if (catalogConfig.getAuthorizerConfiguration() != null) {
       socketAddressFilter =
           new SocketAddressFilter(

@@ -22,13 +22,13 @@ describe('Explore Page', { tags: 'DataAssets' }, () => {
     const searchText = 'customer';
     interceptURL(
       'GET',
-      `api/v1/search/query?q=**&index=dataAsset**`,
+      `nexus/openmetadata/api/v1/search/query?q=**&index=dataAsset**`,
       'suggestAPI'
     );
 
     interceptURL(
       'GET',
-      `api/v1/search/query?q=**&index=table_search_index**`,
+      `nexus/openmetadata/api/v1/search/query?q=**&index=table_search_index**`,
       'searchAPI'
     );
 

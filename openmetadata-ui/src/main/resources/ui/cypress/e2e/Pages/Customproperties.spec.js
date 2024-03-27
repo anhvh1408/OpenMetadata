@@ -108,10 +108,14 @@ const validateForm = () => {
 };
 const createGlossary = (glossaryData) => {
   // Intercept API calls
-  interceptURL('POST', '/api/v1/glossaries', 'createGlossary');
+  interceptURL(
+    'POST',
+    '/nexus/openmetadata/api/v1/glossaries',
+    'createGlossary'
+  );
   interceptURL(
     'GET',
-    '/api/v1/search/query?q=*disabled:false&index=tag_search_index&from=0&size=10&query_filter=%7B%7D',
+    '/nexus/openmetadata/api/v1/search/query?q=*disabled:false&index=tag_search_index&from=0&size=10&query_filter=%7B%7D',
     'fetchTags'
   );
 
@@ -241,7 +245,11 @@ const fillGlossaryTermDetails = (term, glossary, isMutually = false) => {
 const createGlossaryTerm = (term, glossary, status, isMutually = false) => {
   fillGlossaryTermDetails(term, glossary, isMutually);
 
-  interceptURL('POST', '/api/v1/glossaryTerms', 'createGlossaryTerms');
+  interceptURL(
+    'POST',
+    '/nexus/openmetadata/api/v1/glossaryTerms',
+    'createGlossaryTerms'
+  );
   cy.get('[data-testid="save-glossary-term"]')
     .scrollIntoView()
     .should('be.visible')
@@ -288,7 +296,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Add Integer custom property for ${entity.name}  Entities`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
         cy.settingClick(entity.entityApiType, true);
@@ -312,7 +320,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Edit created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -326,7 +334,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Delete created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -346,7 +354,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Add String custom property for ${entity.name} Entities`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -372,7 +380,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Edit created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -386,7 +394,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Delete created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -406,7 +414,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Add Markdown custom property for ${entity.name} Entities`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -432,7 +440,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Edit created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -446,7 +454,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Delete created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -466,7 +474,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Add Enum custom property for ${entity.name} Entities`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -492,7 +500,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Edit created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -506,7 +514,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       it(`Delete created property for ${entity.name} entity`, () => {
         interceptURL(
           'GET',
-          `/api/v1/metadata/types/name/${entity.name}*`,
+          `/nexus/openmetadata/api/v1/metadata/types/name/${entity.name}*`,
           'getEntity'
         );
 
@@ -538,7 +546,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
       cy.sidebarClick(SidebarItem.EXPLORE);
       interceptURL(
         'GET',
-        `/api/v1/metadata/types/name/glossaryTerm*`,
+        `/nexus/openmetadata/api/v1/metadata/types/name/glossaryTerm*`,
         'getEntity'
       );
       cy.get(
@@ -564,7 +572,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
     it(`Delete created property for glossary term entity`, () => {
       interceptURL(
         'GET',
-        `/api/v1/metadata/types/name/${glossaryTerm.name}*`,
+        `/nexus/openmetadata/api/v1/metadata/types/name/${glossaryTerm.name}*`,
         'getEntity'
       );
 
@@ -576,8 +584,16 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
     });
 
     it(`Add update and delete ${properties} custom properties for glossary term `, () => {
-      interceptURL('GET', '/api/v1/glossaryTerms*', 'getGlossaryTerms');
-      interceptURL('GET', '/api/v1/glossaries?fields=*', 'fetchGlossaries');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/glossaryTerms*',
+        'getGlossaryTerms'
+      );
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/glossaries?fields=*',
+        'fetchGlossaries'
+      );
 
       cy.sidebarClick(SidebarItem.GLOSSARY);
 
@@ -663,14 +679,14 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
 
         cy.request({
           method: 'GET',
-          url: `/api/v1/metadata/types?category=field&limit=12`,
+          url: `/nexus/openmetadata/api/v1/metadata/types?category=field&limit=12`,
           headers: { Authorization: `Bearer ${token}` },
         }).then(({ body }) => {
           const integerProp = body.data.find((item) => item.name === 'integer');
 
           cy.request({
             method: 'GET',
-            url: `/api/v1/metadata/types/name/table`,
+            url: `/nexus/openmetadata/api/v1/metadata/types/name/table`,
             headers: { Authorization: `Bearer ${token}` },
           }).then(({ body }) => {
             tableSchemaId = body.id;
@@ -678,7 +694,7 @@ describe('Custom Properties should work properly', { tags: 'Settings' }, () => {
             customPropertiesArray.map((item) => {
               cy.request({
                 method: 'PUT',
-                url: `/api/v1/metadata/types/${tableSchemaId}`,
+                url: `/nexus/openmetadata/api/v1/metadata/types/${tableSchemaId}`,
                 headers: { Authorization: `Bearer ${token}` },
                 body: {
                   ...item,

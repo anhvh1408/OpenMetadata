@@ -39,12 +39,12 @@ class DatabaseSchemaClass extends EntityClass {
   visitEntity() {
     interceptURL(
       'GET',
-      `/api/v1/databases/name/*${DATABASE_SERVICE.database.name}?*`,
+      `/nexus/openmetadata/api/v1/databases/name/*${DATABASE_SERVICE.database.name}?*`,
       'fetchDatabase'
     );
     interceptURL(
       'GET',
-      `/api/v1/databaseSchemas/name/*${this.databaseSchemaName}?*`,
+      `/nexus/openmetadata/api/v1/databaseSchemas/name/*${this.databaseSchemaName}?*`,
       'fetchDatabaseSchema'
     );
     visitServiceDetailsPage(

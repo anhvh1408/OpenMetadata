@@ -41,7 +41,7 @@ export const createEntityTable = ({
   // Create service
   cy.request({
     method: 'POST',
-    url: `/api/v1/services/databaseServices`,
+    url: `/nexus/openmetadata/api/v1/services/databaseServices`,
     headers: { Authorization: `Bearer ${token}` },
     body: service,
   }).then((response) => {
@@ -51,7 +51,7 @@ export const createEntityTable = ({
   // Create Database
   cy.request({
     method: 'POST',
-    url: `/api/v1/databases`,
+    url: `/nexus/openmetadata/api/v1/databases`,
     headers: { Authorization: `Bearer ${token}` },
     body: database,
   }).then((response) => {
@@ -63,7 +63,7 @@ export const createEntityTable = ({
   // Create Database Schema
   cy.request({
     method: 'POST',
-    url: `/api/v1/databaseSchemas`,
+    url: `/nexus/openmetadata/api/v1/databaseSchemas`,
     headers: { Authorization: `Bearer ${token}` },
     body: schema,
   }).then((response) => {
@@ -75,7 +75,7 @@ export const createEntityTable = ({
   tables.forEach((body) => {
     cy.request({
       method: 'POST',
-      url: `/api/v1/tables`,
+      url: `/nexus/openmetadata/api/v1/tables`,
       headers: { Authorization: `Bearer ${token}` },
       body,
     }).then((response) => {
@@ -99,7 +99,7 @@ export const createSingleLevelEntity = ({
   // Create service
   cy.request({
     method: 'POST',
-    url: `/api/v1/services/${serviceType}`,
+    url: `/nexus/openmetadata/api/v1/services/${serviceType}`,
     headers: { Authorization: `Bearer ${token}` },
     body: service,
   }).then((response) => {
@@ -109,7 +109,7 @@ export const createSingleLevelEntity = ({
   (Array.isArray(entity) ? entity : [entity]).forEach((body) => {
     cy.request({
       method: 'POST',
-      url: `/api/v1/${entityType}`,
+      url: `/nexus/openmetadata/api/v1/${entityType}`,
       headers: { Authorization: `Bearer ${token}` },
       body,
     }).then((response) => {
@@ -124,12 +124,12 @@ export const createSingleLevelEntity = ({
 export const hardDeleteService = ({ serviceFqn, token, serviceType }) => {
   cy.request({
     method: 'GET',
-    url: `/api/v1/services/${serviceType}/name/${serviceFqn}?include=all`,
+    url: `/nexus/openmetadata/api/v1/services/${serviceType}/name/${serviceFqn}?include=all`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/services/${serviceType}/${response.body.id}?hardDelete=true&recursive=true`,
+      url: `/nexus/openmetadata/api/v1/services/${serviceType}/${response.body.id}?hardDelete=true&recursive=true`,
       headers: { Authorization: `Bearer ${token}` },
     }).then((response) => {
       expect(response.status).to.eq(200);
@@ -266,12 +266,12 @@ export const generateRandomContainer = () => {
 export const createQueryByTableName = (token, table) => {
   cy.request({
     method: 'GET',
-    url: `/api/v1/tables/name/${table.databaseSchema}.${table.name}`,
+    url: `/nexus/openmetadata/api/v1/tables/name/${table.databaseSchema}.${table.name}`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     cy.request({
       method: 'POST',
-      url: `/api/v1/queries`,
+      url: `/nexus/openmetadata/api/v1/queries`,
       headers: { Authorization: `Bearer ${token}` },
       body: {
         query: 'SELECT * FROM SALES',
@@ -298,7 +298,7 @@ export const createQueryByTableName = (token, table) => {
 export const createUserEntity = ({ token, user }) => {
   cy.request({
     method: 'POST',
-    url: `/api/v1/users/signup`,
+    url: `/nexus/openmetadata/api/v1/users/signup`,
     headers: { Authorization: `Bearer ${token}` },
     body: user,
   }).then((response) => {
@@ -312,7 +312,7 @@ export const createUserEntity = ({ token, user }) => {
 export const deleteUserEntity = ({ token, id }) => {
   cy.request({
     method: 'DELETE',
-    url: `/api/v1/users/${id}?hardDelete=true&recursive=false`,
+    url: `/nexus/openmetadata/api/v1/users/${id}?hardDelete=true&recursive=false`,
     headers: { Authorization: `Bearer ${token}` },
   });
 };
@@ -323,12 +323,12 @@ export const deleteUserEntity = ({ token, id }) => {
 export const deleteEntityById = ({ entityType, token, entityFqn }) => {
   cy.request({
     method: 'GET',
-    url: `/api/v1/${entityType}/name/${entityFqn}`,
+    url: `/nexus/openmetadata/api/v1/${entityType}/name/${entityFqn}`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/${entityType}/${response.body.id}?hardDelete=true&recursive=true`,
+      url: `/nexus/openmetadata/api/v1/${entityType}/${response.body.id}?hardDelete=true&recursive=true`,
       headers: { Authorization: `Bearer ${token}` },
     }).then((response) => {
       expect(response.status).to.eq(200);

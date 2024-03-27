@@ -28,7 +28,7 @@ export const confirmationDragAndDropTeam = (
   dragTeam: string,
   dropTeam: string
 ) => {
-  interceptURL('PATCH', `/api/v1/teams/*`, 'patchTeam');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/teams/*`, 'patchTeam');
 
   // confirmation message before the transfer
   cy.get('[data-testid="confirmation-modal"] .ant-modal-body')
@@ -46,7 +46,11 @@ export const confirmationDragAndDropTeam = (
 };
 
 export const deleteTeamPermanently = (teamName: string) => {
-  interceptURL('GET', `/api/v1/teams/name/${teamName}*`, 'getSelectedTeam');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/teams/name/${teamName}*`,
+    'getSelectedTeam'
+  );
   // Click on created team
   cy.get(`[data-row-key="${teamName}"]`).contains(teamName).click();
 
@@ -73,7 +77,7 @@ export const deleteTeamPermanently = (teamName: string) => {
 
   cy.get('[data-testid="confirmation-text-input"]').type('DELETE');
 
-  interceptURL('DELETE', '/api/v1/teams/*', 'deleteTeam');
+  interceptURL('DELETE', '/nexus/openmetadata/api/v1/teams/*', 'deleteTeam');
   cy.get('[data-testid="confirm-button"]').click();
 
   verifyResponseStatusCode('@deleteTeam', 200);

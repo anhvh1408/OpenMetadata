@@ -18,7 +18,11 @@ export const assignGlossaryTerm = (
   glossaryTerm: string,
   endPoint: EntityType
 ) => {
-  interceptURL('PATCH', `/api/v1/${endPoint}/*`, 'addGlossaryTerm');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    'addGlossaryTerm'
+  );
   cy.get(
     '[data-testid="entity-right-panel"] [data-testid="glossary-container"] [data-testid="add-tag"]'
   ).click();
@@ -47,7 +51,11 @@ export const udpateGlossaryTerm = (
   glossaryTerm: string,
   endPoint: EntityType
 ) => {
-  interceptURL('PATCH', `/api/v1/${endPoint}/*`, 'addGlossaryTerm');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    'addGlossaryTerm'
+  );
   cy.get(
     '[data-testid="entity-right-panel"]  [data-testid="glossary-container"] [data-testid="edit-button"]'
   ).click();
@@ -78,7 +86,11 @@ export const removeGlossaryTerm = (
   const glossaryTerms = Array.isArray(inputGlossaryTerm)
     ? inputGlossaryTerm
     : [inputGlossaryTerm];
-  interceptURL('PATCH', `/api/v1/${endPoint}/*`, 'removeTags');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    'removeTags'
+  );
   glossaryTerms.forEach((glossaryTerm) => {
     cy.get(
       '[data-testid="entity-right-panel"]  [data-testid="glossary-container"] [data-testid="edit-button"]'
@@ -102,7 +114,11 @@ export const confirmationDragAndDropGlossary = (
   dropElement: string,
   isHeader?: boolean
 ) => {
-  interceptURL('PATCH', `/api/v1/glossaryTerms/*`, 'patchGlossaryTerm');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/glossaryTerms/*`,
+    'patchGlossaryTerm'
+  );
 
   // confirmation message before the transfer
   cy.get('[data-testid="confirmation-modal"] .ant-modal-body').contains(

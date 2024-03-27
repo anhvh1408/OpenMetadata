@@ -35,7 +35,7 @@ const testCases = [
 const goToProfilerTab = () => {
   interceptURL(
     'GET',
-    `api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${TABLE_NAME}?fields=*&include=all`,
+    `nexus/openmetadata/api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${TABLE_NAME}?fields=*&include=all`,
     'waitForPageLoad'
   );
   visitEntityDetailsPage({
@@ -50,10 +50,14 @@ const goToProfilerTab = () => {
 
 const verifySuccessStatus = (time = 20000) => {
   const newTime = time / 2;
-  interceptURL('GET', '/api/v1/tables/name/*?fields=testSuite*', 'testSuite');
   interceptURL(
     'GET',
-    '/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
+    '/nexus/openmetadata/api/v1/tables/name/*?fields=testSuite*',
+    'testSuite'
+  );
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
     'pipelineStatus'
   );
   cy.wait(time);
@@ -88,7 +92,7 @@ const acknowledgeTask = (testCase) => {
   cy.get('[title="Ack"]').click();
   interceptURL(
     'POST',
-    '/api/v1/dataQuality/testCases/testCaseIncidentStatus',
+    '/nexus/openmetadata/api/v1/dataQuality/testCases/testCaseIncidentStatus',
     'updateTestCaseIncidentStatus'
   );
   cy.get('#update-status-button').click();
@@ -97,17 +101,29 @@ const acknowledgeTask = (testCase) => {
 };
 
 const triggerTestCasePipeline = () => {
-  interceptURL('GET', `/api/v1/tables/*/systemProfile?*`, 'systemProfile');
-  interceptURL('GET', `/api/v1/tables/*/tableProfile?*`, 'tableProfile');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/tables/*/systemProfile?*`,
+    'systemProfile'
+  );
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/tables/*/tableProfile?*`,
+    'tableProfile'
+  );
   goToProfilerTab();
   interceptURL(
     'GET',
-    `api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${TABLE_NAME}?include=all`,
+    `nexus/openmetadata/api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${TABLE_NAME}?include=all`,
     'addTableTestPage'
   );
   verifyResponseStatusCode('@systemProfile', 200);
   verifyResponseStatusCode('@tableProfile', 200);
-  interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+    'testCase'
+  );
   cy.get('[data-testid="profiler-tab-left-panel"]')
     .contains('Data Quality')
     .click();
@@ -115,12 +131,12 @@ const triggerTestCasePipeline = () => {
 
   interceptURL(
     'GET',
-    '/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
     'getPipelineStatus'
   );
   interceptURL(
     'POST',
-    '/api/v1/services/ingestionPipelines/trigger/*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/trigger/*',
     'triggerPipeline'
   );
   cy.get('[id*="tab-pipeline"]').click();
@@ -141,7 +157,7 @@ const assignIncident = (testCaseName) => {
   cy.get('#testCaseResolutionStatusDetails_assignee').should('be.visible');
   interceptURL(
     'GET',
-    '/api/v1/search/suggest?q=Aaron%20Johnson&index=user_search_index',
+    '/nexus/openmetadata/api/v1/search/suggest?q=Aaron%20Johnson&index=user_search_index',
     'searchAssignee'
   );
   cy.get('#testCaseResolutionStatusDetails_assignee').type('Aaron Johnson');
@@ -149,7 +165,7 @@ const assignIncident = (testCaseName) => {
   cy.get('[data-testid="aaron_johnson0"]').click();
   interceptURL(
     'POST',
-    '/api/v1/dataQuality/testCases/testCaseIncidentStatus',
+    '/nexus/openmetadata/api/v1/dataQuality/testCases/testCaseIncidentStatus',
     'updateTestCaseIncidentStatus'
   );
   cy.get('#update-status-button').click();
@@ -174,7 +190,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
       // create testSuite
       cy.request({
         method: 'POST',
-        url: `/api/v1/dataQuality/testSuites/executable`,
+        url: `/nexus/openmetadata/api/v1/dataQuality/testSuites/executable`,
         headers: { Authorization: `Bearer ${token}` },
         body: testSuite,
       }).then((testSuiteResponse) => {
@@ -183,7 +199,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
         testCases.forEach((testCase) => {
           cy.request({
             method: 'POST',
-            url: `/api/v1/dataQuality/testCases`,
+            url: `/nexus/openmetadata/api/v1/dataQuality/testCases`,
             headers: { Authorization: `Bearer ${token}` },
             body: {
               name: testCase,
@@ -199,7 +215,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
         });
         cy.request({
           method: 'POST',
-          url: `/api/v1/services/ingestionPipelines`,
+          url: `/nexus/openmetadata/api/v1/services/ingestionPipelines`,
           headers: { Authorization: `Bearer ${token}` },
           body: {
             airflowConfig: {},
@@ -219,7 +235,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
         }).then((response) =>
           cy.request({
             method: 'POST',
-            url: `/api/v1/services/ingestionPipelines/deploy/${response.body.id}`,
+            url: `/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/${response.body.id}`,
             headers: { Authorization: `Bearer ${token}` },
           })
         );
@@ -260,10 +276,14 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
     it('Re-assign incident to user', () => {
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/name/*?fields=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
         'getTestCase'
       );
-      interceptURL('GET', '/api/v1/feed?entityLink=*&type=Task', 'getTaskFeed');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/feed?entityLink=*&type=Task',
+        'getTaskFeed'
+      );
       cy.sidebarClick(SidebarItem.INCIDENT_MANAGER);
       cy.get(`[data-testid="test-case-${testCaseName}"]`).click();
       verifyResponseStatusCode('@getTestCase', 200);
@@ -275,7 +295,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
       cy.get('[role="menu"').find('[data-menu-id*="re-assign"]').click();
       interceptURL(
         'GET',
-        '/api/v1/search/suggest?q=admin&index=*user_search_index*',
+        '/nexus/openmetadata/api/v1/search/suggest?q=admin&index=*user_search_index*',
         'searchAssignee'
       );
       cy.get('[data-testid="select-assignee"]').click().type('admin');
@@ -283,7 +303,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
       cy.get('[data-testid="admin"]').click();
       interceptURL(
         'POST',
-        '/api/v1/dataQuality/testCases/testCaseIncidentStatus',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/testCaseIncidentStatus',
         'updateTestCaseIncidentStatus'
       );
       cy.get('.ant-modal-footer').contains('Submit').click();
@@ -300,10 +320,14 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
     it('Resolve incident', () => {
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/name/*?fields=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
         'getTestCase'
       );
-      interceptURL('GET', '/api/v1/feed?entityLink=*&type=Task', 'getTaskFeed');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/feed?entityLink=*&type=Task',
+        'getTaskFeed'
+      );
       cy.sidebarClick(SidebarItem.INCIDENT_MANAGER);
       cy.get(`[data-testid="test-case-${testCaseName}"]`).click();
       verifyResponseStatusCode('@getTestCase', 200);
@@ -320,7 +344,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
         .type('test');
       interceptURL(
         'POST',
-        '/api/v1/dataQuality/testCases/testCaseIncidentStatus',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/testCaseIncidentStatus',
         'updateTestCaseIncidentStatus'
       );
       cy.get('.ant-modal-footer').contains('Submit').click();
@@ -344,7 +368,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
 
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases?fields=*&entityLink=*&includeAllTests=true&limit=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*&entityLink=*&includeAllTests=true&limit=*',
         'testCaseList'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -358,7 +382,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
       cy.get('.ant-table-row-level-0').should('contain', 'Ack');
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/testCaseIncidentStatus?latest=true&startTs=*&endTs=*&limit=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/testCaseIncidentStatus?latest=true&startTs=*&endTs=*&limit=*',
         'getIncidentList'
       );
       cy.sidebarClick(SidebarItem.INCIDENT_MANAGER);
@@ -378,7 +402,7 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
         .type('test');
       interceptURL(
         'POST',
-        '/api/v1/dataQuality/testCases/testCaseIncidentStatus',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/testCaseIncidentStatus',
         'updateTestCaseIncidentStatus'
       );
       cy.get('.ant-modal-footer').contains('Submit').click();
@@ -389,15 +413,19 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
       goToProfilerTab();
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/name/*?fields=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
         'getTestCase'
       );
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases?fields=*&entityLink=*&includeAllTests=true&limit=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*&entityLink=*&includeAllTests=true&limit=*',
         'testCaseList'
       );
-      interceptURL('GET', '/api/v1/feed?entityLink=*&type=Task', 'getTaskFeed');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/feed?entityLink=*&type=Task',
+        'getTaskFeed'
+      );
       cy.get('[data-testid="profiler-tab-left-panel"]')
         .contains('Data Quality')
         .click();
@@ -427,10 +455,14 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
       acknowledgeTask(testName);
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/name/*?fields=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
         'getTestCase'
       );
-      interceptURL('GET', '/api/v1/feed?entityLink=*&type=Task', 'getTaskFeed');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/feed?entityLink=*&type=Task',
+        'getTaskFeed'
+      );
       cy.reload();
       verifyResponseStatusCode('@getTestCase', 200);
       cy.get('[data-testid="incident"]').click();
@@ -459,10 +491,14 @@ describe('Incident Manager', { tags: 'Observability' }, () => {
       acknowledgeTask(testName);
       interceptURL(
         'GET',
-        '/api/v1/dataQuality/testCases/name/*?fields=*',
+        '/nexus/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
         'getTestCase'
       );
-      interceptURL('GET', '/api/v1/feed?entityLink=*&type=Task', 'getTaskFeed');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/feed?entityLink=*&type=Task',
+        'getTaskFeed'
+      );
       cy.reload();
       verifyResponseStatusCode('@getTestCase', 200);
       cy.get('[data-testid="incident"]').click();

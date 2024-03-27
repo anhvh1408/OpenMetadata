@@ -14,7 +14,11 @@ import { EntityType } from '../../constants/Entity.interface';
 import { interceptURL, verifyResponseStatusCode } from '../common';
 
 export const validateDomain = (domain: string, entityType: EntityType) => {
-  interceptURL('GET', `/api/v1/${entityType}/*/versions/0.2`, 'getVersion');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/${entityType}/*/versions/0.2`,
+    'getVersion'
+  );
   cy.get('[data-testid="version-button"]').should('contain', '0.2').click();
   verifyResponseStatusCode('@getVersion', 200);
 };

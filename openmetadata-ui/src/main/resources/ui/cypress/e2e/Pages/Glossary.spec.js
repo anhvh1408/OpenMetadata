@@ -63,12 +63,12 @@ let createdUserId = '';
 const visitGlossaryTermPage = (termName, fqn, fetchPermission) => {
   interceptURL(
     'GET',
-    `/api/v1/search/query?q=*&from=0&size=*&index=glossary_term_search_index`,
+    `/nexus/openmetadata/api/v1/search/query?q=*&from=0&size=*&index=glossary_term_search_index`,
     'getGlossaryTerm'
   );
   interceptURL(
     'GET',
-    '/api/v1/permissions/glossaryTerm/*',
+    '/nexus/openmetadata/api/v1/permissions/glossaryTerm/*',
     'waitForTermPermission'
   );
 
@@ -89,10 +89,14 @@ const visitGlossaryTermPage = (termName, fqn, fetchPermission) => {
 
 const createGlossary = (glossaryData) => {
   // Intercept API calls
-  interceptURL('POST', '/api/v1/glossaries', 'createGlossary');
+  interceptURL(
+    'POST',
+    '/nexus/openmetadata/api/v1/glossaries',
+    'createGlossary'
+  );
   interceptURL(
     'GET',
-    '/api/v1/search/query?q=*disabled:false&index=tag_search_index&from=0&size=10&query_filter=%7B%7D',
+    '/nexus/openmetadata/api/v1/search/query?q=*disabled:false&index=tag_search_index&from=0&size=10&query_filter=%7B%7D',
     'fetchTags'
   );
 
@@ -286,7 +290,11 @@ const addAssetToGlossaryTerm = (glossaryTerm, glossary) => {
   );
 
   glossaryTerm.assets.forEach((asset) => {
-    interceptURL('GET', '/api/v1/search/query*', 'searchAssets');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/search/query*',
+      'searchAssets'
+    );
     cy.get('[data-testid="asset-selection-modal"] [data-testid="searchbar"]')
       .click()
       .clear()
@@ -309,7 +317,11 @@ const removeAssetsFromGlossaryTerm = (glossaryTerm, glossary) => {
   goToAssetsTab(glossaryTerm.name, glossaryTerm.fullyQualifiedName, true);
   checkAssetsCount(glossaryTerm.assets.length);
   glossaryTerm.assets.forEach((asset, index) => {
-    interceptURL('GET', '/api/v1/search/query*', 'searchAssets');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/search/query*',
+      'searchAssets'
+    );
     cy.get(`[data-testid="manage-button-${asset.fullyQualifiedName}"]`).click();
     cy.get('[data-testid="delete-button"]').click();
     cy.get("[data-testid='save-button']").click();
@@ -327,7 +339,11 @@ const removeAssetsFromGlossaryTerm = (glossaryTerm, glossary) => {
 const createGlossaryTerm = (term, glossary, status, isMutually = false) => {
   fillGlossaryTermDetails(term, glossary, isMutually);
 
-  interceptURL('POST', '/api/v1/glossaryTerms', 'createGlossaryTerms');
+  interceptURL(
+    'POST',
+    '/nexus/openmetadata/api/v1/glossaryTerms',
+    'createGlossaryTerms'
+  );
   cy.get('[data-testid="save-glossary-term"]')
     .scrollIntoView()
     .should('be.visible')
@@ -405,7 +421,11 @@ const goToAssetsTab = (name, fqn, fetchPermission) => {
 };
 
 const selectActiveGlossary = (glossaryName) => {
-  interceptURL('GET', '/api/v1/glossaryTerms*', 'getGlossaryTerms');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/glossaryTerms*',
+    'getGlossaryTerms'
+  );
   cy.get('.ant-menu-item').contains(glossaryName).click();
   verifyResponseStatusCode('@getGlossaryTerms', 200);
 };
@@ -442,7 +462,7 @@ const updateTags = (inTerm) => {
   // visit glossary page
   interceptURL(
     'GET',
-    '/api/v1/search/query?q=*&index=tag_search_index&from=0&size=*&query_filter=*',
+    '/nexus/openmetadata/api/v1/search/query?q=*&index=tag_search_index&from=0&size=*&query_filter=*',
     'tags'
   );
   cy.get('[data-testid="tags-container"] [data-testid="add-tag"]').click();
@@ -468,7 +488,7 @@ const updateTags = (inTerm) => {
 const updateTerms = (newTerm) => {
   interceptURL(
     'GET',
-    '/api/v1/search/query?q=**&from=0&size=10&index=glossary_search_index',
+    '/nexus/openmetadata/api/v1/search/query?q=**&from=0&size=10&index=glossary_search_index',
     'getGlossaryTerm'
   );
   cy.get('[data-testid="related-term-container"]')
@@ -511,9 +531,17 @@ const updateReferences = (newRef) => {
 
 const updateDescription = (newDescription, isGlossary) => {
   if (isGlossary) {
-    interceptURL('PATCH', '/api/v1/glossaries/*', 'saveGlossary');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/glossaries/*',
+      'saveGlossary'
+    );
   } else {
-    interceptURL('PATCH', '/api/v1/glossaryTerms/*', 'saveData');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/glossaryTerms/*',
+      'saveData'
+    );
   }
 
   cy.get('[data-testid="edit-description"]').scrollIntoView().click();
@@ -577,9 +605,17 @@ const initialVoting = (api) => {
 
 const voteGlossary = (isGlossary) => {
   if (isGlossary) {
-    interceptURL('PUT', '/api/v1/glossaries/*/vote', 'voteGlossary');
+    interceptURL(
+      'PUT',
+      '/nexus/openmetadata/api/v1/glossaries/*/vote',
+      'voteGlossary'
+    );
   } else {
-    interceptURL('PUT', '/api/v1/glossaryTerms/*/vote', 'voteGlossaryTerm');
+    interceptURL(
+      'PUT',
+      '/nexus/openmetadata/api/v1/glossaryTerms/*/vote',
+      'voteGlossaryTerm'
+    );
   }
   upVoting(isGlossary ? '@voteGlossary' : '@voteGlossaryTerm');
 
@@ -589,8 +625,16 @@ const voteGlossary = (isGlossary) => {
 };
 
 const goToGlossaryPage = () => {
-  interceptURL('GET', '/api/v1/glossaryTerms*', 'getGlossaryTerms');
-  interceptURL('GET', '/api/v1/glossaries?fields=*', 'fetchGlossaries');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/glossaryTerms*',
+    'getGlossaryTerms'
+  );
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/glossaries?fields=*',
+    'fetchGlossaries'
+  );
   cy.sidebarClick(SidebarItem.GLOSSARY);
 };
 
@@ -605,13 +649,17 @@ const approveGlossaryTermWorkflow = ({ glossary, glossaryTerm }) => {
 
   cy.get('[data-testid="activity_feed"]').click();
 
-  interceptURL('GET', '/api/v1/feed*', 'activityFeed');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/feed*', 'activityFeed');
 
   cy.get('[data-testid="global-setting-left-panel"]').contains('Tasks').click();
 
   verifyResponseStatusCode('@activityFeed', 200);
 
-  interceptURL('PUT', '/api/v1/feed/tasks/*/resolve', 'resolveTask');
+  interceptURL(
+    'PUT',
+    '/nexus/openmetadata/api/v1/feed/tasks/*/resolve',
+    'resolveTask'
+  );
 
   cy.get('[data-testid="approve-task"]').click();
 
@@ -692,7 +740,7 @@ const deleteUser = () => {
 
   cy.request({
     method: 'DELETE',
-    url: `/api/v1/users/${createdUserId}?hardDelete=true&recursive=false`,
+    url: `/nexus/openmetadata/api/v1/users/${createdUserId}?hardDelete=true&recursive=false`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
@@ -718,7 +766,11 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
   });
 
   beforeEach(() => {
-    interceptURL('PATCH', '/api/v1/glossaryTerms/*', 'saveGlossaryTermData');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/glossaryTerms/*',
+      'saveGlossaryTermData'
+    );
     cy.login();
     goToGlossaryPage();
   });
@@ -772,7 +824,11 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
       .click();
 
     cy.get('[data-testid="remove-tags"]').should('be.visible').click();
-    interceptURL('PATCH', '/api/v1/glossaries/*', 'updateGlossary');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/glossaries/*',
+      'updateGlossary'
+    );
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
     verifyResponseStatusCode('@updateGlossary', 200);
     cy.get('[data-testid="add-tag"]').should('be.visible');
@@ -874,8 +930,16 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
     const { name, fullyQualifiedName } = NEW_GLOSSARY_1_TERMS.term_1;
 
     // visit glossary page
-    interceptURL('GET', `/api/v1/glossaryTerms?glossary=*`, 'glossaryTerm');
-    interceptURL('GET', `/api/v1/permissions/glossary/*`, 'permissions');
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/glossaryTerms?glossary=*`,
+      'glossaryTerm'
+    );
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/permissions/glossary/*`,
+      'permissions'
+    );
 
     cy.get('.ant-menu-item').contains(NEW_GLOSSARY_1.name).click();
     verifyMultipleResponseStatusCode(['@glossaryTerm', '@permissions'], 200);
@@ -911,11 +975,15 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
 
     interceptURL(
       'GET',
-      `/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
+      `/nexus/openmetadata/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
       'suggestTag'
     );
-    interceptURL('POST', '/api/v1/feed', 'taskCreated');
-    interceptURL('PUT', '/api/v1/feed/tasks/*/resolve', 'taskResolve');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/feed', 'taskCreated');
+    interceptURL(
+      'PUT',
+      '/nexus/openmetadata/api/v1/feed/tasks/*/resolve',
+      'taskResolve'
+    );
 
     cy.get('[data-testid="request-entity-tags"]').should('exist').click();
 
@@ -1007,7 +1075,11 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
           .should('be.visible')
           .click({ multiple: true });
 
-        interceptURL('PATCH', '/api/v1/tables/*', 'removeTags');
+        interceptURL(
+          'PATCH',
+          '/nexus/openmetadata/api/v1/tables/*',
+          'removeTags'
+        );
         cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
         verifyResponseStatusCode('@removeTags', 200);
       }
@@ -1024,8 +1096,8 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
     cy.get(`[data-testid="tag-${glossary}.${term2}"]`).click();
     cy.get('[data-testid="tag-selector"]').should('contain', term2);
 
-    interceptURL('GET', '/api/v1/tags', 'tags');
-    interceptURL('PATCH', '/api/v1/tables/*', 'saveTag');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/tags', 'tags');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/tables/*', 'saveTag');
 
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView();
     cy.clickOutside();
@@ -1129,12 +1201,12 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
 
     selectActiveGlossary(NEW_GLOSSARY_1.name);
 
-    interceptURL('GET', '/api/v1/search/query*', 'assetTab');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/search/query*', 'assetTab');
     // go assets tab
     goToAssetsTab(name, fullyQualifiedName);
     verifyResponseStatusCode('@assetTab', 200);
 
-    interceptURL('GET', '/api/v1/feed*', 'entityDetails');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/feed*', 'entityDetails');
 
     cy.get('[data-testid="entity-header-display-name"]')
       .contains(entity.term)
@@ -1151,13 +1223,17 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
       .should('be.visible')
       .click({ multiple: true });
 
-    interceptURL('PATCH', '/api/v1/tables/*', 'removeTags');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/tables/*', 'removeTags');
     cy.clickOutside();
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
     verifyResponseStatusCode('@removeTags', 200);
 
     // Remove the added column tag from entity
-    interceptURL('PATCH', '/api/v1/tables/*', 'removeSchemaTags');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/tables/*',
+      'removeSchemaTags'
+    );
 
     cy.get(
       '[data-testid="glossary-tags-0"] > [data-testid="tags-wrapper"] > [data-testid="glossary-container"]'

@@ -2,6 +2,7 @@
   "name": "open-metadata",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/nexus/openmetadata",
   "engines": {
     "node": ">=10.0.0",
     "yarn": "^1.22.0"

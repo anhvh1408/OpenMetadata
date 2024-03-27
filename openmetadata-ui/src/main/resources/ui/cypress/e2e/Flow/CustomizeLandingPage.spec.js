@@ -35,13 +35,13 @@ describe('Customize Landing Page Flow', { tags: 'Settings' }, () => {
       // Fetch logged in user details to get user id
       cy.request({
         method: 'GET',
-        url: `/api/v1/users/loggedInUser`,
+        url: `/nexus/openmetadata/api/v1/users/loggedInUser`,
         headers: { Authorization: `Bearer ${token}` },
       }).then((userResponse) => {
         // Create a persona
         cy.request({
           method: 'POST',
-          url: `/api/v1/personas`,
+          url: `/nexus/openmetadata/api/v1/personas`,
           headers: { Authorization: `Bearer ${token}` },
           body: { ...PERSONA_DETAILS, users: [userResponse.body.id] },
         }).then((personaResponse) => {
@@ -72,7 +72,7 @@ describe('Customize Landing Page Flow', { tags: 'Settings' }, () => {
 
           cy.request({
             method: 'PATCH',
-            url: `/api/v1/users/${testData.user.id}`,
+            url: `/nexus/openmetadata/api/v1/users/${testData.user.id}`,
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json-patch+json',
@@ -91,14 +91,14 @@ describe('Customize Landing Page Flow', { tags: 'Settings' }, () => {
     // Delete created user
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/personas/${testData.persona.id}`,
+      url: `/nexus/openmetadata/api/v1/personas/${testData.persona.id}`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
     // Delete created landing page config doc
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/docStore/${testData.docStoreData.id}`,
+      url: `/nexus/openmetadata/api/v1/docStore/${testData.docStoreData.id}`,
       headers: { Authorization: `Bearer ${token}` },
     });
   });
@@ -130,7 +130,7 @@ describe('Customize Landing Page Flow', { tags: 'Settings' }, () => {
     });
 
     // Save layout
-    interceptURL('POST', `/api/v1/docStore`, 'getMyData');
+    interceptURL('POST', `/nexus/openmetadata/api/v1/docStore`, 'getMyData');
 
     cy.get('[data-testid="save-button"]').click();
 

@@ -35,7 +35,7 @@ module.exports = {
     path: outputPath,
     filename: 'openmetadata.[fullhash].js',
     chunkFilename: '[name].[fullhash].js',
-    publicPath: '/', // Ensures bundle is served from absolute path as opposed to relative
+    publicPath: '/nexus/openmetadata/', // Ensures bundle is served from absolute path as opposed to relative
   },
 
   // Loaders

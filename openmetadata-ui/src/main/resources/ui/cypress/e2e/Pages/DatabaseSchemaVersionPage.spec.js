@@ -50,7 +50,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'PUT',
-          url: `/api/v1/domains`,
+          url: `/nexus/openmetadata/api/v1/domains`,
           headers: { Authorization: `Bearer ${token}` },
           body: DOMAIN_CREATION_DETAILS,
         }).then((response) => {
@@ -60,7 +60,7 @@ describe(
         // Create service
         cy.request({
           method: 'POST',
-          url: `/api/v1/services/${serviceDetails.serviceCategory}`,
+          url: `/nexus/openmetadata/api/v1/services/${serviceDetails.serviceCategory}`,
           headers: { Authorization: `Bearer ${token}` },
           body: serviceDetails.entityCreationDetails,
         });
@@ -68,7 +68,7 @@ describe(
         // Create Database
         cy.request({
           method: 'POST',
-          url: `/api/v1/databases`,
+          url: `/nexus/openmetadata/api/v1/databases`,
           headers: { Authorization: `Bearer ${token}` },
           body: DATABASE_DETAILS_FOR_VERSION_TEST,
         }).then((response) => {
@@ -78,7 +78,7 @@ describe(
         // Create Database Schema
         cy.request({
           method: 'PUT',
-          url: `/api/v1/databaseSchemas`,
+          url: `/nexus/openmetadata/api/v1/databaseSchemas`,
           headers: { Authorization: `Bearer ${token}` },
           body: DATABASE_SCHEMA_DETAILS_FOR_VERSION_TEST,
         }).then((response) => {
@@ -87,7 +87,7 @@ describe(
 
           cy.request({
             method: 'PATCH',
-            url: `/api/v1/databaseSchemas/${databaseSchemaId}`,
+            url: `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}`,
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json-patch+json',
@@ -116,7 +116,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'DELETE',
-          url: `/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
+          url: `/nexus/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
           headers: { Authorization: `Bearer ${token}` },
         });
       });
@@ -139,17 +139,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -201,17 +201,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -245,17 +245,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -293,7 +293,11 @@ describe(
         .click();
 
       cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
-      interceptURL('DELETE', `/api/v1/databaseSchemas/*`, 'deleteSchema');
+      interceptURL(
+        'DELETE',
+        `/nexus/openmetadata/api/v1/databaseSchemas/*`,
+        'deleteSchema'
+      );
 
       cy.get('[data-testid="confirm-button"]').should('be.visible').click();
 
@@ -306,17 +310,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.3`,
+        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.3`,
         'getSelectedVersionDetails'
       );
 
@@ -342,7 +346,11 @@ describe(
 
       cy.get('[data-testid="restore-button-title"]').click();
 
-      interceptURL('PUT', `/api/v1/databaseSchemas/restore`, 'restoreSchema');
+      interceptURL(
+        'PUT',
+        `/nexus/openmetadata/api/v1/databaseSchemas/restore`,
+        'restoreSchema'
+      );
 
       cy.get('.ant-modal-footer .ant-btn-primary').contains('Restore').click();
 
@@ -378,10 +386,14 @@ describe(
       cy.get('[data-testid="confirmation-text-input"]')
         .should('be.visible')
         .type(DELETE_TERM);
-      interceptURL('DELETE', `/api/v1/databaseSchemas/*`, 'deleteService');
+      interceptURL(
+        'DELETE',
+        `/nexus/openmetadata/api/v1/databaseSchemas/*`,
+        'deleteService'
+      );
       interceptURL(
         'GET',
-        '/api/v1/services/*/name/*?fields=owner',
+        '/nexus/openmetadata/api/v1/services/*/name/*?fields=owner',
         'serviceDetails'
       );
 

@@ -27,8 +27,8 @@ const userEmail = `${userName}@gmail.com`;
 describe('Test Add role and assign it to the user', () => {
   beforeEach(() => {
     cy.login();
-    interceptURL('GET', '*api/v1/roles*', 'getRoles');
-    interceptURL('GET', '/api/v1/users?*', 'usersPage');
+    interceptURL('GET', '*nexus/openmetadata/api/v1/roles*', 'getRoles');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'usersPage');
   });
 
   it('Create role', () => {
@@ -76,7 +76,11 @@ describe('Test Add role and assign it to the user', () => {
 
     cy.get(descriptionBox).type('Adding user');
 
-    interceptURL('GET', '/api/v1/users/generateRandomPwd', 'generatePassword');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/users/generateRandomPwd',
+      'generatePassword'
+    );
     cy.get('[data-testid="password-generator"]').scrollIntoView().click();
     verifyResponseStatusCode('@generatePassword', 200);
 
@@ -84,7 +88,7 @@ describe('Test Add role and assign it to the user', () => {
     cy.get(`.ant-select-dropdown [title="${roleName}"]`).click();
 
     cy.clickOutside();
-    interceptURL('POST', '/api/v1/users', 'createUser');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/users', 'createUser');
     cy.get('[data-testid="save-user"]').scrollIntoView().click();
     verifyResponseStatusCode('@createUser', 201);
   });
@@ -95,10 +99,14 @@ describe('Test Add role and assign it to the user', () => {
 
     interceptURL(
       'GET',
-      '/api/v1/search/query?q=**&from=0&size=*&index=*',
+      '/nexus/openmetadata/api/v1/search/query?q=**&from=0&size=*&index=*',
       'searchUser'
     );
-    interceptURL('GET', '/api/v1/users/name/*', 'userDetailsPage');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/users/name/*',
+      'userDetailsPage'
+    );
     cy.get('[data-testid="searchbar"]').type(userName);
     verifyResponseStatusCode('@searchUser', 200);
 

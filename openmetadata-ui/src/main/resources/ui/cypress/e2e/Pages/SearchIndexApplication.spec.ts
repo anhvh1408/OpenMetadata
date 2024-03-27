@@ -16,7 +16,7 @@ import { GlobalSettingOptions } from '../../constants/settings.constant';
 const visitSearchApplicationPage = () => {
   interceptURL(
     'GET',
-    '/api/v1/apps/name/SearchIndexingApplication?fields=*',
+    '/nexus/openmetadata/api/v1/apps/name/SearchIndexingApplication?fields=*',
     'getSearchIndexingApplication'
   );
   cy.get(
@@ -29,7 +29,11 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   beforeEach(() => {
     cy.login();
 
-    interceptURL('GET', '/api/v1/apps?limit=*', 'getApplications');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/apps?limit=*',
+      'getApplications'
+    );
 
     cy.settingClick(GlobalSettingOptions.APPLICATIONS);
 
@@ -37,7 +41,11 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   });
 
   it('Edit application', () => {
-    interceptURL('PATCH', '/api/v1/apps/*', 'updateApplication');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/apps/*',
+      'updateApplication'
+    );
     visitSearchApplicationPage();
     cy.get('[data-testid="edit-button"]').click();
     cy.get('[data-testid="cron-type"]').click();
@@ -58,10 +66,14 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   });
 
   it('Uninstall application', () => {
-    interceptURL('GET', '/api/v1/apps?limit=*', 'getApplications');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/apps?limit=*',
+      'getApplications'
+    );
     interceptURL(
       'DELETE',
-      '/api/v1/apps/name/SearchIndexingApplication?hardDelete=true',
+      '/nexus/openmetadata/api/v1/apps/name/SearchIndexingApplication?hardDelete=true',
       'deleteApplication'
     );
     visitSearchApplicationPage();
@@ -76,8 +88,16 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   });
 
   it('Install application', () => {
-    interceptURL('GET', '/api/v1/apps/marketplace?limit=*', 'getMarketPlace');
-    interceptURL('POST', '/api/v1/apps', 'installApplication');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/apps/marketplace?limit=*',
+      'getMarketPlace'
+    );
+    interceptURL(
+      'POST',
+      '/nexus/openmetadata/api/v1/apps',
+      'installApplication'
+    );
     cy.get('[data-testid="add-application"]').click();
     verifyResponseStatusCode('@getMarketPlace', 200);
     cy.get(
@@ -100,12 +120,12 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   it('Run application', () => {
     interceptURL(
       'GET',
-      '/api/v1/apps/name/SearchIndexingApplication?fields=*',
+      '/nexus/openmetadata/api/v1/apps/name/SearchIndexingApplication?fields=*',
       'getSearchIndexingApplication'
     );
     interceptURL(
       'POST',
-      '/api/v1/apps/trigger/SearchIndexingApplication',
+      '/nexus/openmetadata/api/v1/apps/trigger/SearchIndexingApplication',
       'triggerPipeline'
     );
     cy.get(

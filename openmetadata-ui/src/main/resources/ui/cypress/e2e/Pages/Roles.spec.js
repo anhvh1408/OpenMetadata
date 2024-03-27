@@ -60,7 +60,7 @@ describe('Roles page should work properly', { tags: 'Settings' }, () => {
   beforeEach(() => {
     cy.login();
 
-    interceptURL('GET', '*api/v1/roles*', 'getRoles');
+    interceptURL('GET', '*nexus/openmetadata/api/v1/roles*', 'getRoles');
 
     cy.settingClick(GlobalSettingOptions.ROLES);
 
@@ -268,7 +268,11 @@ describe('Roles page should work properly', { tags: 'Settings' }, () => {
   });
 
   it('Check if last policy is not removed', () => {
-    interceptURL('GET', `/api/v1/roles/name/${roleName}*`, 'getSelectedRole');
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/roles/name/${roleName}*`,
+      'getSelectedRole'
+    );
 
     cy.get('[data-testid="role-name"]')
       .contains(roleName)
@@ -283,7 +287,11 @@ describe('Roles page should work properly', { tags: 'Settings' }, () => {
 
     verifyResponseStatusCode('@getSelectedRole', 200);
 
-    interceptURL('PATCH', '/api/v1/roles/*', 'checkDeletedRole');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/roles/*',
+      'checkDeletedRole'
+    );
     // Removing second policy from the role
     removePolicyFromRole(policies.dataStewardPolicy);
 

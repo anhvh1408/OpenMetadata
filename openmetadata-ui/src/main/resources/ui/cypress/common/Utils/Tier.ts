@@ -13,9 +13,13 @@
 import { interceptURL, verifyResponseStatusCode } from '../common';
 
 export const addTier = (tier: string) => {
-  interceptURL('PATCH', `/api/v1/**`, 'patchTier');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchTier');
 
-  interceptURL('GET', '/api/v1/tags?parent=Tier&limit=10', 'fetchTier');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/tags?parent=Tier&limit=10',
+    'fetchTier'
+  );
   cy.get('[data-testid="edit-tier"]').click();
   verifyResponseStatusCode('@fetchTier', 200);
   cy.get(`[data-testid="radio-btn-${tier}"]`).scrollIntoView();
@@ -32,7 +36,7 @@ export const addTier = (tier: string) => {
 };
 
 export const updateTier = (tier: string) => {
-  interceptURL('PATCH', `/api/v1/**`, 'patchTier');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchTier');
 
   cy.get('[data-testid="edit-tier"]').click();
 
@@ -49,7 +53,7 @@ export const updateTier = (tier: string) => {
 };
 
 export const removeTier = () => {
-  interceptURL('PATCH', `/api/v1/**`, 'patchTier');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchTier');
 
   cy.get('[data-testid="edit-tier"]').click();
   cy.get('[data-testid="clear-tier"]').scrollIntoView().click();

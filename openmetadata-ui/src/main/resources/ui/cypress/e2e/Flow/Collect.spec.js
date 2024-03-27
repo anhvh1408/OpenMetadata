@@ -58,7 +58,11 @@ describe('Collect end point should work properly', () => {
 
   beforeEach(() => {
     cy.login();
-    interceptURL('PUT', '/api/v1/analytics/web/events/collect', 'collect');
+    interceptURL(
+      'PUT',
+      '/nexus/openmetadata/api/v1/analytics/web/events/collect',
+      'collect'
+    );
   });
 
   Object.values(PAGES).map((page) => {

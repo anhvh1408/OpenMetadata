@@ -36,17 +36,19 @@ export const visitEntityDetailsVersionPage = (
 
   interceptURL(
     'GET',
-    `/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+    `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
     'getTableDetails'
   );
   interceptURL(
     'GET',
-    `/api/v1/${entityDetails.entity}/${id}/versions`,
+    `/nexus/openmetadata/api/v1/${entityDetails.entity}/${id}/versions`,
     'getVersionsList'
   );
   interceptURL(
     'GET',
-    `/api/v1/${entityDetails.entity}/${id}/versions/${version ?? '*'}`,
+    `/nexus/openmetadata/api/v1/${entityDetails.entity}/${id}/versions/${
+      version ?? '*'
+    }`,
     'getSelectedVersionDetails'
   );
 
@@ -73,12 +75,14 @@ export const visitDataModelVersionPage = (
 
   interceptURL(
     'GET',
-    `/api/v1/dashboard/datamodels/${dataModelId}/versions`,
+    `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
     'getVersionsList'
   );
   interceptURL(
     'GET',
-    `/api/v1/dashboard/datamodels/${dataModelId}/versions/${version ?? '*'}`,
+    `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/${
+      version ?? '*'
+    }`,
     'getSelectedVersionDetails'
   );
 

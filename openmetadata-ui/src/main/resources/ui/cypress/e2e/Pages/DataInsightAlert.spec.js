@@ -34,7 +34,7 @@ describe.skip('Data Insight Alert', { tags: 'Observability' }, () => {
     cy.sidebarClick(SidebarItem.SETTINGS);
     interceptURL(
       'GET',
-      'api/v1/events/subscriptions/name/DataInsightReport?include=all',
+      'nexus/openmetadata/api/v1/events/subscriptions/name/DataInsightReport?include=all',
       'dataInsightReport'
     );
 
@@ -59,7 +59,7 @@ describe.skip('Data Insight Alert', { tags: 'Observability' }, () => {
   it('Should Update the alert', () => {
     interceptURL(
       'GET',
-      'api/v1/events/subscriptions/*',
+      'nexus/openmetadata/api/v1/events/subscriptions/*',
       'dataInsightReportById'
     );
     cy.get('[data-testid="edit-button"]').click();
@@ -86,10 +86,14 @@ describe.skip('Data Insight Alert', { tags: 'Observability' }, () => {
 
     cy.get('[data-testid="sendToAdmins"]').scrollIntoView().uncheck();
 
-    interceptURL('PUT', 'api/v1/events/subscriptions', 'updatedAlert');
+    interceptURL(
+      'PUT',
+      'nexus/openmetadata/api/v1/events/subscriptions',
+      'updatedAlert'
+    );
     interceptURL(
       'GET',
-      'api/v1/events/subscriptions/name/DataInsightReport?include=all',
+      'nexus/openmetadata/api/v1/events/subscriptions/name/DataInsightReport?include=all',
       'updatedDataInsightReport'
     );
 
@@ -116,7 +120,7 @@ describe.skip('Data Insight Alert', { tags: 'Observability' }, () => {
   it('Should Update the alert to default values', () => {
     interceptURL(
       'GET',
-      'api/v1/events/subscriptions/*',
+      'nexus/openmetadata/api/v1/events/subscriptions/*',
       'dataInsightReportById'
     );
     cy.get('[data-testid="edit-button"]').click();
@@ -143,10 +147,14 @@ describe.skip('Data Insight Alert', { tags: 'Observability' }, () => {
 
     cy.get('[data-testid="sendToAdmins"]').scrollIntoView().check();
 
-    interceptURL('PUT', 'api/v1/events/subscriptions', 'updatedAlert');
+    interceptURL(
+      'PUT',
+      'nexus/openmetadata/api/v1/events/subscriptions',
+      'updatedAlert'
+    );
     interceptURL(
       'GET',
-      'api/v1/events/subscriptions/name/DataInsightReport?include=all',
+      'nexus/openmetadata/api/v1/events/subscriptions/name/DataInsightReport?include=all',
       'updatedDataInsightReport'
     );
 
@@ -179,7 +187,7 @@ describe.skip('Data Insight Alert', { tags: 'Observability' }, () => {
   it('Should trigger the event on click of send button', () => {
     interceptURL(
       'PUT',
-      'api/v1/events/subscriptions/trigger/*',
+      'nexus/openmetadata/api/v1/events/subscriptions/trigger/*',
       'triggerEvent'
     );
     cy.get('[data-testid="send-now-button"]').should('be.visible').click();

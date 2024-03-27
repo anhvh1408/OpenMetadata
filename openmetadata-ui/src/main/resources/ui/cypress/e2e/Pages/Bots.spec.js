@@ -39,7 +39,11 @@ const expirationTime = {
   threemonths: '90',
 };
 const getCreatedBot = () => {
-  interceptURL('GET', `/api/v1/bots/name/${botName}*`, 'getCreatedBot');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/bots/name/${botName}*`,
+    'getCreatedBot'
+  );
   // Click on created Bot name
   cy.get(`[data-testid="bot-link-${botName}"]`).should('exist').click();
   verifyResponseStatusCode('@getCreatedBot', 200);
@@ -53,7 +57,11 @@ const revokeToken = () => {
     'contain',
     'Are you sure you want to revoke access for JWT Token?'
   );
-  interceptURL('PUT', `/api/v1/users/revokeToken`, 'revokeToken');
+  interceptURL(
+    'PUT',
+    `/nexus/openmetadata/api/v1/users/revokeToken`,
+    'revokeToken'
+  );
   // Click on confirm button
   cy.get('[data-testid="save-button"]').click();
   verifyResponseStatusCode('@revokeToken', 200);
@@ -73,7 +81,7 @@ describe('Bots Page should work properly', { tags: 'Settings' }, () => {
     cy.login();
     interceptURL(
       'GET',
-      'api/v1/bots?limit=*&include=non-deleted',
+      'nexus/openmetadata/api/v1/bots?limit=*&include=non-deleted',
       'getBotsList'
     );
     cy.settingClick(GlobalSettingOptions.BOTS);
@@ -105,7 +113,7 @@ describe('Bots Page should work properly', { tags: 'Settings' }, () => {
     cy.get(descriptionBox).type(description);
     // Click on save button
     cy.wait(1000);
-    interceptURL('post', '/api/v1/bots', 'createBot');
+    interceptURL('post', '/nexus/openmetadata/api/v1/bots', 'createBot');
     cy.get('[data-testid="save-user"]')
       .scrollIntoView()
       .should('be.visible')
@@ -198,7 +206,7 @@ describe('Bots Page should work properly', { tags: 'Settings' }, () => {
     cy.get(descriptionBox).clear().type(updatedDescription);
     cy.get('[data-testid="save"]').click();
 
-    interceptURL('GET', '/api/v1/bots*', 'getBotsPage');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/bots*', 'getBotsPage');
     cy.get('[data-testid="breadcrumb-link"]').first().click();
     verifyResponseStatusCode('@getBotsPage', 200);
 
@@ -224,7 +232,7 @@ describe('Bots Page should work properly', { tags: 'Settings' }, () => {
     cy.get('[data-testid="confirmation-text-input"]')
       .should('be.visible')
       .type(DELETE_TERM);
-    interceptURL('DELETE', '/api/v1/bots/*', 'deleteBot');
+    interceptURL('DELETE', '/nexus/openmetadata/api/v1/bots/*', 'deleteBot');
     cy.get('[data-testid="confirm-button"]').should('be.visible').click();
     verifyResponseStatusCode('@deleteBot', 200);
     cy.get('[data-testid="page-layout-v1"]').should('not.contain', botName);

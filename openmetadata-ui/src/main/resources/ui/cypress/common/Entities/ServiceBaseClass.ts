@@ -124,10 +124,14 @@ class ServiceBaseClass {
     cy.get('#name_help').should('contain', NAME_VALIDATION_ERROR);
 
     cy.get('[data-testid="service-name"]').clear().type(serviceName);
-    interceptURL('GET', '/api/v1/services/ingestionPipelines/ip', 'ipApi');
     interceptURL(
       'GET',
-      'api/v1/services/ingestionPipelines/*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines/ip',
+      'ipApi'
+    );
+    interceptURL(
+      'GET',
+      'nexus/openmetadata/api/v1/services/ingestionPipelines/*',
       'ingestionPipelineStatus'
     );
 
@@ -172,10 +176,14 @@ class ServiceBaseClass {
 
     interceptURL(
       'GET',
-      '/api/v1/services/ingestionPipelines?*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
       'ingestionPipelines'
     );
-    interceptURL('GET', '/api/v1/services/*/name/*', 'serviceDetails');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/services/*/name/*',
+      'serviceDetails'
+    );
 
     cy.get('[data-testid="view-service-button"]').click();
     verifyResponseStatusCode('@serviceDetails', 200);
@@ -187,7 +195,7 @@ class ServiceBaseClass {
   submitService(serviceName: string) {
     interceptURL(
       'GET',
-      '/api/v1/services/ingestionPipelines/status',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
       'getIngestionPipelineStatus'
     );
     cy.get('[data-testid="submit-btn"]').should('exist').click();
@@ -202,17 +210,17 @@ class ServiceBaseClass {
   scheduleIngestion(hasRetryCount = true) {
     interceptURL(
       'POST',
-      '/api/v1/services/ingestionPipelines',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines',
       'createIngestionPipelines'
     );
     interceptURL(
       'POST',
-      '/api/v1/services/ingestionPipelines/deploy/*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
       'deployPipeline'
     );
     interceptURL(
       'GET',
-      '/api/v1/services/ingestionPipelines/status',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
       'getIngestionPipelineStatus'
     );
     // Schedule & Deploy
@@ -248,16 +256,24 @@ class ServiceBaseClass {
 
     interceptURL(
       'GET',
-      '/api/v1/services/ingestionPipelines?*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
       'ingestionPipelines'
     );
     interceptURL(
       'GET',
-      '/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
       'pipelineStatuses'
     );
-    interceptURL('GET', '/api/v1/services/*/name/*', 'serviceDetails');
-    interceptURL('GET', '/api/v1/permissions?limit=100', 'allPermissions');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/services/*/name/*',
+      'serviceDetails'
+    );
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/permissions?limit=100',
+      'allPermissions'
+    );
 
     // ingestions page
     let retryCount = 0;
@@ -335,7 +351,7 @@ class ServiceBaseClass {
 
     interceptURL(
       'GET',
-      `/api/v1/services/ingestionPipelines/**`,
+      `/nexus/openmetadata/api/v1/services/ingestionPipelines/**`,
       'pipelineServices'
     );
 
@@ -416,18 +432,22 @@ class ServiceBaseClass {
     const description = `${this.entityName} description`;
     interceptURL(
       'GET',
-      `/api/v1/services/ingestionPipelines?fields=*&service=*`,
+      `/nexus/openmetadata/api/v1/services/ingestionPipelines?fields=*&service=*`,
       'ingestionPipelines'
     );
-    interceptURL('GET', `/api/v1/*?service=*&fields=*`, 'serviceDetails');
     interceptURL(
       'GET',
-      `/api/v1/system/config/pipeline-service-client`,
+      `/nexus/openmetadata/api/v1/*?service=*&fields=*`,
+      'serviceDetails'
+    );
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/system/config/pipeline-service-client`,
       'pipelineServiceClient'
     );
     interceptURL(
       'GET',
-      `/api/v1/services/ingestionPipelines/*/pipelineStatus?*`,
+      `/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?*`,
       'pipelineStatus'
     );
     // Navigate to ingested table
@@ -440,7 +460,7 @@ class ServiceBaseClass {
     // update description
     cy.get('[data-testid="edit-description"]').click();
     cy.get(descriptionBox).click().clear().type(description);
-    interceptURL('PATCH', '/api/v1/*/*', 'updateEntity');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/*/*', 'updateEntity');
     cy.get('[data-testid="save"]').click();
     verifyResponseStatusCode('@updateEntity', 200);
 
@@ -449,7 +469,7 @@ class ServiceBaseClass {
     cy.settingClick(this.category);
     interceptURL(
       'GET',
-      'api/v1/search/query?q=*&from=0&size=15&index=*',
+      'nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
       'searchService'
     );
     cy.get('[data-testid="searchbar"]').type(this.serviceName);
@@ -467,7 +487,7 @@ class ServiceBaseClass {
 
     interceptURL(
       'POST',
-      '/api/v1/services/ingestionPipelines/trigger/*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines/trigger/*',
       'checkRun'
     );
     cy.get(

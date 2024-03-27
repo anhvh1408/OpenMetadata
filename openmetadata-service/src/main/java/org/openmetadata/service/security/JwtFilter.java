@@ -62,8 +62,8 @@ public class JwtFilter implements ContainerRequestFilter {
 
   private static final List<String> DEFAULT_PUBLIC_KEY_URLS =
       Arrays.asList(
-          "http://localhost:8585/api/v1/system/config/jwks",
-          "http://host.docker.internal:8585/api/v1/system/config/jwks");
+          "http://localhost:8080/nexus/openmetadata/api/v1/system/config/jwks",
+          "http://host.docker.internal:8080/nexus/openmetadata/api/v1/system/config/jwks");
   public static final List<String> EXCLUDED_ENDPOINTS =
       List.of(
           "v1/system/config/jwks",

@@ -801,41 +801,41 @@ export const ID = {
   users: {
     testid: GlobalSettingOptions.USERS,
     button: 'add-user',
-    api: '/api/v1/users?*',
+    api: '/nexus/openmetadata/api/v1/users?*',
   },
   admins: {
     testid: GlobalSettingOptions.ADMINS,
     button: 'add-user',
-    api: '/api/v1/users?*',
+    api: '/nexus/openmetadata/api/v1/users?*',
   },
   databases: {
     testid: GlobalSettingOptions.DATABASES,
     button: 'add-service-button',
-    api: '/api/v1/services/databaseServices?*',
+    api: '/nexus/openmetadata/api/v1/services/databaseServices?*',
   },
   messaging: {
     testid: GlobalSettingOptions.MESSAGING,
     button: 'add-service-button',
-    api: '/api/v1/services/messagingServices?*',
+    api: '/nexus/openmetadata/api/v1/services/messagingServices?*',
   },
   dashboard: {
     testid: GlobalSettingOptions.DASHBOARDS,
     button: 'add-service-button',
-    api: '/api/v1/services/dashboardServices?*',
+    api: '/nexus/openmetadata/api/v1/services/dashboardServices?*',
   },
   pipelines: {
     testid: GlobalSettingOptions.PIPELINES,
     button: 'add-service-button',
-    api: '/api/v1/services/pipelineServices?*',
+    api: '/nexus/openmetadata/api/v1/services/pipelineServices?*',
   },
   mlmodels: {
     testid: GlobalSettingOptions.MLMODELS,
     button: 'add-service-button',
-    api: '/api/v1/services/mlmodelServices?*',
+    api: '/nexus/openmetadata/api/v1/services/mlmodelServices?*',
   },
   storage: {
     testid: GlobalSettingOptions.STORAGES,
     button: 'add-service-button',
-    api: '/api/v1/services/storageServices?*',
+    api: '/nexus/openmetadata/api/v1/services/storageServices?*',
   },
 };

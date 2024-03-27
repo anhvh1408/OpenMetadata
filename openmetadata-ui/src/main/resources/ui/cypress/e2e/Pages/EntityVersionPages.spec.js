@@ -40,7 +40,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
       const token = Object.values(data)[0].oidcIdToken;
       cy.request({
         method: 'PUT',
-        url: `/api/v1/domains`,
+        url: `/nexus/openmetadata/api/v1/domains`,
         headers: { Authorization: `Bearer ${token}` },
         body: DOMAIN_CREATION_DETAILS,
       }).then((response) => {
@@ -55,7 +55,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
       const token = Object.values(data)[0].oidcIdToken;
       cy.request({
         method: 'DELETE',
-        url: `/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
+        url: `/nexus/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
         headers: { Authorization: `Bearer ${token}` },
       });
     });
@@ -75,7 +75,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
             const token = Object.values(data)[0].oidcIdToken;
             cy.request({
               method: 'PUT',
-              url: `/api/v1/${entityDetails.entity}`,
+              url: `/nexus/openmetadata/api/v1/${entityDetails.entity}`,
               headers: { Authorization: `Bearer ${token}` },
               body: entityDetails.entityCreationDetails,
             }).then((response) => {
@@ -84,7 +84,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
               cy.request({
                 method: 'PATCH',
-                url: `/api/v1/${entityDetails.entity}/${entityId}`,
+                url: `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}`,
                 headers: {
                   Authorization: `Bearer ${token}`,
                   'Content-Type': 'application/json-patch+json',
@@ -187,7 +187,11 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
               .clear()
               .type(entityDetails.columnDisplayNameToUpdate);
 
-            interceptURL('PATCH', `/api/v1/tables/*`, `updateColumnName`);
+            interceptURL(
+              'PATCH',
+              `/nexus/openmetadata/api/v1/tables/*`,
+              `updateColumnName`
+            );
 
             cy.get('.ant-modal-footer [data-testid="save-button"]').click();
 
@@ -195,17 +199,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
             interceptURL(
               'GET',
-              `/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+              `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
               `get${entityType}Details`
             );
             interceptURL(
               'GET',
-              `/api/v1/${entityDetails.entity}/${entityId}/versions`,
+              `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
               'getVersionsList'
             );
             interceptURL(
               'GET',
-              `/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
+              `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
               'getSelectedVersionDetails'
             );
 
@@ -236,17 +240,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
             `get${entityType}Details`
           );
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/${entityId}/versions`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
             'getVersionsList'
           );
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
             'getSelectedVersionDetails'
           );
 
@@ -276,17 +280,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
             `get${entityType}Details`
           );
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/${entityId}/versions`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
             'getVersionsList'
           );
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
             'getSelectedVersionDetails'
           );
 
@@ -317,17 +321,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
             `get${entityType}Details`
           );
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/${entityId}/versions`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
             'getVersionsList'
           );
           interceptURL(
             'GET',
-            `/api/v1/${entityDetails.entity}/${entityId}/versions/0.3`,
+            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.3`,
             'getSelectedVersionDetails'
           );
 
@@ -348,7 +352,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
             const token = Object.values(data)[0].oidcIdToken;
             cy.request({
               method: 'DELETE',
-              url: `/api/v1/${entityDetails.entity}/${entityId}`,
+              url: `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}`,
               headers: {
                 Authorization: `Bearer ${token}`,
               },

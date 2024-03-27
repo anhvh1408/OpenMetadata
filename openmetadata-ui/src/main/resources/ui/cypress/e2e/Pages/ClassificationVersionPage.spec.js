@@ -30,17 +30,17 @@ describe(
       cy.login();
       interceptURL(
         'GET',
-        `/api/v1/tags?fields=usageCount&parent=${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}&limit=10`,
+        `/nexus/openmetadata/api/v1/tags?fields=usageCount&parent=${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}&limit=10`,
         'getTagList'
       );
       interceptURL(
         'GET',
-        `/api/v1/permissions/classification/*`,
+        `/nexus/openmetadata/api/v1/permissions/classification/*`,
         'permissions'
       );
       interceptURL(
         'GET',
-        `/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
+        `/nexus/openmetadata/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
         'suggestTag'
       );
       visitClassificationPage();
@@ -51,7 +51,7 @@ describe(
 
       cy.request({
         method: 'PUT',
-        url: `/api/v1/classifications`,
+        url: `/nexus/openmetadata/api/v1/classifications`,
         headers: { Authorization: `Bearer ${token}` },
         body: NEW_CLASSIFICATION_FOR_VERSION_TEST,
       }).then((response) => {
@@ -61,7 +61,7 @@ describe(
 
         cy.request({
           method: 'PATCH',
-          url: `/api/v1/classifications/${classificationId}`,
+          url: `/nexus/openmetadata/api/v1/classifications/${classificationId}`,
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json-patch+json',
@@ -82,17 +82,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/classifications/name/${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}`,
+        `/nexus/openmetadata/api/v1/classifications/name/${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}`,
         `getClassificationDetails`
       );
       interceptURL(
         'GET',
-        `/api/v1/classifications/${classificationId}/versions`,
+        `/nexus/openmetadata/api/v1/classifications/${classificationId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/api/v1/classifications/${classificationId}/versions/0.2`,
+        `/nexus/openmetadata/api/v1/classifications/${classificationId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -122,7 +122,7 @@ describe(
 
       interceptURL(
         'PATCH',
-        `/api/v1/classifications/${classificationId}`,
+        `/nexus/openmetadata/api/v1/classifications/${classificationId}`,
         `patchClassification`
       );
 
@@ -132,12 +132,12 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/classifications/name/${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}`,
+        `/nexus/openmetadata/api/v1/classifications/name/${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}`,
         `getClassificationDetails`
       );
       interceptURL(
         'GET',
-        `/api/v1/classifications/${classificationId}/versions`,
+        `/nexus/openmetadata/api/v1/classifications/${classificationId}/versions`,
         'getVersionsList'
       );
 
@@ -161,12 +161,12 @@ describe(
 
       interceptURL(
         'GET',
-        `/api/v1/classifications/name/${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}`,
+        `/nexus/openmetadata/api/v1/classifications/name/${NEW_CLASSIFICATION_FOR_VERSION_TEST.name}`,
         `getClassificationDetails`
       );
       interceptURL(
         'GET',
-        `/api/v1/classifications/${classificationId}/versions`,
+        `/nexus/openmetadata/api/v1/classifications/${classificationId}/versions`,
         'getVersionsList'
       );
 

@@ -125,16 +125,24 @@ export const handleIngestionRetry = (
 
   interceptURL(
     'GET',
-    '/api/v1/services/ingestionPipelines?*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
     'ingestionPipelines'
   );
   interceptURL(
     'GET',
-    '/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
     'pipelineStatuses'
   );
-  interceptURL('GET', '/api/v1/services/*/name/*', 'serviceDetails');
-  interceptURL('GET', '/api/v1/permissions?limit=100', 'allPermissions');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/services/*/name/*',
+    'serviceDetails'
+  );
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/permissions?limit=100',
+    'allPermissions'
+  );
 
   // ingestions page
   let retryCount = count;
@@ -199,17 +207,17 @@ export const handleIngestionRetry = (
 export const scheduleIngestion = (hasRetryCount = true) => {
   interceptURL(
     'POST',
-    '/api/v1/services/ingestionPipelines',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines',
     'createIngestionPipelines'
   );
   interceptURL(
     'POST',
-    '/api/v1/services/ingestionPipelines/deploy/*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
     'deployPipeline'
   );
   interceptURL(
     'GET',
-    '/api/v1/services/ingestionPipelines/status',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
     'getIngestionPipelineStatus'
   );
   // Schedule & Deploy
@@ -272,10 +280,14 @@ export const testServiceCreationAndIngestion = ({
     .should('exist')
     .clear()
     .type(serviceName);
-  interceptURL('GET', '/api/v1/services/ingestionPipelines/ip', 'ipApi');
   interceptURL(
     'GET',
-    'api/v1/services/ingestionPipelines/*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/ip',
+    'ipApi'
+  );
+  interceptURL(
+    'GET',
+    'nexus/openmetadata/api/v1/services/ingestionPipelines/*',
     'ingestionPipelineStatus'
   );
   // intercept the service requirement md file fetch request
@@ -306,19 +318,27 @@ export const testServiceCreationAndIngestion = ({
   // Test the connection
   interceptURL(
     'GET',
-    '/api/v1/services/testConnectionDefinitions/name/*',
+    '/nexus/openmetadata/api/v1/services/testConnectionDefinitions/name/*',
     'testConnectionStepDefinition'
   );
 
-  interceptURL('POST', '/api/v1/automations/workflows', 'createWorkflow');
+  interceptURL(
+    'POST',
+    '/nexus/openmetadata/api/v1/automations/workflows',
+    'createWorkflow'
+  );
 
   interceptURL(
     'POST',
-    '/api/v1/automations/workflows/trigger/*',
+    '/nexus/openmetadata/api/v1/automations/workflows/trigger/*',
     'triggerWorkflow'
   );
 
-  interceptURL('GET', '/api/v1/automations/workflows/*', 'getWorkflow');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/automations/workflows/*',
+    'getWorkflow'
+  );
 
   if (allowTestConnection) {
     cy.get('[data-testid="test-connection-btn"]').should('exist').click();
@@ -346,7 +366,7 @@ export const testServiceCreationAndIngestion = ({
   }
   interceptURL(
     'GET',
-    '/api/v1/services/ingestionPipelines/status',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
     'getIngestionPipelineStatus'
   );
   cy.get('[data-testid="submit-btn"]').should('exist').click();
@@ -393,10 +413,14 @@ export const testServiceCreationAndIngestion = ({
 
     interceptURL(
       'GET',
-      '/api/v1/services/ingestionPipelines?*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
       'ingestionPipelines'
     );
-    interceptURL('GET', '/api/v1/services/*/name/*', 'serviceDetails');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/services/*/name/*',
+      'serviceDetails'
+    );
 
     cy.get('[data-testid="view-service-button"]').click();
     verifyResponseStatusCode('@serviceDetails', 200);
@@ -413,7 +437,7 @@ export const deleteCreatedService = (
 ) => {
   // Click on settings page
   // Services page
-  interceptURL('GET', '/api/v1/services/*', 'getServices');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/services/*', 'getServices');
 
   cy.settingClick(typeOfService);
 
@@ -421,7 +445,7 @@ export const deleteCreatedService = (
 
   interceptURL(
     'GET',
-    'api/v1/search/query?q=*&from=0&size=15&index=*',
+    'nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
     'searchService'
   );
   cy.get('[data-testid="searchbar"]').type(serviceName);
@@ -459,10 +483,14 @@ export const deleteCreatedService = (
   cy.get('[data-testid="confirmation-text-input"]')
     .should('be.visible')
     .type(DELETE_TERM);
-  interceptURL('DELETE', `/api/v1/services/${apiService}/*`, 'deleteService');
+  interceptURL(
+    'DELETE',
+    `/nexus/openmetadata/api/v1/services/${apiService}/*`,
+    'deleteService'
+  );
   interceptURL(
     'GET',
-    '/api/v1/services/*/name/*?fields=owner',
+    '/nexus/openmetadata/api/v1/services/*/name/*?fields=owner',
     'serviceDetails'
   );
 
@@ -477,7 +505,11 @@ export const deleteCreatedService = (
 
 export const goToAddNewServicePage = (service_type) => {
   // Services page
-  interceptURL('GET', '/api/v1/services/*', 'getServiceList');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/services/*',
+    'getServiceList'
+  );
   cy.settingClick(service_type);
   verifyResponseStatusCode('@getServiceList', 200);
 
@@ -611,9 +643,9 @@ export const addCustomPropertiesForEntity = (
   cy.get(descriptionBox).clear().type(customPropertyData.description);
 
   // Check if the property got added
-  cy.intercept('/api/v1/metadata/types/name/*?fields=customProperties').as(
-    'customProperties'
-  );
+  cy.intercept(
+    '/nexus/openmetadata/api/v1/metadata/types/name/*?fields=customProperties'
+  ).as('customProperties');
   cy.get('[data-testid="create-button"]').scrollIntoView().click();
 
   cy.wait('@customProperties');
@@ -645,7 +677,11 @@ export const editCreatedProperty = (propertyName, type) => {
     cy.clickOutside();
   }
 
-  interceptURL('PATCH', '/api/v1/metadata/types/*', 'checkPatchForDescription');
+  interceptURL(
+    'PATCH',
+    '/nexus/openmetadata/api/v1/metadata/types/*',
+    'checkPatchForDescription'
+  );
 
   cy.get('button[type="submit"]').scrollIntoView().click();
 
@@ -684,7 +720,11 @@ export const updateOwner = () => {
     .should('exist')
     .invoke('text')
     .then((text) => {
-      interceptURL('GET', '/api/v1/users?limit=15', 'getUsers');
+      interceptURL(
+        'GET',
+        '/nexus/openmetadata/api/v1/users?limit=15',
+        'getUsers'
+      );
       // Clicking on edit owner button
       cy.get('[data-testid="edit-owner"]').click();
 
@@ -713,7 +753,7 @@ export const mySqlConnectionInput = () => {
 
 export const login = (username, password) => {
   cy.visit('/');
-  interceptURL('POST', '/api/v1/users/login', 'loginUser');
+  interceptURL('POST', '/nexus/openmetadata/api/v1/users/login', 'loginUser');
   cy.get('[id="email"]').should('be.visible').clear().type(username);
   cy.get('[id="password"]').should('be.visible').clear().type(password);
 
@@ -723,7 +763,7 @@ export const login = (username, password) => {
   // Get version and set cookie to hide version banner
   cy.request({
     method: 'GET',
-    url: `api/v1/system/version`,
+    url: `nexus/openmetadata/api/v1/system/version`,
   }).then((res) => {
     const version = res.body.version;
     const versionCookie = `VERSION_${version
@@ -761,7 +801,7 @@ export const selectTeamHierarchy = (index) => {
 };
 
 export const addTeam = (teamDetails, index, isHierarchy) => {
-  interceptURL('GET', '/api/v1/teams*', 'addTeam');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/teams*', 'addTeam');
   // Fetching the add button and clicking on it
   if (index > 0) {
     cy.get('[data-testid="add-placeholder-button"]').click();
@@ -788,8 +828,8 @@ export const addTeam = (teamDetails, index, isHierarchy) => {
 
   cy.get(descriptionBox).type(teamDetails.description);
 
-  interceptURL('POST', '/api/v1/teams', 'saveTeam');
-  interceptURL('GET', '/api/v1/team*', 'createTeam');
+  interceptURL('POST', '/nexus/openmetadata/api/v1/teams', 'saveTeam');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/team*', 'createTeam');
 
   // Saving the created team
   cy.get('[form="add-team-form"]').scrollIntoView().click();
@@ -818,7 +858,9 @@ export const deleteEntity = (
 
   interceptURL(
     'DELETE',
-    `api/v1/${entity}/*?hardDelete=${deletionType === 'hard'}&recursive=true`,
+    `nexus/openmetadata/api/v1/${entity}/*?hardDelete=${
+      deletionType === 'hard'
+    }&recursive=true`,
     `${deletionType}DeleteTable`
   );
   cy.get('[data-testid="confirm-button"]').should('not.be.disabled');
@@ -836,10 +878,16 @@ export const visitServiceDetailsPage = (
 ) => {
   interceptURL(
     'GET',
-    `/api/v1/search/query?q=*${isServiceDeleted ? 'deleted=true' : ''}`,
+    `/nexus/openmetadata/api/v1/search/query?q=*${
+      isServiceDeleted ? 'deleted=true' : ''
+    }`,
     'searchService'
   );
-  interceptURL('GET', `/api/v1/services/${serviceCategory}*`, 'getServices');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/services/${serviceCategory}*`,
+    'getServices'
+  );
   cy.settingClick(settingsMenuId);
   verifyResponseStatusCode('@getServices', 200);
 
@@ -849,7 +897,7 @@ export const visitServiceDetailsPage = (
 
   interceptURL(
     'GET',
-    `api/v1/services/${serviceCategory}/name/${serviceName}*`,
+    `nexus/openmetadata/api/v1/services/${serviceCategory}/name/${serviceName}*`,
     'getServiceDetails'
   );
 
@@ -863,18 +911,22 @@ export const visitServiceDetailsPage = (
 };
 
 export const visitDataModelPage = (dataModelFQN, dataModelName) => {
-  interceptURL('GET', '/api/v1/services/dashboardServices*', 'getServices');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/services/dashboardServices*',
+    'getServices'
+  );
   cy.settingClick(GlobalSettingOptions.DASHBOARDS);
   verifyResponseStatusCode('@getServices', 200);
 
   interceptURL(
     'GET',
-    'api/v1/services/dashboardServices/name/sample_looker*',
+    'nexus/openmetadata/api/v1/services/dashboardServices/name/sample_looker*',
     'getDashboardDetails'
   );
   interceptURL(
     'GET',
-    '/api/v1/dashboard/datamodels?service=sample_looker*',
+    '/nexus/openmetadata/api/v1/dashboard/datamodels?service=sample_looker*',
     'getDataModels'
   );
 
@@ -889,7 +941,7 @@ export const visitDataModelPage = (dataModelFQN, dataModelName) => {
 
   interceptURL(
     'GET',
-    `/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
+    `/nexus/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
     'getDataModelDetails'
   );
 
@@ -903,7 +955,11 @@ export const visitDataModelPage = (dataModelFQN, dataModelName) => {
 export const signupAndLogin = (email, password, firstName, lastName) => {
   return new Cypress.Promise((resolve) => {
     let createdUserId = '';
-    interceptURL('GET', 'api/v1/system/config/auth', 'getLoginPage');
+    interceptURL(
+      'GET',
+      'nexus/openmetadata/api/v1/system/config/auth',
+      'getLoginPage'
+    );
     cy.visit('/');
     verifyResponseStatusCode('@getLoginPage', 200);
 
@@ -945,7 +1001,11 @@ export const signupAndLogin = (email, password, firstName, lastName) => {
       .invoke('text')
       .should('contain', `${firstName}${lastName}`);
 
-    interceptURL('GET', 'api/v1/users/name/*', 'getUserPage');
+    interceptURL(
+      'GET',
+      'nexus/openmetadata/api/v1/users/name/*',
+      'getUserPage'
+    );
 
     cy.get('[data-testid="user-name"]').click({ force: true });
     cy.wait('@getUserPage').then((response) => {
@@ -967,7 +1027,7 @@ export const addTags = (classificationName, tagName, entity) => {
 
   cy.get(`[data-testid="tag-${classificationName}.${tagName}"]`).click();
 
-  interceptURL('PATCH', `/api/v1/${entity}/*`, 'patchTag');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, 'patchTag');
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -989,7 +1049,7 @@ export const removeTags = (classificationName, tagName, entity) => {
     `[data-testid="selected-tag-${classificationName}.${tagName}"] [data-testid="remove-tags"]`
   ).click();
 
-  interceptURL('PATCH', `/api/v1/${entity}/*`, `patchTag`);
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, `patchTag`);
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -1022,7 +1082,7 @@ export const addTableFieldTags = (
 
   cy.get(`[data-testid="tag-${classificationName}.${tagName}"]`).click();
 
-  interceptURL('PATCH', `/api/v1/${entity}/*`, 'patchTag');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, 'patchTag');
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -1049,7 +1109,7 @@ export const removeTableFieldTags = (
     `[data-testid="selected-tag-${classificationName}.${tagName}"] [data-testid="remove-tags"]`
   ).click();
 
-  interceptURL('PATCH', `/api/v1/${entity}/*`, `patchTag`);
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, `patchTag`);
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -1071,7 +1131,11 @@ export const updateDescription = (description, entity) => {
 
   cy.get(descriptionBox).should('be.visible').click().clear().type(description);
 
-  interceptURL('PATCH', `/api/v1/${entity}/*`, 'updateDescription');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/${entity}/*`,
+    'updateDescription'
+  );
 
   cy.get('[data-testid="save"]').click();
 
@@ -1089,7 +1153,11 @@ export const updateTableFieldDescription = (
 
   cy.get(descriptionBox).should('be.visible').click().clear().type(description);
 
-  interceptURL('PATCH', `/api/v1/${entity}/*`, 'updateDescription');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/${entity}/*`,
+    'updateDescription'
+  );
 
   cy.get('[data-testid="save"]').click();
 
@@ -1112,7 +1180,11 @@ export const visitDatabaseDetailsPage = ({
   );
 
   if (isDeleted) {
-    interceptURL('GET', `/api/v1/databases*include=deleted*`, 'getDatabases');
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/databases*include=deleted*`,
+      'getDatabases'
+    );
     cy.get('[data-testid="show-deleted"]').click();
     verifyResponseStatusCode('@getDatabases', 200);
   }
@@ -1142,7 +1214,7 @@ export const visitDatabaseSchemaDetailsPage = ({
   if (isDeleted) {
     interceptURL(
       'GET',
-      `/api/v1/databaseSchemas*include=deleted*`,
+      `/nexus/openmetadata/api/v1/databaseSchemas*include=deleted*`,
       'getDatabaseSchemas'
     );
     cy.get('[data-testid="show-deleted"]').click();

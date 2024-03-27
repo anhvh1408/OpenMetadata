@@ -52,7 +52,7 @@ export const createEntityTableViaREST = ({
   // Create service
   cy.request({
     method: 'POST',
-    url: `/api/v1/services/databaseServices`,
+    url: `/nexus/openmetadata/api/v1/services/databaseServices`,
     headers: { Authorization: `Bearer ${token}` },
     body: service,
   }).then((response) => {
@@ -62,7 +62,7 @@ export const createEntityTableViaREST = ({
   // Create Database
   cy.request({
     method: 'POST',
-    url: `/api/v1/databases`,
+    url: `/nexus/openmetadata/api/v1/databases`,
     headers: { Authorization: `Bearer ${token}` },
     body: database,
   }).then((response) => {
@@ -76,7 +76,7 @@ export const createEntityTableViaREST = ({
     cy
       .request({
         method: 'POST',
-        url: `/api/v1/databaseSchemas`,
+        url: `/nexus/openmetadata/api/v1/databaseSchemas`,
         headers: { Authorization: `Bearer ${token}` },
         body: schema,
       })
@@ -90,7 +90,7 @@ export const createEntityTableViaREST = ({
     cy
       .request({
         method: 'POST',
-        url: `/api/v1/storedProcedures`,
+        url: `/nexus/openmetadata/api/v1/storedProcedures`,
         headers: { Authorization: `Bearer ${token}` },
         body: storeProcedure,
       })
@@ -101,7 +101,7 @@ export const createEntityTableViaREST = ({
   tables.forEach((body) => {
     cy.request({
       method: 'POST',
-      url: `/api/v1/tables`,
+      url: `/nexus/openmetadata/api/v1/tables`,
       headers: { Authorization: `Bearer ${token}` },
       body,
     }).then((response) => {
@@ -124,7 +124,7 @@ export const createEntityViaREST = ({
   // Create entity
   cy.request({
     method: 'POST',
-    url: `/api/v1/${endPoint}`,
+    url: `/nexus/openmetadata/api/v1/${endPoint}`,
     headers: { Authorization: `Bearer ${token}` },
     body: body,
   }).then((response) => {
@@ -144,7 +144,7 @@ export const deleteEntityViaREST = ({
   // Create entity
   cy.request({
     method: 'DELETE',
-    url: `/api/v1/${endPoint}/name/${entityName}?recursive=true&hardDelete=true`,
+    url: `/nexus/openmetadata/api/v1/${endPoint}/name/${entityName}?recursive=true&hardDelete=true`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
@@ -169,16 +169,20 @@ export const visitEntityDetailsPage = ({
   if (entity === EntityType.DataModel) {
     interceptURL(
       'GET',
-      '/api/v1/dashboard/datamodels/name/*',
+      '/nexus/openmetadata/api/v1/dashboard/datamodels/name/*',
       'getEntityDetails'
     );
   } else {
-    interceptURL('GET', `/api/v1/${entity}/name/*`, 'getEntityDetails');
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/${entity}/name/*`,
+      'getEntityDetails'
+    );
   }
 
   interceptURL(
     'GET',
-    `/api/v1/search/query?q=**&from=*&size=*&index=*`,
+    `/nexus/openmetadata/api/v1/search/query?q=**&from=*&size=*&index=*`,
     'explorePageSearch'
   );
   const id = dataTestId ?? `${serviceName}-${term}`;
@@ -232,7 +236,7 @@ export const visitEntityDetailsPage = ({
 export const checkCustomPropertyEditButton = ({ deleted }) => {
   interceptURL(
     'GET',
-    `/api/v1/metadata/types/name/*fields=customProperties*`,
+    `/nexus/openmetadata/api/v1/metadata/types/name/*fields=customProperties*`,
     'getCustomProperties'
   );
 
@@ -256,7 +260,7 @@ export const checkCustomPropertyEditButton = ({ deleted }) => {
 export const checkLineageTabActions = ({ deleted }) => {
   interceptURL(
     'GET',
-    `/api/v1/lineage/getLineage?fqn=*&upstreamDepth=3&downstreamDepth=3&query_filter=*&includeDeleted=false`,
+    `/nexus/openmetadata/api/v1/lineage/getLineage?fqn=*&upstreamDepth=3&downstreamDepth=3&query_filter=*&includeDeleted=false`,
     'getLineageData'
   );
 
@@ -300,7 +304,7 @@ export const checkForEditActions = ({ entityType, deleted }) => {
 };
 
 export const checkForTableSpecificFields = ({ deleted }) => {
-  interceptURL('GET', `/api/v1/queries*`, 'getQueryData');
+  interceptURL('GET', `/nexus/openmetadata/api/v1/queries*`, 'getQueryData');
 
   cy.get('[data-testid="table_queries"]').click();
 
@@ -315,7 +319,11 @@ export const checkForTableSpecificFields = ({ deleted }) => {
     );
   }
 
-  interceptURL('GET', `/api/v1/tables/*/systemProfile*`, 'getSystemProfile');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/tables/*/systemProfile*`,
+    'getSystemProfile'
+  );
 
   cy.get('[data-testid="profiler"]').click();
 
@@ -428,7 +436,7 @@ export const deleteEntity = (
 
   interceptURL(
     'DELETE',
-    `/api/v1/${endPoint}/*?hardDelete=false&recursive=true`,
+    `/nexus/openmetadata/api/v1/${endPoint}/*?hardDelete=false&recursive=true`,
     'deleteEntity'
   );
 
@@ -451,12 +459,12 @@ export const deleteEntity = (
   if (endPoint === EntityType.Table) {
     interceptURL(
       'GET',
-      '/api/v1/tables?databaseSchema=*&include=deleted',
+      '/nexus/openmetadata/api/v1/tables?databaseSchema=*&include=deleted',
       'queryDeletedTables'
     );
     interceptURL(
       'GET',
-      '/api/v1/databaseSchemas/name/*?fields=*&include=all',
+      '/nexus/openmetadata/api/v1/databaseSchemas/name/*?fields=*&include=all',
       'getDatabaseSchemas'
     );
 
@@ -507,7 +515,7 @@ export const hardDeleteEntity = (entityName: string, endPoint: EntityType) => {
 
   interceptURL(
     'DELETE',
-    `/api/v1/${endPoint}/*?hardDelete=true&recursive=true`,
+    `/nexus/openmetadata/api/v1/${endPoint}/*?hardDelete=true&recursive=true`,
     'deleteEntity'
   );
 
@@ -522,7 +530,11 @@ export const updateDisplayNameForEntity = (
   displayName: string,
   endPoint: EntityType
 ) => {
-  interceptURL('PATCH', `/api/v1/${endPoint}/*`, 'patchDisplayName');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    'patchDisplayName'
+  );
 
   cy.get('[data-testid="manage-button"]').click();
 
@@ -546,7 +558,11 @@ export const updateDescriptioForEntity = (
   description: string,
   endPoint: EntityType
 ) => {
-  interceptURL('PATCH', `/api/v1/${endPoint}/*`, 'updateEntity');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    'updateEntity'
+  );
   cy.get('[data-testid="edit-description"]').click();
 
   cy.get('.toastui-editor-md-container > .toastui-editor > .ProseMirror')
@@ -564,7 +580,11 @@ export const updateDescriptioForEntity = (
 };
 
 export const followEntity = (entityType: EntityType) => {
-  interceptURL('PUT', `/api/v1/${entityType}/*/followers`, 'waitAfterFollow');
+  interceptURL(
+    'PUT',
+    `/nexus/openmetadata/api/v1/${entityType}/*/followers`,
+    'waitAfterFollow'
+  );
 
   cy.get('[data-testid="entity-follow-button"]').scrollIntoView().click();
 
@@ -575,7 +595,11 @@ export const validateFollowedEntityToWidget = (
   entityName: string,
   isFollowed = true
 ) => {
-  interceptURL('GET', '/api/v1/users/*?fields=follows*', 'getFollowedEntities');
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/users/*?fields=follows*',
+    'getFollowedEntities'
+  );
   cy.goToHomePage();
 
   verifyResponseStatusCode('@getFollowedEntities', 200, { timeout: 10000 });
@@ -587,7 +611,7 @@ export const validateFollowedEntityToWidget = (
 export const unfollowEntity = (entityType: EntityType) => {
   interceptURL(
     'DELETE',
-    `/api/v1/${entityType}/*/followers/*`,
+    `/nexus/openmetadata/api/v1/${entityType}/*/followers/*`,
     'waitAfterUnFollow'
   );
 

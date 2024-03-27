@@ -13,9 +13,9 @@
 import { interceptURL, uuid, verifyResponseStatusCode } from '../common';
 
 const userURL =
-  '/api/v1/search/query?q=**%20AND%20isBot:false&from=0&size=0&index=user_search_index';
+  '/nexus/openmetadata/api/v1/search/query?q=**%20AND%20isBot:false&from=0&size=0&index=user_search_index';
 const teamURL =
-  '/api/v1/search/query?q=*%20AND%20teamType:Group&from=0&size=10&index=team_search_index&sort_field=displayName.keyword&sort_order=asc';
+  '/nexus/openmetadata/api/v1/search/query?q=*%20AND%20teamType:Group&from=0&size=10&index=team_search_index&sort_field=displayName.keyword&sort_order=asc';
 
 export const generateRandomUser = () => {
   return {
@@ -67,12 +67,12 @@ export const addOwner = (ownerName: string, dataTestId?: string) => {
   cy.get('[data-testid="edit-owner"]').click();
 
   cy.get("[data-testid='select-owner-tabs']").should('be.visible');
-  cy.log('/api/v1/users?limit=*&isBot=false*');
+  cy.log('/nexus/openmetadata/api/v1/users?limit=*&isBot=false*');
   cy.get('.ant-tabs [id*=tab-users]').click();
 
   interceptURL(
     'GET',
-    `api/v1/search/query?q=*&index=user_search_index*`,
+    `nexus/openmetadata/api/v1/search/query?q=*&index=user_search_index*`,
     'searchOwner'
   );
 
@@ -80,7 +80,7 @@ export const addOwner = (ownerName: string, dataTestId?: string) => {
 
   verifyResponseStatusCode('@searchOwner', 200);
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchOwner');
 
   cy.get(`.ant-popover [title="${ownerName}"]`).click();
   verifyResponseStatusCode('@patchOwner', 200);
@@ -95,12 +95,14 @@ export const updateOwner = (ownerName: string, dataTestId?: string) => {
   cy.get('[data-testid="edit-owner"]').click();
 
   cy.get("[data-testid='select-owner-tabs']").should('be.visible');
-  cy.log('/api/v1/users?limit=*&isBot=false*');
+  cy.log('/nexus/openmetadata/api/v1/users?limit=*&isBot=false*');
   cy.get('.ant-tabs [id*=tab-users]').click();
 
   interceptURL(
     'GET',
-    `api/v1/search/query?q=*${encodeURI(ownerName)}*&index=user_search_index`,
+    `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(
+      ownerName
+    )}*&index=user_search_index`,
     'searchOwner'
   );
 
@@ -110,7 +112,7 @@ export const updateOwner = (ownerName: string, dataTestId?: string) => {
 
   verifyResponseStatusCode('@searchOwner', 200);
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchOwner');
 
   cy.get(`.ant-popover [title="${ownerName}"]`).click();
   verifyResponseStatusCode('@patchOwner', 200);
@@ -126,7 +128,7 @@ export const removeOwner = (ownerName: string, dataTestId?: string) => {
 
   cy.get("[data-testid='select-owner-tabs']").should('be.visible');
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchOwner');
 
   cy.get('[data-testid="select-owner-tabs"]').should('be.visible');
 
@@ -144,7 +146,7 @@ export const removeOwner = (ownerName: string, dataTestId?: string) => {
 export const addTeamAsOwner = (teamName: string, dataTestId?: string) => {
   interceptURL(
     'GET',
-    '/api/v1/search/query?q=*&from=0&size=*&index=team_search_index&sort_field=displayName.keyword&sort_order=asc',
+    '/nexus/openmetadata/api/v1/search/query?q=*&from=0&size=*&index=team_search_index&sort_field=displayName.keyword&sort_order=asc',
     'getTeams'
   );
 
@@ -156,7 +158,7 @@ export const addTeamAsOwner = (teamName: string, dataTestId?: string) => {
 
   interceptURL(
     'GET',
-    `api/v1/search/query?q=*${encodeURI(teamName)}*`,
+    `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(teamName)}*`,
     'searchTeams'
   );
 
@@ -164,7 +166,7 @@ export const addTeamAsOwner = (teamName: string, dataTestId?: string) => {
 
   verifyResponseStatusCode('@searchTeams', 200);
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchOwner');
 
   cy.get(`.ant-popover [title="${teamName}"]`).click();
   verifyResponseStatusCode('@patchOwner', 200);
@@ -182,7 +184,7 @@ export const updateTeamAsOwner = (teamName: string, dataTestId?: string) => {
 
   interceptURL(
     'GET',
-    `api/v1/search/query?q=*${encodeURI(teamName)}*`,
+    `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(teamName)}*`,
     'searchTeams'
   );
 
@@ -192,7 +194,7 @@ export const updateTeamAsOwner = (teamName: string, dataTestId?: string) => {
 
   verifyResponseStatusCode('@searchTeams', 200);
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchOwner');
 
   cy.get(`.ant-popover [title="${teamName}"]`).click();
   verifyResponseStatusCode('@patchOwner', 200);
@@ -208,7 +210,7 @@ export const removeTeamAsOwner = (teamName: string, dataTestId?: string) => {
 
   cy.get("[data-testid='select-owner-tabs']").should('be.visible');
 
-  interceptURL('PATCH', `/api/v1/**`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchOwner');
 
   cy.get('[data-testid="remove-owner"]').scrollIntoView().click();
   verifyResponseStatusCode('@patchOwner', 200);

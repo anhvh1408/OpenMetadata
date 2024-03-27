@@ -77,14 +77,22 @@ describe('Activity feed', () => {
   });
 
   it('Create feed', () => {
-    interceptURL('GET', '/api/v1/permissions/*/name/*', 'entityPermission');
-    interceptURL('GET', '/api/v1/feed/count?entityLink=*', 'activityFeed');
     interceptURL(
       'GET',
-      '/api/v1/search/query?q=**teamType:Group&from=0&size=15&index=team_search_index',
+      '/nexus/openmetadata/api/v1/permissions/*/name/*',
+      'entityPermission'
+    );
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/feed/count?entityLink=*',
+      'activityFeed'
+    );
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/search/query?q=**teamType:Group&from=0&size=15&index=team_search_index',
       'getTeams'
     );
-    interceptURL('GET', '/api/v1/users?*', 'getUsers');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
     const value = {
       term: table1.name,
       displayName: table1.name,
@@ -93,7 +101,11 @@ describe('Activity feed', () => {
       entityType: 'Table',
     };
     const OWNER = 'admin';
-    interceptURL('PATCH', `/api/v1/${value.entity}/*`, 'patchOwner');
+    interceptURL(
+      'PATCH',
+      `/nexus/openmetadata/api/v1/${value.entity}/*`,
+      'patchOwner'
+    );
 
     visitEntityDetailsPage({
       term: value.term,
@@ -111,7 +123,7 @@ describe('Activity feed', () => {
 
     interceptURL(
       'GET',
-      `api/v1/search/query?q=*${encodeURI(OWNER)}*`,
+      `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(OWNER)}*`,
       'searchOwner'
     );
 
@@ -193,7 +205,7 @@ describe('Activity feed', () => {
   });
 
   it('User should be able to reply to feed', () => {
-    interceptURL('GET', '/api/v1/feed/*', 'fetchFeed');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/feed/*', 'fetchFeed');
     cy.get(
       '[data-testid="activity-feed-widget"] [data-testid="message-container"]:first-child'
     ).within(() => {
@@ -204,16 +216,20 @@ describe('Activity feed', () => {
     });
     verifyResponseStatusCode('@fetchFeed', 200);
 
-    interceptURL('POST', '/api/v1/feed/*/posts', 'postReply');
+    interceptURL(
+      'POST',
+      '/nexus/openmetadata/api/v1/feed/*/posts',
+      'postReply'
+    );
     interceptURL(
       'GET',
-      '/api/v1/search/query?q=*&index=user_search_index*',
+      '/nexus/openmetadata/api/v1/search/query?q=*&index=user_search_index*',
       'suggestUser'
     );
     interceptURL(
       'GET',
       // eslint-disable-next-line max-len
-      '/api/v1/search/query?q=*dim_add*&index=*',
+      '/nexus/openmetadata/api/v1/search/query?q=*dim_add*&index=*',
       'suggestAsset'
     );
 
@@ -258,10 +274,10 @@ describe('Activity feed', () => {
   });
 
   it('Mention should work for the feed reply', () => {
-    interceptURL('GET', '/api/v1/feed/*', 'fetchFeed');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/feed/*', 'fetchFeed');
     interceptURL(
       'GET',
-      '/api/v1/feed?filterType=MENTIONS&userId=*',
+      '/nexus/openmetadata/api/v1/feed?filterType=MENTIONS&userId=*',
       'mentionsFeed'
     );
     cy.get(
@@ -274,10 +290,14 @@ describe('Activity feed', () => {
     });
     verifyResponseStatusCode('@fetchFeed', 200);
 
-    interceptURL('POST', '/api/v1/feed/*/posts', 'postReply');
+    interceptURL(
+      'POST',
+      '/nexus/openmetadata/api/v1/feed/*/posts',
+      'postReply'
+    );
     interceptURL(
       'GET',
-      '/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
+      '/nexus/openmetadata/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
       'suggestUser'
     );
 
@@ -319,10 +339,10 @@ describe('Activity feed', () => {
   });
 
   it('Mention should work for the feed reply in case of users having dot in their name', () => {
-    interceptURL('GET', '/api/v1/feed/*', 'fetchFeed');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/feed/*', 'fetchFeed');
     interceptURL(
       'GET',
-      '/api/v1/feed?filterType=MENTIONS&userId=*',
+      '/nexus/openmetadata/api/v1/feed?filterType=MENTIONS&userId=*',
       'mentionsFeed'
     );
     cy.get(
@@ -335,10 +355,14 @@ describe('Activity feed', () => {
     });
     verifyResponseStatusCode('@fetchFeed', 200);
 
-    interceptURL('POST', '/api/v1/feed/*/posts', 'postReply');
+    interceptURL(
+      'POST',
+      '/nexus/openmetadata/api/v1/feed/*/posts',
+      'postReply'
+    );
     interceptURL(
       'GET',
-      '/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
+      '/nexus/openmetadata/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
       'suggestUser'
     );
 
@@ -378,7 +402,11 @@ describe('Activity feed', () => {
       serviceName: DATABASE_SERVICE.service.name,
       entityType: 'Table',
     };
-    interceptURL('GET', `/api/v1/${value.entity}/name/*`, 'getEntityDetails');
+    interceptURL(
+      'GET',
+      `/nexus/openmetadata/api/v1/${value.entity}/name/*`,
+      'getEntityDetails'
+    );
 
     visitEntityDetailsPage({
       term: value.term,
@@ -390,7 +418,11 @@ describe('Activity feed', () => {
 
     verifyResponseStatusCode('@getEntityDetails', 200);
 
-    interceptURL('GET', '/api/v1/search/suggest?q=*', 'suggestApi');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/search/suggest?q=*',
+      'suggestApi'
+    );
 
     // create description task
     createDescriptionTask({ ...value, assignee: 'admin' });

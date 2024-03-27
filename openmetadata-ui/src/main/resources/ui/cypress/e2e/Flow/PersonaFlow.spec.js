@@ -24,7 +24,11 @@ import { PERSONA_DETAILS, USER_DETAILS } from '../../constants/EntityConstant';
 import { GlobalSettingOptions } from '../../constants/settings.constant';
 
 const updatePersonaDisplayName = (displayName) => {
-  interceptURL('PATCH', `/api/v1/personas/*`, 'updatePersona');
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/personas/*`,
+    'updatePersona'
+  );
 
   cy.get('[data-testid="manage-button"]').click();
 
@@ -52,7 +56,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
       // Create a new user
       cy.request({
         method: 'POST',
-        url: `/api/v1/users/signup`,
+        url: `/nexus/openmetadata/api/v1/users/signup`,
         headers: { Authorization: `Bearer ${token}` },
         body: USER_DETAILS,
       }).then((response) => {
@@ -69,7 +73,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
       // Delete created user
       cy.request({
         method: 'DELETE',
-        url: `/api/v1/users/${user.details.id}?hardDelete=true&recursive=false`,
+        url: `/nexus/openmetadata/api/v1/users/${user.details.id}?hardDelete=true&recursive=false`,
         headers: { Authorization: `Bearer ${token}` },
       });
     });
@@ -78,7 +82,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   beforeEach(() => {
     cy.login();
 
-    interceptURL('GET', '/api/v1/personas*', 'getPersonas');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/personas*', 'getPersonas');
 
     cy.settingClick(GlobalSettingOptions.PERSONA);
 
@@ -101,7 +105,11 @@ describe('Persona operations', { tags: 'Settings' }, () => {
       .scrollIntoView()
       .click();
 
-    interceptURL('POST', '/api/v1/personas', 'createPersona');
+    interceptURL(
+      'POST',
+      '/nexus/openmetadata/api/v1/personas',
+      'createPersona'
+    );
 
     cy.get('.ant-modal-footer > .ant-btn-primary')
       .contains('Create')
@@ -122,7 +130,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
 
     interceptURL(
       'GET',
-      `/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -151,7 +159,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   it('Persona update description flow should work properly', () => {
     interceptURL(
       'GET',
-      `/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -168,7 +176,11 @@ describe('Persona operations', { tags: 'Settings' }, () => {
       .clear()
       .type('Updated description.');
 
-    interceptURL('PATCH', `/api/v1/personas/*`, 'updatePersona');
+    interceptURL(
+      'PATCH',
+      `/nexus/openmetadata/api/v1/personas/*`,
+      'updatePersona'
+    );
 
     cy.get(`[data-testid="markdown-editor"] [data-testid="save"]`).click();
 
@@ -182,7 +194,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   it('Persona rename flow should work properly', () => {
     interceptURL(
       'GET',
-      `/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -209,7 +221,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
     // Remove user from the users tab
     interceptURL(
       'GET',
-      `/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -229,7 +241,11 @@ describe('Persona operations', { tags: 'Settings' }, () => {
       `Are you sure you want to remove ${user.details.name}?`
     );
 
-    interceptURL('PATCH', `/api/v1/personas/*`, 'updatePersona');
+    interceptURL(
+      'PATCH',
+      `/nexus/openmetadata/api/v1/personas/*`,
+      'updatePersona'
+    );
 
     cy.get('[data-testid="remove-confirmation-modal"]')
       .contains('Confirm')
@@ -241,7 +257,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   it('Delete persona should work properly', () => {
     interceptURL(
       'GET',
-      `/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -265,7 +281,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
 
     interceptURL(
       'DELETE',
-      `/api/v1/personas/*?hardDelete=true&recursive=false`,
+      `/nexus/openmetadata/api/v1/personas/*?hardDelete=true&recursive=false`,
       `deletePersona`
     );
     cy.get('[data-testid="confirm-button"]').should('not.be.disabled');

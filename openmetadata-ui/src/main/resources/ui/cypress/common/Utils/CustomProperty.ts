@@ -39,7 +39,11 @@ export const createCustomPropertyForEntity = ({
   property: CustomProperty;
   type: EntityType;
 }) => {
-  interceptURL('GET', `/api/v1/metadata/types/name/*`, 'getEntity');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/metadata/types/name/*`,
+    'getEntity'
+  );
 
   // Selecting the entity
   cy.settingClick(type, true);
@@ -59,9 +63,9 @@ export const createCustomPropertyForEntity = ({
     .type(property.description);
 
   // Check if the property got added
-  cy.intercept('/api/v1/metadata/types/name/*?fields=customProperties').as(
-    'customProperties'
-  );
+  cy.intercept(
+    '/nexus/openmetadata/api/v1/metadata/types/name/*?fields=customProperties'
+  ).as('customProperties');
   cy.get('[data-testid="create-button"]').scrollIntoView().click();
 
   cy.wait('@customProperties');
@@ -75,8 +79,16 @@ export const deleteCustomPropertyForEntity = ({
   property: CustomProperty;
   type: EntityType;
 }) => {
-  interceptURL('GET', `/api/v1/metadata/types/name/*`, 'getEntity');
-  interceptURL('PATCH', `/api/v1/metadata/types/*`, 'patchEntity');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/metadata/types/name/*`,
+    'getEntity'
+  );
+  interceptURL(
+    'PATCH',
+    `/nexus/openmetadata/api/v1/metadata/types/*`,
+    'patchEntity'
+  );
   // Selecting the entity
   cy.settingClick(type, true);
 
@@ -108,7 +120,7 @@ export const setValueForProperty = (propertyName, value: string) => {
 
   cy.get('@editbutton').click();
 
-  interceptURL('PATCH', `/api/v1/*/*`, 'patchEntity');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/*/*`, 'patchEntity');
   // Checking for value text box or markdown box
   cy.get('body').then(($body) => {
     if ($body.find('[data-testid="value-input"]').length > 0) {
@@ -171,7 +183,7 @@ export const deleteCustomProperties = (
 ) => {
   cy.request({
     method: 'PATCH',
-    url: `/api/v1/metadata/types/${tableSchemaId}`,
+    url: `/nexus/openmetadata/api/v1/metadata/types/${tableSchemaId}`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json-patch+json',

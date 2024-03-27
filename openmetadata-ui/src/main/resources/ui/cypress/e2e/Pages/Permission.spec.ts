@@ -127,27 +127,27 @@ const viewPermissions = [
 const createViewBasicRoleViaREST = ({ token }) => {
   cy.request({
     method: 'POST',
-    url: `/api/v1/policies`,
+    url: `/nexus/openmetadata/api/v1/policies`,
     headers: { Authorization: `Bearer ${token}` },
     body: policy,
   }).then((response) => {
     policy.id = response.body.id;
     cy.request({
       method: 'POST',
-      url: `/api/v1/roles`,
+      url: `/nexus/openmetadata/api/v1/roles`,
       headers: { Authorization: `Bearer ${token}` },
       body: role,
     }).then((roleResponse) => {
       role.id = roleResponse.body.id;
       cy.request({
         method: 'GET',
-        url: `/api/v1/teams/name/Organization?fields=defaultRoles,policies`,
+        url: `/nexus/openmetadata/api/v1/teams/name/Organization?fields=defaultRoles,policies`,
         headers: { Authorization: `Bearer ${token}` },
       }).then((orgResponse) => {
         organizationTeam = orgResponse.body;
         cy.request({
           method: 'PATCH',
-          url: `/api/v1/teams/${orgResponse.body.id}`,
+          url: `/nexus/openmetadata/api/v1/teams/${orgResponse.body.id}`,
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json-patch+json',
@@ -185,7 +185,7 @@ const preRequisite = () => {
     });
     cy.request({
       method: 'POST',
-      url: `/api/v1/users/signup`,
+      url: `/nexus/openmetadata/api/v1/users/signup`,
       headers: { Authorization: `Bearer ${token}` },
       body: USER_DETAILS,
     }).then((response) => {
@@ -198,13 +198,13 @@ const preRequisite = () => {
     });
     cy.request({
       method: 'POST',
-      url: `/api/v1/tables`,
+      url: `/nexus/openmetadata/api/v1/tables`,
       headers: { Authorization: `Bearer ${token}` },
       body: DATABASE_SERVICE.entity,
     }).then((response) => {
       cy.request({
         method: 'POST',
-        url: `/api/v1/queries`,
+        url: `/nexus/openmetadata/api/v1/queries`,
         headers: { Authorization: `Bearer ${token}` },
         body: {
           query: `select * from dim_address_${uuid()}`,
@@ -215,13 +215,13 @@ const preRequisite = () => {
       });
       cy.request({
         method: 'POST',
-        url: `/api/v1/dataQuality/testSuites/executable`,
+        url: `/nexus/openmetadata/api/v1/dataQuality/testSuites/executable`,
         headers: { Authorization: `Bearer ${token}` },
         body: testSuite,
       }).then(() => {
         cy.request({
           method: 'POST',
-          url: `/api/v1/dataQuality/testCases`,
+          url: `/nexus/openmetadata/api/v1/dataQuality/testCases`,
           headers: { Authorization: `Bearer ${token}` },
           body: testCase,
         });
@@ -242,18 +242,18 @@ const cleanUp = () => {
     });
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/roles/${role.id}?hardDelete=true&recursive=false`,
+      url: `/nexus/openmetadata/api/v1/roles/${role.id}?hardDelete=true&recursive=false`,
       headers: { Authorization: `Bearer ${token}` },
     });
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/policies/${policy.id}?hardDelete=true&recursive=false`,
+      url: `/nexus/openmetadata/api/v1/policies/${policy.id}?hardDelete=true&recursive=false`,
       headers: { Authorization: `Bearer ${token}` },
     });
 
     cy.request({
       method: 'PATCH',
-      url: `/api/v1/teams/${organizationTeam.id}`,
+      url: `/nexus/openmetadata/api/v1/teams/${organizationTeam.id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json-patch+json',
@@ -281,7 +281,7 @@ const cleanUp = () => {
     // Delete created user
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/users/${userId}?hardDelete=true&recursive=false`,
+      url: `/nexus/openmetadata/api/v1/users/${userId}?hardDelete=true&recursive=false`,
       headers: { Authorization: `Bearer ${token}` },
     });
   });
@@ -310,7 +310,7 @@ const updatePolicy = (
     const token = Object.values(data)[0].oidcIdToken;
     cy.request({
       method: 'PATCH',
-      url: `/api/v1/policies/${policy.id}`,
+      url: `/nexus/openmetadata/api/v1/policies/${policy.id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json-patch+json',
@@ -358,12 +358,16 @@ describe('Permissions', { tags: 'Settings' }, () => {
       serviceName: DATABASE_SERVICE.service.name,
       entity: EntityType.Table,
     });
-    interceptURL('GET', '/api/v1/queries?*', 'getQueries');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/queries?*', 'getQueries');
     cy.get('[data-testid="table_queries"]').click();
     verifyResponseStatusCode('@getQueries', 200);
     cy.get('[data-testid="query-btn"]').click();
     cy.get('[data-menu-id*="edit-query"]').click();
-    interceptURL('PATCH', '/api/v1/queries/*', 'updateQuery');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/queries/*',
+      'updateQuery'
+    );
     cy.get('.CodeMirror-line').click().type('updated');
     cy.get('[data-testid="save-query-btn"]').click();
     verifyResponseStatusCode('@updateQuery', 200);
@@ -391,7 +395,11 @@ describe('Permissions', { tags: 'Settings' }, () => {
       serviceName: DATABASE_SERVICE.service.name,
       entity: EntityType.Table,
     });
-    interceptURL('GET', '/api/v1/dataQuality/testCases?fields=*', 'testCase');
+    interceptURL(
+      'GET',
+      '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+      'testCase'
+    );
     cy.get('[data-testid="profiler"]').click();
     cy.get('[data-testid="profiler-tab-left-panel"]')
       .contains('Data Quality')
@@ -402,7 +410,11 @@ describe('Permissions', { tags: 'Settings' }, () => {
       .scrollIntoView()
       .clear()
       .type('test');
-    interceptURL('PATCH', '/api/v1/dataQuality/testCases/*', 'updateTest');
+    interceptURL(
+      'PATCH',
+      '/nexus/openmetadata/api/v1/dataQuality/testCases/*',
+      'updateTest'
+    );
     cy.get('.ant-modal-footer').contains('Submit').click();
     verifyResponseStatusCode('@updateTest', 200);
   });

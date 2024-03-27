@@ -14,8 +14,16 @@ import { EntityType } from '../../constants/Entity.interface';
 import { interceptURL } from '../common';
 
 export const upVoteEntity = ({ endPoint }: { endPoint: EntityType }) => {
-  interceptURL('GET', `/api/v1/${endPoint}/name/*?fields=*`, 'getEntityDetail');
-  interceptURL('PUT', `/api/v1/${endPoint}/*/vote`, 'upVoting');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/${endPoint}/name/*?fields=*`,
+    'getEntityDetail'
+  );
+  interceptURL(
+    'PUT',
+    `/nexus/openmetadata/api/v1/${endPoint}/*/vote`,
+    'upVoting'
+  );
 
   cy.get('[data-testid="up-vote-btn"]').click();
 
@@ -31,8 +39,16 @@ export const upVoteEntity = ({ endPoint }: { endPoint: EntityType }) => {
 };
 
 export const downVoteEntity = ({ endPoint }: { endPoint: EntityType }) => {
-  interceptURL('GET', `/api/v1/${endPoint}/name/*?fields=*`, 'getEntityDetail');
-  interceptURL('PUT', `/api/v1/${endPoint}/*/vote`, 'downVoting');
+  interceptURL(
+    'GET',
+    `/nexus/openmetadata/api/v1/${endPoint}/name/*?fields=*`,
+    'getEntityDetail'
+  );
+  interceptURL(
+    'PUT',
+    `/nexus/openmetadata/api/v1/${endPoint}/*/vote`,
+    'downVoting'
+  );
 
   cy.get('[data-testid="up-vote-count"]').contains(1);
 

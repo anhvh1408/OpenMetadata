@@ -66,7 +66,7 @@ describe(`Advanced search quick filters should work properly for assets`, () => 
         cy.get(`[data-testid="search-dropdown-${filter.label}"]`).click();
         searchAndClickOnOption(asset, filter, true);
 
-        const querySearchURL = `/api/v1/search/query?*index=${
+        const querySearchURL = `/nexus/openmetadata/api/v1/search/query?*index=${
           asset.searchIndex
         }*query_filter=*should*${filter.key}*${encodeURI(
           Cypress._.toLower(filter.selectOption1).replace(' ', '+')
@@ -88,7 +88,7 @@ const testIsNullAndIsNotNullFilters = (operatorTitle, queryFilter, alias) => {
   cy.get('.rule--operator > .ant-select > .ant-select-selector').eq(0).click();
   cy.get(`[title="${operatorTitle}"]`).click();
 
-  cy.intercept('GET', '/api/v1/search/query?*', (req) => {
+  cy.intercept('GET', '/nexus/openmetadata/api/v1/search/query?*', (req) => {
     req.alias = alias;
   }).as(alias);
 

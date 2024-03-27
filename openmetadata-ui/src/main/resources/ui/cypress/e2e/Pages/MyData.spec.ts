@@ -47,7 +47,7 @@ const tables = Array(20)
 const entities = {
   table: {
     request: {
-      url: '/api/v1/tables',
+      url: '/nexus/openmetadata/api/v1/tables',
       body1: generateRandomTable(),
       body2: generateRandomTable(),
     },
@@ -56,7 +56,7 @@ const entities = {
   },
   topic: {
     request: {
-      url: '/api/v1/topics',
+      url: '/nexus/openmetadata/api/v1/topics',
       body1: generateRandomTopic(),
       body2: generateRandomTopic(),
     },
@@ -65,7 +65,7 @@ const entities = {
   },
   dashboard: {
     request: {
-      url: '/api/v1/dashboards',
+      url: '/nexus/openmetadata/api/v1/dashboards',
       body1: generateRandomDashboard(),
       body2: generateRandomDashboard(),
     },
@@ -74,7 +74,7 @@ const entities = {
   },
   pipeline: {
     request: {
-      url: '/api/v1/pipelines',
+      url: '/nexus/openmetadata/api/v1/pipelines',
       body1: generateRandomPipeline(),
       body2: generateRandomPipeline(),
     },
@@ -83,7 +83,7 @@ const entities = {
   },
   mlmodel: {
     request: {
-      url: '/api/v1/mlmodels',
+      url: '/nexus/openmetadata/api/v1/mlmodels',
       body1: generateRandomMLModel(),
       body2: generateRandomMLModel(),
     },
@@ -92,7 +92,7 @@ const entities = {
   },
   container: {
     request: {
-      url: '/api/v1/containers',
+      url: '/nexus/openmetadata/api/v1/containers',
       body1: generateRandomContainer(),
       body2: generateRandomContainer(),
     },
@@ -126,10 +126,14 @@ const verifyEntities = ({ url }) => {
 };
 
 const updateOwnerAndVerify = ({ url, body, type, entityName, newOwner }) => {
-  interceptURL('GET', '/api/v1/users/loggedInUser?*', 'loggedInUser');
   interceptURL(
     'GET',
-    '/api/v1/feed?type=Conversation&filterType=OWNER_OR_FOLLOWS&userId=*',
+    '/nexus/openmetadata/api/v1/users/loggedInUser?*',
+    'loggedInUser'
+  );
+  interceptURL(
+    'GET',
+    '/nexus/openmetadata/api/v1/feed?type=Conversation&filterType=OWNER_OR_FOLLOWS&userId=*',
     'feedData'
   );
   cy.getAllLocalStorage().then((data) => {
@@ -177,7 +181,7 @@ const prepareData = () => {
     // create user
     cy.request({
       method: 'POST',
-      url: `/api/v1/users/signup`,
+      url: `/nexus/openmetadata/api/v1/users/signup`,
       headers: { Authorization: `Bearer ${token}` },
       body: user1,
     }).then((response) => {
@@ -186,12 +190,12 @@ const prepareData = () => {
       // create team
       cy.request({
         method: 'GET',
-        url: `/api/v1/teams/name/Organization`,
+        url: `/nexus/openmetadata/api/v1/teams/name/Organization`,
         headers: { Authorization: `Bearer ${token}` },
       }).then((teamResponse) => {
         cy.request({
           method: 'POST',
-          url: `/api/v1/teams`,
+          url: `/nexus/openmetadata/api/v1/teams`,
           headers: { Authorization: `Bearer ${token}` },
           body: {
             name: team.name,
@@ -216,13 +220,13 @@ const prepareData = () => {
       tables.forEach((table) => {
         cy.request({
           method: 'POST',
-          url: `/api/v1/tables`,
+          url: `/nexus/openmetadata/api/v1/tables`,
           headers: { Authorization: `Bearer ${token}` },
           body: { ...table, owner: { id: response.body.id, type: 'user' } },
         }).then((tableResponse) => {
           cy.request({
             method: 'PUT',
-            url: `/api/v1/tables/${tableResponse.body.id}/followers`,
+            url: `/nexus/openmetadata/api/v1/tables/${tableResponse.body.id}/followers`,
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -235,7 +239,7 @@ const prepareData = () => {
 
     cy.request({
       method: 'POST',
-      url: `/api/v1/users/signup`,
+      url: `/nexus/openmetadata/api/v1/users/signup`,
       headers: { Authorization: `Bearer ${token}` },
       body: user2,
     }).then((response) => {
@@ -283,13 +287,13 @@ const cleanUp = () => {
     [user1Id, user2Id].forEach((id) => {
       cy.request({
         method: 'DELETE',
-        url: `/api/v1/users/${id}?hardDelete=true&recursive=false`,
+        url: `/nexus/openmetadata/api/v1/users/${id}?hardDelete=true&recursive=false`,
         headers: { Authorization: `Bearer ${token}` },
       });
     });
     cy.request({
       method: 'DELETE',
-      url: `/api/v1/teams/${team.id}?hardDelete=true&recursive=true`,
+      url: `/nexus/openmetadata/api/v1/teams/${team.id}?hardDelete=true&recursive=true`,
       headers: { Authorization: `Bearer ${token}` },
     });
   });
@@ -312,7 +316,7 @@ describe('My Data page', { tags: 'DataAssets' }, () => {
       '[data-testid="my-data-widget"] [data-testid="view-all-link"]'
     ).click();
     verifyEntities({
-      url: '/api/v1/search/query?q=*&index=all&from=0&size=25',
+      url: '/nexus/openmetadata/api/v1/search/query?q=*&index=all&from=0&size=25',
     });
 
     cy.logout();
@@ -329,7 +333,7 @@ describe('My Data page', { tags: 'DataAssets' }, () => {
       .should('eq', '(20)');
     cy.get('[data-testid="following-data"]').click();
     verifyEntities({
-      url: '/api/v1/search/query?q=*followers:*&index=all&from=0&size=25',
+      url: '/nexus/openmetadata/api/v1/search/query?q=*followers:*&index=all&from=0&size=25',
     });
     cy.logout();
   });
