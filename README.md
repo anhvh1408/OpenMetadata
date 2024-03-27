@@ -107,6 +107,8 @@ OpenMetadata is released under [Apache License, Version 2.0](http://www.apache.o
 - Note to remove image first before each build
 - In docker-compose.yml, note to change to `dockerfile: docker/development/Dockerfile` for fresh build
 ## Note docker build
+build this
+
 docker build --no-cache --platform linux/amd64 -t development-openmetadata -f docker/development/Dockerfile .
 
 
