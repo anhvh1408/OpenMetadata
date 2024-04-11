@@ -60,7 +60,7 @@ describe('Collect end point should work properly', () => {
     cy.login();
     interceptURL(
       'PUT',
-      '/nexus/openmetadata/api/v1/analytics/web/events/collect',
+      '/audax/openmetadata/api/v1/analytics/web/events/collect',
       'collect'
     );
   });

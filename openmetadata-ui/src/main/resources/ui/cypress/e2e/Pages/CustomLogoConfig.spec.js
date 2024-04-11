@@ -29,7 +29,7 @@ describe('Custom Logo Config', { tags: 'Settings' }, () => {
 
     interceptURL(
       'GET',
-      'nexus/openmetadata/api/v1/system/settings/customLogoConfiguration',
+      'audax/openmetadata/api/v1/system/settings/customLogoConfiguration',
       'customLogoConfiguration'
     );
     cy.settingClick(GlobalSettingOptions.CUSTOM_LOGO);
@@ -68,13 +68,13 @@ describe('Custom Logo Config', { tags: 'Settings' }, () => {
 
     interceptURL(
       'PUT',
-      'nexus/openmetadata/api/v1/system/settings',
+      'audax/openmetadata/api/v1/system/settings',
       'updatedConfig'
     );
 
     interceptURL(
       'GET',
-      'nexus/openmetadata/api/v1/system/settings/customLogoConfiguration',
+      'audax/openmetadata/api/v1/system/settings/customLogoConfiguration',
       'updatedCustomLogoConfiguration'
     );
 
@@ -93,7 +93,7 @@ describe('Custom Logo Config', { tags: 'Settings' }, () => {
     cy.get('[data-testid="customMonogramUrlPath"]').scrollIntoView().clear();
     interceptURL(
       'PUT',
-      'nexus/openmetadata/api/v1/system/settings',
+      'audax/openmetadata/api/v1/system/settings',
       'updatedConfig'
     );
 

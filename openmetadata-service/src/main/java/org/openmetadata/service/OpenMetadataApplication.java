@@ -333,7 +333,7 @@ public class OpenMetadataApplication extends Application<OpenMetadataApplication
             return configuration.getWebConfiguration();
           }
         });
-    bootstrap.addBundle(new AssetsBundle("/assets", "/nexus/openmetadata", "index.html"));
+    bootstrap.addBundle(new AssetsBundle("/assets", "/audax/openmetadata", "index.html"));
     super.initialize(bootstrap);
   }
 
@@ -465,7 +465,7 @@ public class OpenMetadataApplication extends Application<OpenMetadataApplication
   private void initializeWebsockets(
       OpenMetadataApplicationConfig catalogConfig, Environment environment) {
     SocketAddressFilter socketAddressFilter;
-    String pathSpec = "/nexus/openmetadata/api/v1/push/feed/*";
+    String pathSpec = "/audax/openmetadata/api/v1/push/feed/*";
     if (catalogConfig.getAuthorizerConfiguration() != null) {
       socketAddressFilter =
           new SocketAddressFilter(

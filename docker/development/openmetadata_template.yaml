@@ -16,8 +16,8 @@ swagger:
 
 
 server:
-  applicationContextPath: /nexus/openmetadata
-  rootPath: '/nexus/openmetadata/api/*'
+  applicationContextPath: /audax/openmetadata
+  rootPath: '/audax/openmetadata/api/*'
   applicationConnectors:
     - type: http
       port: ${SERVER_PORT:-8585}
@@ -169,7 +169,7 @@ authenticationConfiguration:
   responseType: ${AUTHENTICATION_RESPONSE_TYPE:-id_token}
   # This will only be valid when provider type specified is customOidc
   providerName: ${CUSTOM_OIDC_AUTHENTICATION_PROVIDER_NAME:-""}
-  publicKeyUrls: ${AUTHENTICATION_PUBLIC_KEYS:-[http://localhost:8585/nexus/openmetadata/api/v1/system/config/jwks]}
+  publicKeyUrls: ${AUTHENTICATION_PUBLIC_KEYS:-[http://localhost:8585/audax/openmetadata/api/v1/system/config/jwks]}
   authority: ${AUTHENTICATION_AUTHORITY:-https://accounts.google.com}
   clientId: ${AUTHENTICATION_CLIENT_ID:-""}
   callbackUrl: ${AUTHENTICATION_CALLBACK_URL:-""}
@@ -181,11 +181,11 @@ authenticationConfiguration:
       entityId: ${SAML_IDP_ENTITY_ID:-""}
       ssoLoginUrl: ${SAML_IDP_SSO_LOGIN_URL:-""}
       idpX509Certificate: ${SAML_IDP_CERTIFICATE:-""}
-      authorityUrl: ${SAML_AUTHORITY_URL:-"http://localhost:8585/nexus/openmetadata/api/v1/saml/login"}
+      authorityUrl: ${SAML_AUTHORITY_URL:-"http://localhost:8585/audax/openmetadata/api/v1/saml/login"}
       nameId: ${SAML_IDP_NAME_ID:-"urn:oasis:names:tc:SAML:2.0:nameid-format:emailAddress"}
     sp:
-      entityId: ${SAML_SP_ENTITY_ID:-"http://localhost:8585/nexus/openmetadata/api/v1/saml/metadata"}
-      acs: ${SAML_SP_ACS:-"http://localhost:8585/nexus/openmetadata/api/v1/saml/acs"}
+      entityId: ${SAML_SP_ENTITY_ID:-"http://localhost:8585/audax/openmetadata/api/v1/saml/metadata"}
+      acs: ${SAML_SP_ACS:-"http://localhost:8585/audax/openmetadata/api/v1/saml/acs"}
       spX509Certificate: ${SAML_SP_CERTIFICATE:-""}
       callback: ${SAML_SP_CALLBACK:-"http://localhost:8585/saml/callback"}
     security:
@@ -263,7 +263,7 @@ elasticsearch:
 eventMonitoringConfiguration:
   eventMonitor: ${EVENT_MONITOR:-prometheus}  # Possible values are "prometheus", "cloudwatch"
   batchSize: ${EVENT_MONITOR_BATCH_SIZE:-10}
-  pathPattern: ${EVENT_MONITOR_PATH_PATTERN:-["/nexus/openmetadata/api/v1/tables/*", "/nexus/openmetadata/api/v1/health-check"]}
+  pathPattern: ${EVENT_MONITOR_PATH_PATTERN:-["/audax/openmetadata/api/v1/tables/*", "/audax/openmetadata/api/v1/health-check"]}
   latency: ${EVENT_MONITOR_LATENCY:-[]} # For value p99=0.99, p90=0.90, p50=0.50 etc.
   # it will use the default auth provider for AWS services if parameters are not set
   # parameters:

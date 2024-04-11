@@ -50,7 +50,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'PUT',
-          url: `/nexus/openmetadata/api/v1/domains`,
+          url: `/audax/openmetadata/api/v1/domains`,
           headers: { Authorization: `Bearer ${token}` },
           body: DOMAIN_CREATION_DETAILS,
         }).then((response) => {
@@ -60,7 +60,7 @@ describe(
         // Create service
         cy.request({
           method: 'POST',
-          url: `/nexus/openmetadata/api/v1/services/${serviceDetails.serviceCategory}`,
+          url: `/audax/openmetadata/api/v1/services/${serviceDetails.serviceCategory}`,
           headers: { Authorization: `Bearer ${token}` },
           body: serviceDetails.entityCreationDetails,
         });
@@ -68,7 +68,7 @@ describe(
         // Create Database
         cy.request({
           method: 'POST',
-          url: `/nexus/openmetadata/api/v1/databases`,
+          url: `/audax/openmetadata/api/v1/databases`,
           headers: { Authorization: `Bearer ${token}` },
           body: DATABASE_DETAILS_FOR_VERSION_TEST,
         }).then((response) => {
@@ -78,7 +78,7 @@ describe(
         // Create Database Schema
         cy.request({
           method: 'PUT',
-          url: `/nexus/openmetadata/api/v1/databaseSchemas`,
+          url: `/audax/openmetadata/api/v1/databaseSchemas`,
           headers: { Authorization: `Bearer ${token}` },
           body: DATABASE_SCHEMA_DETAILS_FOR_VERSION_TEST,
         }).then((response) => {
@@ -87,7 +87,7 @@ describe(
 
           cy.request({
             method: 'PATCH',
-            url: `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}`,
+            url: `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}`,
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json-patch+json',
@@ -116,7 +116,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'DELETE',
-          url: `/nexus/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
+          url: `/audax/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
           headers: { Authorization: `Bearer ${token}` },
         });
       });
@@ -139,17 +139,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/audax/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -201,17 +201,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/audax/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -245,17 +245,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/audax/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -295,7 +295,7 @@ describe(
       cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
       interceptURL(
         'DELETE',
-        `/nexus/openmetadata/api/v1/databaseSchemas/*`,
+        `/audax/openmetadata/api/v1/databaseSchemas/*`,
         'deleteSchema'
       );
 
@@ -310,17 +310,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
+        `/audax/openmetadata/api/v1/databaseSchemas/name/${databaseSchemaFQN}*`,
         `getDatabaseSchemaDetails`
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.3`,
+        `/audax/openmetadata/api/v1/databaseSchemas/${databaseSchemaId}/versions/0.3`,
         'getSelectedVersionDetails'
       );
 
@@ -348,7 +348,7 @@ describe(
 
       interceptURL(
         'PUT',
-        `/nexus/openmetadata/api/v1/databaseSchemas/restore`,
+        `/audax/openmetadata/api/v1/databaseSchemas/restore`,
         'restoreSchema'
       );
 
@@ -388,12 +388,12 @@ describe(
         .type(DELETE_TERM);
       interceptURL(
         'DELETE',
-        `/nexus/openmetadata/api/v1/databaseSchemas/*`,
+        `/audax/openmetadata/api/v1/databaseSchemas/*`,
         'deleteService'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/services/*/name/*?fields=owner',
+        '/audax/openmetadata/api/v1/services/*/name/*?fields=owner',
         'serviceDetails'
       );
 

@@ -126,12 +126,12 @@ class ServiceBaseClass {
     cy.get('[data-testid="service-name"]').clear().type(serviceName);
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines/ip',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines/ip',
       'ipApi'
     );
     interceptURL(
       'GET',
-      'nexus/openmetadata/api/v1/services/ingestionPipelines/*',
+      'audax/openmetadata/api/v1/services/ingestionPipelines/*',
       'ingestionPipelineStatus'
     );
 
@@ -176,12 +176,12 @@ class ServiceBaseClass {
 
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines?*',
       'ingestionPipelines'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/*/name/*',
+      '/audax/openmetadata/api/v1/services/*/name/*',
       'serviceDetails'
     );
 
@@ -195,7 +195,7 @@ class ServiceBaseClass {
   submitService(serviceName: string) {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines/status',
       'getIngestionPipelineStatus'
     );
     cy.get('[data-testid="submit-btn"]').should('exist').click();
@@ -210,17 +210,17 @@ class ServiceBaseClass {
   scheduleIngestion(hasRetryCount = true) {
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines',
       'createIngestionPipelines'
     );
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
       'deployPipeline'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines/status',
       'getIngestionPipelineStatus'
     );
     // Schedule & Deploy
@@ -256,22 +256,22 @@ class ServiceBaseClass {
 
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines?*',
       'ingestionPipelines'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
       'pipelineStatuses'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/services/*/name/*',
+      '/audax/openmetadata/api/v1/services/*/name/*',
       'serviceDetails'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/permissions?limit=100',
+      '/audax/openmetadata/api/v1/permissions?limit=100',
       'allPermissions'
     );
 
@@ -351,7 +351,7 @@ class ServiceBaseClass {
 
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/services/ingestionPipelines/**`,
+      `/audax/openmetadata/api/v1/services/ingestionPipelines/**`,
       'pipelineServices'
     );
 
@@ -432,22 +432,22 @@ class ServiceBaseClass {
     const description = `${this.entityName} description`;
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/services/ingestionPipelines?fields=*&service=*`,
+      `/audax/openmetadata/api/v1/services/ingestionPipelines?fields=*&service=*`,
       'ingestionPipelines'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/*?service=*&fields=*`,
+      `/audax/openmetadata/api/v1/*?service=*&fields=*`,
       'serviceDetails'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/system/config/pipeline-service-client`,
+      `/audax/openmetadata/api/v1/system/config/pipeline-service-client`,
       'pipelineServiceClient'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?*`,
+      `/audax/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?*`,
       'pipelineStatus'
     );
     // Navigate to ingested table
@@ -460,7 +460,7 @@ class ServiceBaseClass {
     // update description
     cy.get('[data-testid="edit-description"]').click();
     cy.get(descriptionBox).click().clear().type(description);
-    interceptURL('PATCH', '/nexus/openmetadata/api/v1/*/*', 'updateEntity');
+    interceptURL('PATCH', '/audax/openmetadata/api/v1/*/*', 'updateEntity');
     cy.get('[data-testid="save"]').click();
     verifyResponseStatusCode('@updateEntity', 200);
 
@@ -469,7 +469,7 @@ class ServiceBaseClass {
     cy.settingClick(this.category);
     interceptURL(
       'GET',
-      'nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
+      'audax/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
       'searchService'
     );
     cy.get('[data-testid="searchbar"]').type(this.serviceName);
@@ -487,7 +487,7 @@ class ServiceBaseClass {
 
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/services/ingestionPipelines/trigger/*',
+      '/audax/openmetadata/api/v1/services/ingestionPipelines/trigger/*',
       'checkRun'
     );
     cy.get(

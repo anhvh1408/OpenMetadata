@@ -35,7 +35,7 @@ class DatabaseClass extends EntityClass {
   visitEntity() {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/databases/name/*${this.databaseName}?**`,
+      `/audax/openmetadata/api/v1/databases/name/*${this.databaseName}?**`,
       'fetchDatabase'
     );
     visitServiceDetailsPage(

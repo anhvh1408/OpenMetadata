@@ -46,7 +46,7 @@ export const goToServiceListingPage = (services: Services) => {
   // Services page
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/services/*',
+    '/audax/openmetadata/api/v1/services/*',
     'getServiceList'
   );
   cy.settingClick(services);
@@ -78,12 +78,12 @@ export const getEntityTypeFromService = (service: Services) => {
 export const retryIngestionRun = () => {
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/services/*/name/*',
+    '/audax/openmetadata/api/v1/services/*/name/*',
     'serviceDetails'
   );
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus/*',
+    '/audax/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus/*',
     'pipelineStatus'
   );
   let timer = BASE_WAIT_TIME;
@@ -126,7 +126,7 @@ export const retryIngestionRun = () => {
 export const deleteService = (typeOfService: Services, serviceName: string) => {
   interceptURL(
     'GET',
-    'nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
+    'audax/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
     'searchService'
   );
   cy.get('[data-testid="searchbar"]').type(serviceName);
@@ -154,12 +154,12 @@ export const deleteService = (typeOfService: Services, serviceName: string) => {
   cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
   interceptURL(
     'DELETE',
-    `/nexus/openmetadata/api/v1/${getEntityTypeFromService(typeOfService)}/*`,
+    `/audax/openmetadata/api/v1/${getEntityTypeFromService(typeOfService)}/*`,
     'deleteService'
   );
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/services/*/name/*?fields=owner',
+    '/audax/openmetadata/api/v1/services/*/name/*?fields=owner',
     'serviceDetails'
   );
 
@@ -176,25 +176,25 @@ export const testConnection = () => {
   // Test the connection
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/services/testConnectionDefinitions/name/*',
+    '/audax/openmetadata/api/v1/services/testConnectionDefinitions/name/*',
     'testConnectionStepDefinition'
   );
 
   interceptURL(
     'POST',
-    '/nexus/openmetadata/api/v1/automations/workflows',
+    '/audax/openmetadata/api/v1/automations/workflows',
     'createWorkflow'
   );
 
   interceptURL(
     'POST',
-    '/nexus/openmetadata/api/v1/automations/workflows/trigger/*',
+    '/audax/openmetadata/api/v1/automations/workflows/trigger/*',
     'triggerWorkflow'
   );
 
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/automations/workflows/*',
+    '/audax/openmetadata/api/v1/automations/workflows/*',
     'getWorkflow'
   );
 

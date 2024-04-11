@@ -48,7 +48,7 @@ const deleteKpiRequest = () => {
       data.forEach((element) => {
         cy.request({
           method: 'DELETE',
-          url: `/nexus/openmetadata/api/v1/kpi/${element.id}?hardDelete=true&recursive=false`,
+          url: `/audax/openmetadata/api/v1/kpi/${element.id}?hardDelete=true&recursive=false`,
           headers: { Authorization: `Bearer ${token}` },
         }).then((response) => {
           expect(response.status).to.eq(200);
@@ -65,7 +65,7 @@ const addKpi = (data) => {
     getEpochMillisForFutureDays(1),
     'yyyy-MM-dd'
   );
-  interceptURL('POST', '/nexus/openmetadata/api/v1/kpi', 'createKpi');
+  interceptURL('POST', '/audax/openmetadata/api/v1/kpi', 'createKpi');
   cy.get('#dataInsightChart').click();
   cy.get(`.ant-select-dropdown [title="${data.dataInsightChart}"]`).click();
   cy.get('[data-testid="displayName"]').type(data.displayName);
@@ -85,10 +85,10 @@ describe('Data Insight feature', { tags: 'Observability' }, () => {
   beforeEach(() => {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/analytics/dataInsights/charts/aggregate?*',
+      '/audax/openmetadata/api/v1/analytics/dataInsights/charts/aggregate?*',
       'dataInsightsChart'
     );
-    interceptURL('GET', '/nexus/openmetadata/api/v1/kpi?fields=*', 'getKpi');
+    interceptURL('GET', '/audax/openmetadata/api/v1/kpi?fields=*', 'getKpi');
     cy.login();
   });
 
@@ -110,20 +110,20 @@ describe('Data Insight feature', { tags: 'Observability' }, () => {
   });
 
   it('Deploy data insight index', () => {
-    interceptURL('GET', '/nexus/openmetadata/api/v1/apps?limit=*', 'apps');
+    interceptURL('GET', '/audax/openmetadata/api/v1/apps?limit=*', 'apps');
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?*',
+      '/audax/openmetadata/api/v1/apps/name/DataInsightsApplication?*',
       'dataInsightsApplication'
     );
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/apps/deploy/DataInsightsApplication',
+      '/audax/openmetadata/api/v1/apps/deploy/DataInsightsApplication',
       'deploy'
     );
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/apps/trigger/DataInsightsApplication',
+      '/audax/openmetadata/api/v1/apps/trigger/DataInsightsApplication',
       'triggerPipeline'
     );
     cy.settingClick(GlobalSettingOptions.APPLICATIONS);
@@ -206,10 +206,10 @@ describe('Data Insight feature', { tags: 'Observability' }, () => {
   it('Update KPI', () => {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/kpi/name/*',
+      '/audax/openmetadata/api/v1/kpi/name/*',
       'fetchKpiByName'
     );
-    interceptURL('PATCH', '/nexus/openmetadata/api/v1/kpi/*', 'updateKpi');
+    interceptURL('PATCH', '/audax/openmetadata/api/v1/kpi/*', 'updateKpi');
     cy.sidebarClick(SidebarItem.DATA_INSIGHT);
     verifyResponseStatusCode('@dataInsightsChart', 200);
     cy.get('[data-menu-id*="kpi"]').click();
@@ -229,12 +229,12 @@ describe('Data Insight feature', { tags: 'Observability' }, () => {
   it('Delete Kpi', () => {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/kpi/name/*',
+      '/audax/openmetadata/api/v1/kpi/name/*',
       'fetchKpiByName'
     );
     interceptURL(
       'DELETE',
-      '/nexus/openmetadata/api/v1/kpi/*?hardDelete=true&recursive=false',
+      '/audax/openmetadata/api/v1/kpi/*?hardDelete=true&recursive=false',
       'deleteKpi'
     );
     cy.sidebarClick(SidebarItem.DATA_INSIGHT);

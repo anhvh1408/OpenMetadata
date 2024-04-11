@@ -60,7 +60,7 @@ describe('Roles page should work properly', { tags: 'Settings' }, () => {
   beforeEach(() => {
     cy.login();
 
-    interceptURL('GET', '*nexus/openmetadata/api/v1/roles*', 'getRoles');
+    interceptURL('GET', '*audax/openmetadata/api/v1/roles*', 'getRoles');
 
     cy.settingClick(GlobalSettingOptions.ROLES);
 
@@ -270,7 +270,7 @@ describe('Roles page should work properly', { tags: 'Settings' }, () => {
   it('Check if last policy is not removed', () => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/roles/name/${roleName}*`,
+      `/audax/openmetadata/api/v1/roles/name/${roleName}*`,
       'getSelectedRole'
     );
 
@@ -289,7 +289,7 @@ describe('Roles page should work properly', { tags: 'Settings' }, () => {
 
     interceptURL(
       'PATCH',
-      '/nexus/openmetadata/api/v1/roles/*',
+      '/audax/openmetadata/api/v1/roles/*',
       'checkDeletedRole'
     );
     // Removing second policy from the role

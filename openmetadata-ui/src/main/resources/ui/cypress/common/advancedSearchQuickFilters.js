@@ -17,7 +17,7 @@ export const searchAndClickOnOption = (asset, filter, checkedAfterClick) => {
   // Search for filter
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/search/aggregate?index=${asset.searchIndex}&field=${filter.key}**`,
+    `/audax/openmetadata/api/v1/search/aggregate?index=${asset.searchIndex}&field=${filter.key}**`,
     'aggregateAPI'
   );
 

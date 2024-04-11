@@ -79,20 +79,20 @@ describe('Activity feed', () => {
   it('Create feed', () => {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/permissions/*/name/*',
+      '/audax/openmetadata/api/v1/permissions/*/name/*',
       'entityPermission'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/feed/count?entityLink=*',
+      '/audax/openmetadata/api/v1/feed/count?entityLink=*',
       'activityFeed'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/search/query?q=**teamType:Group&from=0&size=15&index=team_search_index',
+      '/audax/openmetadata/api/v1/search/query?q=**teamType:Group&from=0&size=15&index=team_search_index',
       'getTeams'
     );
-    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+    interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
     const value = {
       term: table1.name,
       displayName: table1.name,
@@ -103,7 +103,7 @@ describe('Activity feed', () => {
     const OWNER = 'admin';
     interceptURL(
       'PATCH',
-      `/nexus/openmetadata/api/v1/${value.entity}/*`,
+      `/audax/openmetadata/api/v1/${value.entity}/*`,
       'patchOwner'
     );
 
@@ -123,7 +123,7 @@ describe('Activity feed', () => {
 
     interceptURL(
       'GET',
-      `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(OWNER)}*`,
+      `audax/openmetadata/api/v1/search/query?q=*${encodeURI(OWNER)}*`,
       'searchOwner'
     );
 
@@ -205,7 +205,7 @@ describe('Activity feed', () => {
   });
 
   it('User should be able to reply to feed', () => {
-    interceptURL('GET', '/nexus/openmetadata/api/v1/feed/*', 'fetchFeed');
+    interceptURL('GET', '/audax/openmetadata/api/v1/feed/*', 'fetchFeed');
     cy.get(
       '[data-testid="activity-feed-widget"] [data-testid="message-container"]:first-child'
     ).within(() => {
@@ -218,18 +218,18 @@ describe('Activity feed', () => {
 
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/feed/*/posts',
+      '/audax/openmetadata/api/v1/feed/*/posts',
       'postReply'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/search/query?q=*&index=user_search_index*',
+      '/audax/openmetadata/api/v1/search/query?q=*&index=user_search_index*',
       'suggestUser'
     );
     interceptURL(
       'GET',
       // eslint-disable-next-line max-len
-      '/nexus/openmetadata/api/v1/search/query?q=*dim_add*&index=*',
+      '/audax/openmetadata/api/v1/search/query?q=*dim_add*&index=*',
       'suggestAsset'
     );
 
@@ -274,10 +274,10 @@ describe('Activity feed', () => {
   });
 
   it('Mention should work for the feed reply', () => {
-    interceptURL('GET', '/nexus/openmetadata/api/v1/feed/*', 'fetchFeed');
+    interceptURL('GET', '/audax/openmetadata/api/v1/feed/*', 'fetchFeed');
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/feed?filterType=MENTIONS&userId=*',
+      '/audax/openmetadata/api/v1/feed?filterType=MENTIONS&userId=*',
       'mentionsFeed'
     );
     cy.get(
@@ -292,12 +292,12 @@ describe('Activity feed', () => {
 
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/feed/*/posts',
+      '/audax/openmetadata/api/v1/feed/*/posts',
       'postReply'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
+      '/audax/openmetadata/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
       'suggestUser'
     );
 
@@ -339,10 +339,10 @@ describe('Activity feed', () => {
   });
 
   it('Mention should work for the feed reply in case of users having dot in their name', () => {
-    interceptURL('GET', '/nexus/openmetadata/api/v1/feed/*', 'fetchFeed');
+    interceptURL('GET', '/audax/openmetadata/api/v1/feed/*', 'fetchFeed');
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/feed?filterType=MENTIONS&userId=*',
+      '/audax/openmetadata/api/v1/feed?filterType=MENTIONS&userId=*',
       'mentionsFeed'
     );
     cy.get(
@@ -357,12 +357,12 @@ describe('Activity feed', () => {
 
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/feed/*/posts',
+      '/audax/openmetadata/api/v1/feed/*/posts',
       'postReply'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
+      '/audax/openmetadata/api/v1/search/suggest?q=aa&index=user_search_index%2Cteam_search_index',
       'suggestUser'
     );
 
@@ -404,7 +404,7 @@ describe('Activity feed', () => {
     };
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/${value.entity}/name/*`,
+      `/audax/openmetadata/api/v1/${value.entity}/name/*`,
       'getEntityDetails'
     );
 
@@ -420,7 +420,7 @@ describe('Activity feed', () => {
 
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/search/suggest?q=*',
+      '/audax/openmetadata/api/v1/search/suggest?q=*',
       'suggestApi'
     );
 

@@ -13,11 +13,11 @@
 import { interceptURL, verifyResponseStatusCode } from '../common';
 
 export const addTier = (tier: string) => {
-  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchTier');
+  interceptURL('PATCH', `/audax/openmetadata/api/v1/**`, 'patchTier');
 
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/tags?parent=Tier&limit=10',
+    '/audax/openmetadata/api/v1/tags?parent=Tier&limit=10',
     'fetchTier'
   );
   cy.get('[data-testid="edit-tier"]').click();
@@ -36,7 +36,7 @@ export const addTier = (tier: string) => {
 };
 
 export const updateTier = (tier: string) => {
-  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchTier');
+  interceptURL('PATCH', `/audax/openmetadata/api/v1/**`, 'patchTier');
 
   cy.get('[data-testid="edit-tier"]').click();
 
@@ -53,7 +53,7 @@ export const updateTier = (tier: string) => {
 };
 
 export const removeTier = () => {
-  interceptURL('PATCH', `/nexus/openmetadata/api/v1/**`, 'patchTier');
+  interceptURL('PATCH', `/audax/openmetadata/api/v1/**`, 'patchTier');
 
   cy.get('[data-testid="edit-tier"]').click();
   cy.get('[data-testid="clear-tier"]').scrollIntoView().click();

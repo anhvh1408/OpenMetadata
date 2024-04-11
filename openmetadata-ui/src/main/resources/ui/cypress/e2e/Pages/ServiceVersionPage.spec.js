@@ -40,17 +40,17 @@ const navigateToVersionPageFromServicePage = (
 ) => {
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/services/${serviceCategory}/name/${serviceName}?*`,
+    `/audax/openmetadata/api/v1/services/${serviceCategory}/name/${serviceName}?*`,
     `getServiceDetails`
   );
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/services/${serviceCategory}/${serviceId}/versions`,
+    `/audax/openmetadata/api/v1/services/${serviceCategory}/${serviceId}/versions`,
     'getVersionsList'
   );
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/services/${serviceCategory}/${serviceId}/versions/${versionNumber}`,
+    `/audax/openmetadata/api/v1/services/${serviceCategory}/${serviceId}/versions/${versionNumber}`,
     'getSelectedVersionDetails'
   );
 
@@ -71,7 +71,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'PUT',
-          url: `/nexus/openmetadata/api/v1/domains`,
+          url: `/audax/openmetadata/api/v1/domains`,
           headers: { Authorization: `Bearer ${token}` },
           body: DOMAIN_CREATION_DETAILS,
         }).then((response) => {
@@ -86,7 +86,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'DELETE',
-          url: `/nexus/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
+          url: `/audax/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
           headers: { Authorization: `Bearer ${token}` },
         });
       });
@@ -110,7 +110,7 @@ describe(
               const token = Object.values(data)[0].oidcIdToken;
               cy.request({
                 method: 'POST',
-                url: `/nexus/openmetadata/api/v1/services/${serviceCategory}`,
+                url: `/audax/openmetadata/api/v1/services/${serviceCategory}`,
                 headers: { Authorization: `Bearer ${token}` },
                 body: entityCreationDetails,
               }).then((response) => {
@@ -118,7 +118,7 @@ describe(
 
                 cy.request({
                   method: 'PATCH',
-                  url: `/nexus/openmetadata/api/v1/services/${serviceCategory}/${serviceId}`,
+                  url: `/audax/openmetadata/api/v1/services/${serviceCategory}/${serviceId}`,
                   headers: {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json-patch+json',
@@ -266,12 +266,12 @@ describe(
             cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
             interceptURL(
               'DELETE',
-              `/nexus/openmetadata/api/v1/services/${serviceCategory}/*hardDelete=false*`,
+              `/audax/openmetadata/api/v1/services/${serviceCategory}/*hardDelete=false*`,
               'deleteService'
             );
             interceptURL(
               'GET',
-              '/nexus/openmetadata/api/v1/services/*/name/*?fields=owner',
+              '/audax/openmetadata/api/v1/services/*/name/*?fields=owner',
               'serviceDetails'
             );
 

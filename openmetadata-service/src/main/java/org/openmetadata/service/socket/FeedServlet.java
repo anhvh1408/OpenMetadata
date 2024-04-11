@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@WebServlet("/nexus/openmetadata/api/v1/push/feed/*")
+@WebServlet("/audax/openmetadata/api/v1/push/feed/*")
 public class FeedServlet extends HttpServlet {
   @Override
   protected void service(HttpServletRequest request, HttpServletResponse response)

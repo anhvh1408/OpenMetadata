@@ -71,27 +71,27 @@ describe('Task flow should work', { tags: 'DataAssets' }, () => {
     cy.login();
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/permissions/*/name/*',
+      '/audax/openmetadata/api/v1/permissions/*/name/*',
       'entityPermission'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/feed/count?entityLink=*',
+      '/audax/openmetadata/api/v1/feed/count?entityLink=*',
       'entityFeed'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/search/suggest?q=*',
+      '/audax/openmetadata/api/v1/search/suggest?q=*',
       'suggestApi'
     );
     interceptURL(
       'PUT',
-      '/nexus/openmetadata/api/v1/feed/tasks/*/resolve',
+      '/audax/openmetadata/api/v1/feed/tasks/*/resolve',
       'taskResolve'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
+      `/audax/openmetadata/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
       'suggestTag'
     );
   });
@@ -100,7 +100,7 @@ describe('Task flow should work', { tags: 'DataAssets' }, () => {
   const tag = 'Personal';
 
   const createTagTask = (value) => {
-    interceptURL('POST', 'nexus/openmetadata/api/v1/feed', 'createTask');
+    interceptURL('POST', 'audax/openmetadata/api/v1/feed', 'createTask');
 
     cy.get('#title').should(
       'have.value',
@@ -159,7 +159,7 @@ describe('Task flow should work', { tags: 'DataAssets' }, () => {
   it('Task flow for table description', () => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/${ENTITY_TABLE.entity}/name/*`,
+      `/audax/openmetadata/api/v1/${ENTITY_TABLE.entity}/name/*`,
       'getEntityDetails'
     );
 
@@ -186,7 +186,7 @@ describe('Task flow should work', { tags: 'DataAssets' }, () => {
   it('Task flow for table tags', () => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/${ENTITY_TABLE.entity}/name/*`,
+      `/audax/openmetadata/api/v1/${ENTITY_TABLE.entity}/name/*`,
       'getEntityDetails'
     );
 
@@ -213,7 +213,7 @@ describe('Task flow should work', { tags: 'DataAssets' }, () => {
   it('Asignee field should be disabled for owned entity tasks', () => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/${ENTITY_TABLE.entity}/name/*`,
+      `/audax/openmetadata/api/v1/${ENTITY_TABLE.entity}/name/*`,
       'getEntityDetails'
     );
 

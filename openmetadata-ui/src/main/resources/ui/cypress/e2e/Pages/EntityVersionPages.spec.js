@@ -40,7 +40,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
       const token = Object.values(data)[0].oidcIdToken;
       cy.request({
         method: 'PUT',
-        url: `/nexus/openmetadata/api/v1/domains`,
+        url: `/audax/openmetadata/api/v1/domains`,
         headers: { Authorization: `Bearer ${token}` },
         body: DOMAIN_CREATION_DETAILS,
       }).then((response) => {
@@ -55,7 +55,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
       const token = Object.values(data)[0].oidcIdToken;
       cy.request({
         method: 'DELETE',
-        url: `/nexus/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
+        url: `/audax/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
         headers: { Authorization: `Bearer ${token}` },
       });
     });
@@ -75,7 +75,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
             const token = Object.values(data)[0].oidcIdToken;
             cy.request({
               method: 'PUT',
-              url: `/nexus/openmetadata/api/v1/${entityDetails.entity}`,
+              url: `/audax/openmetadata/api/v1/${entityDetails.entity}`,
               headers: { Authorization: `Bearer ${token}` },
               body: entityDetails.entityCreationDetails,
             }).then((response) => {
@@ -84,7 +84,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
               cy.request({
                 method: 'PATCH',
-                url: `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}`,
+                url: `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}`,
                 headers: {
                   Authorization: `Bearer ${token}`,
                   'Content-Type': 'application/json-patch+json',
@@ -189,7 +189,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
             interceptURL(
               'PATCH',
-              `/nexus/openmetadata/api/v1/tables/*`,
+              `/audax/openmetadata/api/v1/tables/*`,
               `updateColumnName`
             );
 
@@ -199,17 +199,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
             interceptURL(
               'GET',
-              `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+              `/audax/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
               `get${entityType}Details`
             );
             interceptURL(
               'GET',
-              `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
+              `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
               'getVersionsList'
             );
             interceptURL(
               'GET',
-              `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
+              `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
               'getSelectedVersionDetails'
             );
 
@@ -240,17 +240,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
             `get${entityType}Details`
           );
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
             'getVersionsList'
           );
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
             'getSelectedVersionDetails'
           );
 
@@ -280,17 +280,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
             `get${entityType}Details`
           );
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
             'getVersionsList'
           );
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.2`,
             'getSelectedVersionDetails'
           );
 
@@ -321,17 +321,17 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
 
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
             `get${entityType}Details`
           );
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions`,
             'getVersionsList'
           );
           interceptURL(
             'GET',
-            `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.3`,
+            `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}/versions/0.3`,
             'getSelectedVersionDetails'
           );
 
@@ -352,7 +352,7 @@ describe('Version page tests for data assets', { tags: 'DataAssets' }, () => {
             const token = Object.values(data)[0].oidcIdToken;
             cy.request({
               method: 'DELETE',
-              url: `/nexus/openmetadata/api/v1/${entityDetails.entity}/${entityId}`,
+              url: `/audax/openmetadata/api/v1/${entityDetails.entity}/${entityId}`,
               headers: {
                 Authorization: `Bearer ${token}`,
               },

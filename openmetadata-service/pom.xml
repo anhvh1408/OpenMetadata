@@ -714,11 +714,11 @@
           <swaggerConfig>
             <servers>
               <server>
-                <url>/nexus/openmetadata/api</url>
+                <url>/audax/openmetadata/api</url>
                 <description>Current Host</description>
               </server>
               <server>
-                <url>http://localhost:8585/nexus/openmetadata/api</url>
+                <url>http://localhost:8585/audax/openmetadata/api</url>
                 <description>Endpoint URL</description>
               </server>
             </servers>

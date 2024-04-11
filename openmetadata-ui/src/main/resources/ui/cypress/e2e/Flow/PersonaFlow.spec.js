@@ -26,7 +26,7 @@ import { GlobalSettingOptions } from '../../constants/settings.constant';
 const updatePersonaDisplayName = (displayName) => {
   interceptURL(
     'PATCH',
-    `/nexus/openmetadata/api/v1/personas/*`,
+    `/audax/openmetadata/api/v1/personas/*`,
     'updatePersona'
   );
 
@@ -56,7 +56,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
       // Create a new user
       cy.request({
         method: 'POST',
-        url: `/nexus/openmetadata/api/v1/users/signup`,
+        url: `/audax/openmetadata/api/v1/users/signup`,
         headers: { Authorization: `Bearer ${token}` },
         body: USER_DETAILS,
       }).then((response) => {
@@ -73,7 +73,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
       // Delete created user
       cy.request({
         method: 'DELETE',
-        url: `/nexus/openmetadata/api/v1/users/${user.details.id}?hardDelete=true&recursive=false`,
+        url: `/audax/openmetadata/api/v1/users/${user.details.id}?hardDelete=true&recursive=false`,
         headers: { Authorization: `Bearer ${token}` },
       });
     });
@@ -82,7 +82,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   beforeEach(() => {
     cy.login();
 
-    interceptURL('GET', '/nexus/openmetadata/api/v1/personas*', 'getPersonas');
+    interceptURL('GET', '/audax/openmetadata/api/v1/personas*', 'getPersonas');
 
     cy.settingClick(GlobalSettingOptions.PERSONA);
 
@@ -107,7 +107,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
 
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/personas',
+      '/audax/openmetadata/api/v1/personas',
       'createPersona'
     );
 
@@ -130,7 +130,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
 
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/audax/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -159,7 +159,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   it('Persona update description flow should work properly', () => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/audax/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -178,7 +178,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
 
     interceptURL(
       'PATCH',
-      `/nexus/openmetadata/api/v1/personas/*`,
+      `/audax/openmetadata/api/v1/personas/*`,
       'updatePersona'
     );
 
@@ -194,7 +194,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   it('Persona rename flow should work properly', () => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/audax/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -221,7 +221,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
     // Remove user from the users tab
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/audax/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -243,7 +243,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
 
     interceptURL(
       'PATCH',
-      `/nexus/openmetadata/api/v1/personas/*`,
+      `/audax/openmetadata/api/v1/personas/*`,
       'updatePersona'
     );
 
@@ -257,7 +257,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
   it('Delete persona should work properly', () => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
+      `/audax/openmetadata/api/v1/personas/name/${PERSONA_DETAILS.name}*`,
       'getPersonaDetails'
     );
 
@@ -281,7 +281,7 @@ describe('Persona operations', { tags: 'Settings' }, () => {
 
     interceptURL(
       'DELETE',
-      `/nexus/openmetadata/api/v1/personas/*?hardDelete=true&recursive=false`,
+      `/audax/openmetadata/api/v1/personas/*?hardDelete=true&recursive=false`,
       `deletePersona`
     );
     cy.get('[data-testid="confirm-button"]').should('not.be.disabled');

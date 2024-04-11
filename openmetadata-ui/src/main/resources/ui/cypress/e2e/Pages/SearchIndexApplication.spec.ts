@@ -16,7 +16,7 @@ import { GlobalSettingOptions } from '../../constants/settings.constant';
 const visitSearchApplicationPage = () => {
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/apps/name/SearchIndexingApplication?fields=*',
+    '/audax/openmetadata/api/v1/apps/name/SearchIndexingApplication?fields=*',
     'getSearchIndexingApplication'
   );
   cy.get(
@@ -31,7 +31,7 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
 
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/apps?limit=*',
+      '/audax/openmetadata/api/v1/apps?limit=*',
       'getApplications'
     );
 
@@ -43,7 +43,7 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   it('Edit application', () => {
     interceptURL(
       'PATCH',
-      '/nexus/openmetadata/api/v1/apps/*',
+      '/audax/openmetadata/api/v1/apps/*',
       'updateApplication'
     );
     visitSearchApplicationPage();
@@ -68,12 +68,12 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   it('Uninstall application', () => {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/apps?limit=*',
+      '/audax/openmetadata/api/v1/apps?limit=*',
       'getApplications'
     );
     interceptURL(
       'DELETE',
-      '/nexus/openmetadata/api/v1/apps/name/SearchIndexingApplication?hardDelete=true',
+      '/audax/openmetadata/api/v1/apps/name/SearchIndexingApplication?hardDelete=true',
       'deleteApplication'
     );
     visitSearchApplicationPage();
@@ -90,12 +90,12 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   it('Install application', () => {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/apps/marketplace?limit=*',
+      '/audax/openmetadata/api/v1/apps/marketplace?limit=*',
       'getMarketPlace'
     );
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/apps',
+      '/audax/openmetadata/api/v1/apps',
       'installApplication'
     );
     cy.get('[data-testid="add-application"]').click();
@@ -120,12 +120,12 @@ describe('Search Index Application', { tags: 'Settings' }, () => {
   it('Run application', () => {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/apps/name/SearchIndexingApplication?fields=*',
+      '/audax/openmetadata/api/v1/apps/name/SearchIndexingApplication?fields=*',
       'getSearchIndexingApplication'
     );
     interceptURL(
       'POST',
-      '/nexus/openmetadata/api/v1/apps/trigger/SearchIndexingApplication',
+      '/audax/openmetadata/api/v1/apps/trigger/SearchIndexingApplication',
       'triggerPipeline'
     );
     cy.get(

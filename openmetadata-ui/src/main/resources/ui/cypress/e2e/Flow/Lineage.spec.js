@@ -37,7 +37,7 @@ const performZoomOut = () => {
 };
 
 const connectEdgeBetweenNodes = (fromNode, toNode) => {
-  interceptURL('PUT', '/nexus/openmetadata/api/v1/lineage', 'lineageApi');
+  interceptURL('PUT', '/audax/openmetadata/api/v1/lineage', 'lineageApi');
   const type = toNode.searchIndex;
 
   cy.get(`[data-testid="${type}-draggable-icon"]`)
@@ -76,7 +76,7 @@ const verifyNodePresent = (node) => {
 const deleteNode = (node) => {
   interceptURL(
     'DELETE',
-    '/nexus/openmetadata/api/v1/lineage/**',
+    '/audax/openmetadata/api/v1/lineage/**',
     'lineageDeleteApi'
   );
   cy.get(`[data-testid="lineage-node-${node.fqn}"]`).click({ force: true });
@@ -86,7 +86,7 @@ const deleteNode = (node) => {
 };
 
 const applyPipelineFromModal = (fromNode, toNode, pipelineData) => {
-  interceptURL('PUT', '/nexus/openmetadata/api/v1/lineage', 'lineageApi');
+  interceptURL('PUT', '/audax/openmetadata/api/v1/lineage', 'lineageApi');
   cy.get(`[data-testid="edge-${fromNode.fqn}-${toNode.fqn}"]`).click({
     force: true,
   });
@@ -176,7 +176,7 @@ const expandCols = (nodeFqn, hasShowMore) => {
 };
 
 const addColumnLineage = (fromNode, toNode) => {
-  interceptURL('PUT', '/nexus/openmetadata/api/v1/lineage', 'lineageApi');
+  interceptURL('PUT', '/audax/openmetadata/api/v1/lineage', 'lineageApi');
   expandCols(fromNode.fqn, false);
   expandCols(toNode.fqn, true);
   dragConnection(

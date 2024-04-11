@@ -61,7 +61,7 @@ describe('Recently viwed data assets', { tags: 'DataAssets' }, () => {
       // creating stored procedure
       cy.request({
         method: 'POST',
-        url: `/nexus/openmetadata/api/v1/storedProcedures`,
+        url: `/audax/openmetadata/api/v1/storedProcedures`,
         headers: { Authorization: `Bearer ${token}` },
         body: STORED_PROCEDURE_DETAILS,
       });
@@ -115,7 +115,7 @@ describe('Recently viwed data assets', { tags: 'DataAssets' }, () => {
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/feed?type=Announcement&activeAnnouncement=true',
+        '/audax/openmetadata/api/v1/feed?type=Announcement&activeAnnouncement=true',
         'getAnnouncements'
       );
 

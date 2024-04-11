@@ -96,7 +96,7 @@ describe(
         // Create a new user
         cy.request({
           method: 'POST',
-          url: `/nexus/openmetadata/api/v1/users/signup`,
+          url: `/audax/openmetadata/api/v1/users/signup`,
           headers: { Authorization: `Bearer ${token}` },
           body: USER_CREDENTIALS,
         }).then((response) => {
@@ -123,7 +123,7 @@ describe(
         // Delete created user
         cy.request({
           method: 'DELETE',
-          url: `/nexus/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
+          url: `/audax/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
           headers: { Authorization: `Bearer ${token}` },
         });
       });
@@ -177,7 +177,7 @@ describe('SearchIndexDetails page should work properly for data steward role', (
       // Create Data Steward Policy
       cy.request({
         method: 'POST',
-        url: `/nexus/openmetadata/api/v1/policies`,
+        url: `/audax/openmetadata/api/v1/policies`,
         headers: { Authorization: `Bearer ${token}` },
         body: POLICY_DETAILS,
       }).then((policyResponse) => {
@@ -186,7 +186,7 @@ describe('SearchIndexDetails page should work properly for data steward role', (
         // Create Data Steward Role
         cy.request({
           method: 'POST',
-          url: `/nexus/openmetadata/api/v1/roles`,
+          url: `/audax/openmetadata/api/v1/roles`,
           headers: { Authorization: `Bearer ${token}` },
           body: ROLE_DETAILS,
         }).then((roleResponse) => {
@@ -195,7 +195,7 @@ describe('SearchIndexDetails page should work properly for data steward role', (
           // Create a new user
           cy.request({
             method: 'POST',
-            url: `/nexus/openmetadata/api/v1/users/signup`,
+            url: `/audax/openmetadata/api/v1/users/signup`,
             headers: { Authorization: `Bearer ${token}` },
             body: USER_CREDENTIALS,
           }).then((userResponse) => {
@@ -204,7 +204,7 @@ describe('SearchIndexDetails page should work properly for data steward role', (
             // Assign data steward role to the user
             cy.request({
               method: 'PATCH',
-              url: `/nexus/openmetadata/api/v1/users/${data.user.id}`,
+              url: `/audax/openmetadata/api/v1/users/${data.user.id}`,
               headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json-patch+json',
@@ -238,21 +238,21 @@ describe('SearchIndexDetails page should work properly for data steward role', (
       // Delete created user
       cy.request({
         method: 'DELETE',
-        url: `/nexus/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
+        url: `/audax/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
         headers: { Authorization: `Bearer ${token}` },
       });
 
       // Delete policy
       cy.request({
         method: 'DELETE',
-        url: `/nexus/openmetadata/api/v1/policies/${data.policy.id}?hardDelete=true&recursive=false`,
+        url: `/audax/openmetadata/api/v1/policies/${data.policy.id}?hardDelete=true&recursive=false`,
         headers: { Authorization: `Bearer ${token}` },
       });
 
       // Delete role
       cy.request({
         method: 'DELETE',
-        url: `/nexus/openmetadata/api/v1/roles/${data.role.id}?hardDelete=true&recursive=false`,
+        url: `/audax/openmetadata/api/v1/roles/${data.role.id}?hardDelete=true&recursive=false`,
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -307,7 +307,7 @@ describe('SearchIndexDetails page should work properly for data steward role', (
 
     interceptURL(
       'PATCH',
-      `/nexus/openmetadata/api/v1/searchIndexes/*`,
+      `/audax/openmetadata/api/v1/searchIndexes/*`,
       'updateDisplayName'
     );
 
@@ -415,7 +415,7 @@ describe('SearchIndexDetails page should work properly for admin role', () => {
 
       interceptURL(
         'PUT',
-        `/nexus/openmetadata/api/v1/searchIndexes/restore`,
+        `/audax/openmetadata/api/v1/searchIndexes/restore`,
         'restoreSearchIndex'
       );
 

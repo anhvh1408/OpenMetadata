@@ -30,7 +30,7 @@ describe('Schema search', { tags: 'DataAssets' }, () => {
     const token = localStorage.getItem('oidcIdToken');
     cy.request({
       method: 'POST',
-      url: `/nexus/openmetadata/api/v1/services/databaseServices`,
+      url: `/audax/openmetadata/api/v1/services/databaseServices`,
       headers: { Authorization: `Bearer ${token}` },
       body: {
         name: serviceName,
@@ -57,7 +57,7 @@ describe('Schema search', { tags: 'DataAssets' }, () => {
 
       cy.request({
         method: 'POST',
-        url: `/nexus/openmetadata/api/v1/databases`,
+        url: `/audax/openmetadata/api/v1/databases`,
         headers: { Authorization: `Bearer ${token}` },
         body: {
           name: 'default',
@@ -68,7 +68,7 @@ describe('Schema search', { tags: 'DataAssets' }, () => {
         schemaNames.map((schema) => {
           cy.request({
             method: 'POST',
-            url: `/nexus/openmetadata/api/v1/databaseSchemas`,
+            url: `/audax/openmetadata/api/v1/databaseSchemas`,
             headers: { Authorization: `Bearer ${token}` },
             body: {
               name: schema,
@@ -84,7 +84,7 @@ describe('Schema search', { tags: 'DataAssets' }, () => {
     // Click on settings page
 
     // Services page
-    interceptURL('GET', '/nexus/openmetadata/api/v1/services/*', 'getServices');
+    interceptURL('GET', '/audax/openmetadata/api/v1/services/*', 'getServices');
 
     cy.settingClick(GlobalSettingOptions.DATABASES);
 
@@ -106,17 +106,17 @@ describe('Schema search', { tags: 'DataAssets' }, () => {
     verifyResponseStatusCode('@getServices', 200);
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/permissions/database/name/${serviceName}.default`,
+      `/audax/openmetadata/api/v1/permissions/database/name/${serviceName}.default`,
       'databasePermission'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/databaseSchemas?fields=*&database=${serviceName}.default*`,
+      `/audax/openmetadata/api/v1/databaseSchemas?fields=*&database=${serviceName}.default*`,
       'databaseSchema'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/search/query?q=*sales*&index=database_schema_search_index*`,
+      `/audax/openmetadata/api/v1/search/query?q=*sales*&index=database_schema_search_index*`,
       'searchSchema'
     );
 
@@ -137,7 +137,7 @@ describe('Schema search', { tags: 'DataAssets' }, () => {
 
     cy.request({
       method: 'DELETE',
-      url: `/nexus/openmetadata/api/v1/services/databaseServices/${serviceId}?hardDelete=true&recursive=true`,
+      url: `/audax/openmetadata/api/v1/services/databaseServices/${serviceId}?hardDelete=true&recursive=true`,
       headers: { Authorization: `Bearer ${token}` },
     }).then((response) => {
       expect(response.status).to.eq(200);

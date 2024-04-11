@@ -71,12 +71,12 @@ describe('Teams drag and drop should work properly', () => {
   beforeEach(() => {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/users?fields=*`,
+      `/audax/openmetadata/api/v1/users?fields=*`,
       'getUserDetails'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/permissions/team/name/*`,
+      `/audax/openmetadata/api/v1/permissions/team/name/*`,
       'permissions'
     );
     cy.login();

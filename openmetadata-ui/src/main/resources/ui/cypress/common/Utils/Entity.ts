@@ -52,7 +52,7 @@ export const createEntityTableViaREST = ({
   // Create service
   cy.request({
     method: 'POST',
-    url: `/nexus/openmetadata/api/v1/services/databaseServices`,
+    url: `/audax/openmetadata/api/v1/services/databaseServices`,
     headers: { Authorization: `Bearer ${token}` },
     body: service,
   }).then((response) => {
@@ -62,7 +62,7 @@ export const createEntityTableViaREST = ({
   // Create Database
   cy.request({
     method: 'POST',
-    url: `/nexus/openmetadata/api/v1/databases`,
+    url: `/audax/openmetadata/api/v1/databases`,
     headers: { Authorization: `Bearer ${token}` },
     body: database,
   }).then((response) => {
@@ -76,7 +76,7 @@ export const createEntityTableViaREST = ({
     cy
       .request({
         method: 'POST',
-        url: `/nexus/openmetadata/api/v1/databaseSchemas`,
+        url: `/audax/openmetadata/api/v1/databaseSchemas`,
         headers: { Authorization: `Bearer ${token}` },
         body: schema,
       })
@@ -90,7 +90,7 @@ export const createEntityTableViaREST = ({
     cy
       .request({
         method: 'POST',
-        url: `/nexus/openmetadata/api/v1/storedProcedures`,
+        url: `/audax/openmetadata/api/v1/storedProcedures`,
         headers: { Authorization: `Bearer ${token}` },
         body: storeProcedure,
       })
@@ -101,7 +101,7 @@ export const createEntityTableViaREST = ({
   tables.forEach((body) => {
     cy.request({
       method: 'POST',
-      url: `/nexus/openmetadata/api/v1/tables`,
+      url: `/audax/openmetadata/api/v1/tables`,
       headers: { Authorization: `Bearer ${token}` },
       body,
     }).then((response) => {
@@ -124,7 +124,7 @@ export const createEntityViaREST = ({
   // Create entity
   cy.request({
     method: 'POST',
-    url: `/nexus/openmetadata/api/v1/${endPoint}`,
+    url: `/audax/openmetadata/api/v1/${endPoint}`,
     headers: { Authorization: `Bearer ${token}` },
     body: body,
   }).then((response) => {
@@ -144,7 +144,7 @@ export const deleteEntityViaREST = ({
   // Create entity
   cy.request({
     method: 'DELETE',
-    url: `/nexus/openmetadata/api/v1/${endPoint}/name/${entityName}?recursive=true&hardDelete=true`,
+    url: `/audax/openmetadata/api/v1/${endPoint}/name/${entityName}?recursive=true&hardDelete=true`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
@@ -169,20 +169,20 @@ export const visitEntityDetailsPage = ({
   if (entity === EntityType.DataModel) {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/dashboard/datamodels/name/*',
+      '/audax/openmetadata/api/v1/dashboard/datamodels/name/*',
       'getEntityDetails'
     );
   } else {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/${entity}/name/*`,
+      `/audax/openmetadata/api/v1/${entity}/name/*`,
       'getEntityDetails'
     );
   }
 
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/search/query?q=**&from=*&size=*&index=*`,
+    `/audax/openmetadata/api/v1/search/query?q=**&from=*&size=*&index=*`,
     'explorePageSearch'
   );
   const id = dataTestId ?? `${serviceName}-${term}`;
@@ -236,7 +236,7 @@ export const visitEntityDetailsPage = ({
 export const checkCustomPropertyEditButton = ({ deleted }) => {
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/metadata/types/name/*fields=customProperties*`,
+    `/audax/openmetadata/api/v1/metadata/types/name/*fields=customProperties*`,
     'getCustomProperties'
   );
 
@@ -260,7 +260,7 @@ export const checkCustomPropertyEditButton = ({ deleted }) => {
 export const checkLineageTabActions = ({ deleted }) => {
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/lineage/getLineage?fqn=*&upstreamDepth=3&downstreamDepth=3&query_filter=*&includeDeleted=false`,
+    `/audax/openmetadata/api/v1/lineage/getLineage?fqn=*&upstreamDepth=3&downstreamDepth=3&query_filter=*&includeDeleted=false`,
     'getLineageData'
   );
 
@@ -304,7 +304,7 @@ export const checkForEditActions = ({ entityType, deleted }) => {
 };
 
 export const checkForTableSpecificFields = ({ deleted }) => {
-  interceptURL('GET', `/nexus/openmetadata/api/v1/queries*`, 'getQueryData');
+  interceptURL('GET', `/audax/openmetadata/api/v1/queries*`, 'getQueryData');
 
   cy.get('[data-testid="table_queries"]').click();
 
@@ -321,7 +321,7 @@ export const checkForTableSpecificFields = ({ deleted }) => {
 
   interceptURL(
     'GET',
-    `/nexus/openmetadata/api/v1/tables/*/systemProfile*`,
+    `/audax/openmetadata/api/v1/tables/*/systemProfile*`,
     'getSystemProfile'
   );
 
@@ -436,7 +436,7 @@ export const deleteEntity = (
 
   interceptURL(
     'DELETE',
-    `/nexus/openmetadata/api/v1/${endPoint}/*?hardDelete=false&recursive=true`,
+    `/audax/openmetadata/api/v1/${endPoint}/*?hardDelete=false&recursive=true`,
     'deleteEntity'
   );
 
@@ -459,12 +459,12 @@ export const deleteEntity = (
   if (endPoint === EntityType.Table) {
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/tables?databaseSchema=*&include=deleted',
+      '/audax/openmetadata/api/v1/tables?databaseSchema=*&include=deleted',
       'queryDeletedTables'
     );
     interceptURL(
       'GET',
-      '/nexus/openmetadata/api/v1/databaseSchemas/name/*?fields=*&include=all',
+      '/audax/openmetadata/api/v1/databaseSchemas/name/*?fields=*&include=all',
       'getDatabaseSchemas'
     );
 
@@ -515,7 +515,7 @@ export const hardDeleteEntity = (entityName: string, endPoint: EntityType) => {
 
   interceptURL(
     'DELETE',
-    `/nexus/openmetadata/api/v1/${endPoint}/*?hardDelete=true&recursive=true`,
+    `/audax/openmetadata/api/v1/${endPoint}/*?hardDelete=true&recursive=true`,
     'deleteEntity'
   );
 
@@ -532,7 +532,7 @@ export const updateDisplayNameForEntity = (
 ) => {
   interceptURL(
     'PATCH',
-    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    `/audax/openmetadata/api/v1/${endPoint}/*`,
     'patchDisplayName'
   );
 
@@ -560,7 +560,7 @@ export const updateDescriptioForEntity = (
 ) => {
   interceptURL(
     'PATCH',
-    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    `/audax/openmetadata/api/v1/${endPoint}/*`,
     'updateEntity'
   );
   cy.get('[data-testid="edit-description"]').click();
@@ -582,7 +582,7 @@ export const updateDescriptioForEntity = (
 export const followEntity = (entityType: EntityType) => {
   interceptURL(
     'PUT',
-    `/nexus/openmetadata/api/v1/${entityType}/*/followers`,
+    `/audax/openmetadata/api/v1/${entityType}/*/followers`,
     'waitAfterFollow'
   );
 
@@ -597,7 +597,7 @@ export const validateFollowedEntityToWidget = (
 ) => {
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/users/*?fields=follows*',
+    '/audax/openmetadata/api/v1/users/*?fields=follows*',
     'getFollowedEntities'
   );
   cy.goToHomePage();
@@ -611,7 +611,7 @@ export const validateFollowedEntityToWidget = (
 export const unfollowEntity = (entityType: EntityType) => {
   interceptURL(
     'DELETE',
-    `/nexus/openmetadata/api/v1/${entityType}/*/followers/*`,
+    `/audax/openmetadata/api/v1/${entityType}/*/followers/*`,
     'waitAfterUnFollow'
   );
 

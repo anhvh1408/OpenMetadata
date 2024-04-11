@@ -58,22 +58,22 @@ class MysqlIngestionClass extends ServiceBaseClass {
     it('Edit service connection', () => {
       interceptURL(
         'GET',
-        'nexus/openmetadata/api/v1/teams/name/Organization?fields=*',
+        'audax/openmetadata/api/v1/teams/name/Organization?fields=*',
         'getSettingsPage'
       );
       interceptURL(
         'POST',
-        '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
+        '/audax/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
         'deployIngestion'
       );
       interceptURL(
         'POST',
-        '/nexus/openmetadata/api/v1/services/ingestionPipelines?fields=*',
+        '/audax/openmetadata/api/v1/services/ingestionPipelines?fields=*',
         'ingestionPipeline'
       );
       interceptURL(
         'POST',
-        '/nexus/openmetadata/api/v1/services/ingestionPipelines/trigger/*',
+        '/audax/openmetadata/api/v1/services/ingestionPipelines/trigger/*',
         'triggerIngestionPipeline'
       );
       visitServiceDetailsPage(
@@ -86,7 +86,7 @@ class MysqlIngestionClass extends ServiceBaseClass {
       cy.get('#root\\/databaseSchema').clear().type('openmetadata_db');
       interceptURL(
         'PATCH',
-        '/nexus/openmetadata/api/v1/services/databaseServices/*',
+        '/audax/openmetadata/api/v1/services/databaseServices/*',
         'editService'
       );
       cy.get('[data-testid="submit-btn"]').scrollIntoView().click();

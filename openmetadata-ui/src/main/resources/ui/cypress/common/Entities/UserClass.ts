@@ -34,12 +34,12 @@ class UsersTestClass {
   }
 
   visitUserListPage() {
-    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+    interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
     cy.settingClick(GlobalSettingOptions.USERS);
   }
 
   softDeleteUser(name: string, displayName: string) {
-    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+    interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
     verifyResponseStatusCode('@getUsers', 200);
     softDeleteUser(name, displayName);
   }
@@ -110,7 +110,7 @@ class UsersTestClass {
     if (permission?.editDisplayName) {
       interceptURL(
         'PATCH',
-        '/nexus/openmetadata/api/v1/tables/*',
+        '/audax/openmetadata/api/v1/tables/*',
         'updateName'
       );
       cy.get('[data-testid="manage-button"]').click();
@@ -181,14 +181,14 @@ class UsersTestClass {
     cy.get('[data-testid="edit-displayName"]').should('be.visible');
     cy.get('[data-testid="edit-displayName"]').click();
     cy.get('[data-testid="displayName"]').clear();
-    interceptURL('PATCH', '/nexus/openmetadata/api/v1/users/*', 'updateName');
+    interceptURL('PATCH', '/audax/openmetadata/api/v1/users/*', 'updateName');
     cy.get('[data-testid="inline-save-btn"]').click();
     cy.get('[data-testid="edit-displayName"]').scrollIntoView();
     verifyResponseStatusCode('@updateName', 200);
 
     cy.get('.ant-collapse-expand-icon > .anticon > svg').click();
     cy.get('[data-testid="edit-teams-button"]').click();
-    interceptURL('PATCH', '/nexus/openmetadata/api/v1/users/*', 'updateTeam');
+    interceptURL('PATCH', '/audax/openmetadata/api/v1/users/*', 'updateTeam');
     cy.get('.ant-select-selection-item-remove > .anticon').click();
     cy.get('[data-testid="inline-save-btn"]').click();
     verifyResponseStatusCode('@updateTeam', 200);
@@ -198,7 +198,7 @@ class UsersTestClass {
     cy.get(descriptionBox).clear();
     interceptURL(
       'PATCH',
-      '/nexus/openmetadata/api/v1/users/*',
+      '/audax/openmetadata/api/v1/users/*',
       'patchDescription'
     );
     cy.get('[data-testid="save"]').should('be.visible').click();

@@ -37,7 +37,7 @@ export const verifyTaskDetails = (regexPattern) => {
 };
 
 export const editAssignee = () => {
-  interceptURL('PATCH', 'nexus/openmetadata/api/v1/feed/*', 'editAssignee');
+  interceptURL('PATCH', 'audax/openmetadata/api/v1/feed/*', 'editAssignee');
 
   cy.get('[data-testid="edit-assignees"]').click();
 
@@ -62,7 +62,7 @@ export const editAssignee = () => {
 };
 
 export const createDescriptionTask = (value, assigneeDisabled) => {
-  interceptURL('POST', 'nexus/openmetadata/api/v1/feed', 'createTask');
+  interceptURL('POST', 'audax/openmetadata/api/v1/feed', 'createTask');
 
   cy.get('#title').should(
     'have.value',

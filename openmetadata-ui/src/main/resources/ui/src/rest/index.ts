@@ -15,7 +15,7 @@ import axios from 'axios';
 import Qs from 'qs';
 
 const axiosClient = axios.create({
-  baseURL: '/nexus/openmetadata/api/v1',
+  baseURL: '/audax/openmetadata/api/v1',
   paramsSerializer: (params) => Qs.stringify(params, { arrayFormat: 'comma' }),
 });
 

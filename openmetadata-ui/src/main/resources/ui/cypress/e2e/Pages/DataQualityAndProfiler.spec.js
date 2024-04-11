@@ -82,7 +82,7 @@ const OWNER2 = 'Cynthia Meyer';
 const goToProfilerTab = () => {
   interceptURL(
     'GET',
-    `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?fields=*&include=all`,
+    `audax/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?fields=*&include=all`,
     'waitForPageLoad'
   );
   visitEntityDetailsPage({
@@ -112,12 +112,12 @@ const clickOnTestSuite = (testSuiteName) => {
 const visitTestSuiteDetailsPage = (testSuiteName) => {
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
+    '/audax/openmetadata/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
     'testSuite'
   );
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+    '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
     'testCase'
   );
 
@@ -145,13 +145,13 @@ describe(
 
         cy.request({
           method: 'POST',
-          url: `/nexus/openmetadata/api/v1/dataQuality/testSuites/executable`,
+          url: `/audax/openmetadata/api/v1/dataQuality/testSuites/executable`,
           headers: { Authorization: `Bearer ${token}` },
           body: testSuite,
         }).then(() => {
           cy.request({
             method: 'POST',
-            url: `/nexus/openmetadata/api/v1/dataQuality/testCases`,
+            url: `/audax/openmetadata/api/v1/dataQuality/testCases`,
             headers: { Authorization: `Bearer ${token}` },
             body: testCase1,
           }).then((response) => {
@@ -159,7 +159,7 @@ describe(
           });
           cy.request({
             method: 'POST',
-            url: `/nexus/openmetadata/api/v1/dataQuality/testCases`,
+            url: `/audax/openmetadata/api/v1/dataQuality/testCases`,
             headers: { Authorization: `Bearer ${token}` },
             body: testCase2,
           });
@@ -173,7 +173,7 @@ describe(
         const token = Object.values(data)[0].oidcIdToken;
         cy.request({
           method: 'DELETE',
-          url: `/nexus/openmetadata/api/v1/dataQuality/testCases/${testCaseId}?hardDelete=true&recursive=false`,
+          url: `/audax/openmetadata/api/v1/dataQuality/testCases/${testCaseId}?hardDelete=true&recursive=false`,
           headers: { Authorization: `Bearer ${token}` },
         });
         hardDeleteService({
@@ -188,12 +188,12 @@ describe(
       cy.login();
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/tables/*/systemProfile?*`,
+        `/audax/openmetadata/api/v1/tables/*/systemProfile?*`,
         'systemProfile'
       );
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/tables/*/tableProfile?*`,
+        `/audax/openmetadata/api/v1/tables/*/tableProfile?*`,
         'tableProfile'
       );
     });
@@ -219,7 +219,7 @@ describe(
     it('Add Profiler ingestion', () => {
       interceptURL(
         'POST',
-        '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
+        '/audax/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
         'deployIngestion'
       );
 
@@ -231,11 +231,11 @@ describe(
       cy.settingClick(GlobalSettingOptions.DATABASES);
 
       cy.intercept(
-        '/nexus/openmetadata/api/v1/services/ingestionPipelines?*'
+        '/audax/openmetadata/api/v1/services/ingestionPipelines?*'
       ).as('ingestionData');
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/system/config/pipeline-service-client',
+        '/audax/openmetadata/api/v1/system/config/pipeline-service-client',
         'airflow'
       );
       searchServiceFromSettingPage(serviceName);
@@ -289,14 +289,14 @@ describe(
       goToProfilerTab();
       interceptURL(
         'GET',
-        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${term}?include=all`,
+        `audax/openmetadata/api/v1/tables/name/${serviceName}.*.${term}?include=all`,
         'addTableTestPage'
       );
       verifyResponseStatusCode('@systemProfile', 200);
       verifyResponseStatusCode('@tableProfile', 200);
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -363,7 +363,7 @@ describe(
         .type('test');
       interceptURL(
         'PATCH',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/*',
         'updateTest'
       );
       cy.get('.ant-modal-footer').contains('Submit').click();
@@ -380,14 +380,14 @@ describe(
       goToProfilerTab();
       interceptURL(
         'GET',
-        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
+        `audax/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
         'addTableTestPage'
       );
       verifyResponseStatusCode('@systemProfile', 200);
       verifyResponseStatusCode('@tableProfile', 200);
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -440,14 +440,14 @@ describe(
       goToProfilerTab();
       interceptURL(
         'GET',
-        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
+        `audax/openmetadata/api/v1/tables/name/${serviceName}.*.${TEAM_ENTITY}?include=all`,
         'addTableTestPage'
       );
       verifyResponseStatusCode('@systemProfile', 200);
       verifyResponseStatusCode('@tableProfile', 200);
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -491,7 +491,7 @@ describe(
     it('Edit column test case should work properly', () => {
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?*',
         'testCase'
       );
       goToProfilerTab();
@@ -517,7 +517,7 @@ describe(
         .type(4);
       interceptURL(
         'PATCH',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/*',
         'updateTest'
       );
       cy.get('.ant-modal-footer').contains('Submit').click();
@@ -544,7 +544,7 @@ describe(
     it('Delete Column Test Case should work properly', () => {
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?*',
         'testCase'
       );
       goToProfilerTab();
@@ -568,12 +568,12 @@ describe(
           cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
           interceptURL(
             'DELETE',
-            '/nexus/openmetadata/api/v1/dataQuality/testCases/*?hardDelete=true&recursive=false',
+            '/audax/openmetadata/api/v1/dataQuality/testCases/*?hardDelete=true&recursive=false',
             'deleteTest'
           );
           interceptURL(
             'GET',
-            '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+            '/audax/openmetadata/api/v1/dataQuality/testCases?*',
             'getTestCase'
           );
           cy.get('[data-testid="confirm-button"]').click();
@@ -588,12 +588,12 @@ describe(
       const testCaseName = 'column_value_max_to_be_between';
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
+        '/audax/openmetadata/api/v1/dataQuality/testSuites?*testSuiteType=logical*',
         'testSuite'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
+        '/audax/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
         'getTestCase'
       );
 
@@ -623,17 +623,17 @@ describe(
     it('User as Owner assign, update & delete for test suite', () => {
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
+        '/audax/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
         'searchTestCase'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       interceptURL(
         'PUT',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/logicalTestCases',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/logicalTestCases',
         'putTestCase'
       );
 
@@ -648,17 +648,17 @@ describe(
       const testCaseName = 'column_values_to_be_between';
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
+        '/audax/openmetadata/api/v1/search/query?q=*&index=test_case_search_index*',
         'searchTestCase'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       interceptURL(
         'PUT',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/logicalTestCases',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/logicalTestCases',
         'putTestCase'
       );
 
@@ -680,17 +680,17 @@ describe(
     it.skip('Remove test case from logical test suite', () => {
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/permissions/testSuite/name/mysql_matrix',
+        '/audax/openmetadata/api/v1/permissions/testSuite/name/mysql_matrix',
         'testSuitePermission'
       );
       interceptURL(
         'DELETE',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/logicalTestCases/*/*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/logicalTestCases/*/*',
         'removeTestCase'
       );
       visitTestSuiteDetailsPage(NEW_TEST_SUITE.name);
@@ -728,7 +728,7 @@ describe(
         .type(DELETE_TERM);
       interceptURL(
         'DELETE',
-        '/nexus/openmetadata/api/v1/dataQuality/testSuites/*?hardDelete=true&recursive=true',
+        '/audax/openmetadata/api/v1/dataQuality/testSuites/*?hardDelete=true&recursive=true',
         'deleteTestSuite'
       );
       cy.get('[data-testid="confirm-button"]')
@@ -759,12 +759,12 @@ describe(
       cy.get('[data-testid="profiler"]').should('be.visible').click();
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/tables/*/columnProfile?*',
+        '/audax/openmetadata/api/v1/tables/*/columnProfile?*',
         'getProfilerInfo'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?*',
         'getTestCaseInfo'
       );
 
@@ -785,12 +785,12 @@ describe(
 
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/name/*?fields=*',
         'getTestCaseDetails'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/*/testCaseResult?*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/*/testCaseResult?*',
         'getTestResult'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -817,7 +817,7 @@ describe(
       } = DATA_QUALITY_SAMPLE_DATA_TABLE;
       interceptURL(
         'GET',
-        `nexus/openmetadata/api/v1/tables/name/${serviceName}.*.${term}?fields=*&include=all`,
+        `audax/openmetadata/api/v1/tables/name/${serviceName}.*.${term}?fields=*&include=all`,
         'waitForPageLoad'
       );
       visitEntityDetailsPage({ term, serviceName, entity });
@@ -830,7 +830,7 @@ describe(
       cy.get('[data-testid="profiler"]').click();
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -857,12 +857,12 @@ describe(
 
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testDefinitions/*',
+        '/audax/openmetadata/api/v1/dataQuality/testDefinitions/*',
         'testCaseDefinition'
       );
 
@@ -895,12 +895,12 @@ describe(
       const tableName = DATABASE_SERVICE.entity.name;
       interceptURL(
         'GET',
-        `nexus/openmetadata/api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${tableName}?fields=*&include=all`,
+        `audax/openmetadata/api/v1/tables/name/${DATABASE_SERVICE.service.name}.*.${tableName}?fields=*&include=all`,
         'waitForPageLoad'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testDefinitions/*',
+        '/audax/openmetadata/api/v1/dataQuality/testDefinitions/*',
         'testCaseDefinition'
       );
       visitEntityDetailsPage({
@@ -917,7 +917,7 @@ describe(
       cy.get('[data-testid="profiler"]').click();
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?fields=*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?fields=*',
         'testCase'
       );
       cy.get('[data-testid="profiler-tab-left-panel"]')
@@ -947,7 +947,7 @@ describe(
     it('Update displayName of test case', () => {
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases?*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases?*',
         'getTestCase'
       );
 
@@ -957,7 +957,7 @@ describe(
       verifyResponseStatusCode('@getTestCase', 200);
       interceptURL(
         'GET',
-        `/nexus/openmetadata/api/v1/search/query?q=*${testCase1.name}*&index=test_case_search_index*`,
+        `/audax/openmetadata/api/v1/search/query?q=*${testCase1.name}*&index=test_case_search_index*`,
         'searchTestCase'
       );
       cy.get(
@@ -972,7 +972,7 @@ describe(
       cy.get('#tableTestForm_displayName').type('Table test case display name');
       interceptURL(
         'PATCH',
-        '/nexus/openmetadata/api/v1/dataQuality/testCases/*',
+        '/audax/openmetadata/api/v1/dataQuality/testCases/*',
         'updateTestCase'
       );
       cy.get('.ant-modal-footer').contains('Submit').click();
@@ -998,17 +998,17 @@ describe(
       };
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/tables/*/tableProfile?*',
+        '/audax/openmetadata/api/v1/tables/*/tableProfile?*',
         'tableProfiler'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/tables/*/systemProfile?*',
+        '/audax/openmetadata/api/v1/tables/*/systemProfile?*',
         'systemProfiler'
       );
       interceptURL(
         'GET',
-        '/nexus/openmetadata/api/v1/tables/*/tableProfilerConfig*',
+        '/audax/openmetadata/api/v1/tables/*/tableProfilerConfig*',
         'tableProfilerConfig'
       );
       visitEntityDetailsPage({
@@ -1061,7 +1061,7 @@ describe(
 
       interceptURL(
         'PUT',
-        '/nexus/openmetadata/api/v1/tables/*/tableProfilerConfig',
+        '/audax/openmetadata/api/v1/tables/*/tableProfilerConfig',
         'updateTableProfilerConfig'
       );
       cy.get('.ant-modal-footer').contains('Save').scrollIntoView().click();

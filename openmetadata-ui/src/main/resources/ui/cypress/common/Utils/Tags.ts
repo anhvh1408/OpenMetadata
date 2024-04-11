@@ -14,7 +14,7 @@ import { EntityType } from '../../new-tests/base/EntityClass';
 import { interceptURL, verifyResponseStatusCode } from '../common';
 
 export const assignTags = (tag: string, endPoint: EntityType) => {
-  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${endPoint}/*`, 'addTags');
+  interceptURL('PATCH', `/audax/openmetadata/api/v1/${endPoint}/*`, 'addTags');
   cy.get(
     '[data-testid="entity-right-panel"] [data-testid="tags-container"] [data-testid="add-tag"]'
   ).click();
@@ -38,7 +38,7 @@ export const assignTags = (tag: string, endPoint: EntityType) => {
 };
 
 export const udpateTags = (tag: string, endPoint: EntityType) => {
-  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${endPoint}/*`, 'addTags');
+  interceptURL('PATCH', `/audax/openmetadata/api/v1/${endPoint}/*`, 'addTags');
   cy.get(
     '[data-testid="entity-right-panel"]  [data-testid="tags-container"] [data-testid="edit-button"]'
   ).click();
@@ -67,7 +67,7 @@ export const removeTags = (
   const tags = Array.isArray(inputTag) ? inputTag : [inputTag];
   interceptURL(
     'PATCH',
-    `/nexus/openmetadata/api/v1/${endPoint}/*`,
+    `/audax/openmetadata/api/v1/${endPoint}/*`,
     'removeTags'
   );
   tags.forEach((tag) => {

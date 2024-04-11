@@ -51,7 +51,7 @@ describe('Advance search', () => {
       // Delete created user
       cy.request({
         method: 'DELETE',
-        url: `/nexus/openmetadata/api/v1/users/${USER_CREDENTIALS.id}?hardDelete=true&recursive=false`,
+        url: `/audax/openmetadata/api/v1/users/${USER_CREDENTIALS.id}?hardDelete=true&recursive=false`,
         headers: { Authorization: `Bearer ${token}` },
       });
     });

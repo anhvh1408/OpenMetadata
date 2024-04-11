@@ -39,12 +39,12 @@ class DatabaseSchemaClass extends EntityClass {
   visitEntity() {
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/databases/name/*${DATABASE_SERVICE.database.name}?*`,
+      `/audax/openmetadata/api/v1/databases/name/*${DATABASE_SERVICE.database.name}?*`,
       'fetchDatabase'
     );
     interceptURL(
       'GET',
-      `/nexus/openmetadata/api/v1/databaseSchemas/name/*${this.databaseSchemaName}?*`,
+      `/audax/openmetadata/api/v1/databaseSchemas/name/*${this.databaseSchemaName}?*`,
       'fetchDatabaseSchema'
     );
     visitServiceDetailsPage(

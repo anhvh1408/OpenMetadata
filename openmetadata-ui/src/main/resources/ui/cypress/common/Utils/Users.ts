@@ -56,16 +56,16 @@ export const addUser = ({
     .type(role);
   cy.get('.ant-select-item-option-content').click();
   cy.get('[data-testid="roles-dropdown"] > .ant-select-selector').click();
-  interceptURL('POST', ' /nexus/openmetadata/api/v1/users', 'add-user');
+  interceptURL('POST', ' /audax/openmetadata/api/v1/users', 'add-user');
   cy.get('[data-testid="save-user"]').scrollIntoView().click();
   verifyResponseStatusCode('@add-user', 201);
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
 
   verifyResponseStatusCode('@getUsers', 200);
 };
 
 export const visitProfileSection = () => {
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
   verifyResponseStatusCode('@getUsers', 200);
   cy.get('[data-testid="dropdown-profile"]').click({ force: true });
   cy.get('[data-testid="user-name"] > .ant-typography').click({
@@ -77,7 +77,7 @@ export const softDeleteUser = (username: string, displayName: string) => {
   // Search the created user
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/search/query?q=**&from=0&size=*&index=*',
+    '/audax/openmetadata/api/v1/search/query?q=**&from=0&size=*&index=*',
     'searchUser'
   );
   cy.get('[data-testid="searchbar"]').type(username);
@@ -92,17 +92,17 @@ export const softDeleteUser = (username: string, displayName: string) => {
 
   interceptURL(
     'DELETE',
-    '/nexus/openmetadata/api/v1/users/*?hardDelete=false&recursive=false',
+    '/audax/openmetadata/api/v1/users/*?hardDelete=false&recursive=false',
     'softdeleteUser'
   );
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users*', 'userDeleted');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users*', 'userDeleted');
   cy.get('[data-testid="confirm-button"]').click();
   verifyResponseStatusCode('@softdeleteUser', 200);
   verifyResponseStatusCode('@userDeleted', 200);
 
   toastNotification(`"${displayName}" deleted successfully!`);
 
-  interceptURL('GET', '/nexus/openmetadata/api/v1/search/query*', 'searchUser');
+  interceptURL('GET', '/audax/openmetadata/api/v1/search/query*', 'searchUser');
 
   // Verifying the deleted user
   cy.get('[data-testid="searchbar"]').scrollIntoView().clear().type(username);
@@ -111,12 +111,12 @@ export const softDeleteUser = (username: string, displayName: string) => {
 };
 
 export const restoreUser = (username: string, editedUserName: string) => {
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
 
   verifyResponseStatusCode('@getUsers', 200);
   // Click on deleted user toggle
   cy.get('[data-testid="show-deleted"]').click();
-  interceptURL('GET', '/nexus/openmetadata/api/v1/search/query*', 'searchUser');
+  interceptURL('GET', '/audax/openmetadata/api/v1/search/query*', 'searchUser');
   verifyResponseStatusCode('@getUsers', 200);
 
   cy.get('[data-testid="searchbar"]').type(username);
@@ -130,7 +130,7 @@ export const restoreUser = (username: string, editedUserName: string) => {
   );
   interceptURL(
     'PUT',
-    '/nexus/openmetadata/api/v1/users/restore',
+    '/audax/openmetadata/api/v1/users/restore',
     'restoreUser'
   );
   cy.get('.ant-modal-footer > .ant-btn-primary').click();
@@ -139,11 +139,11 @@ export const restoreUser = (username: string, editedUserName: string) => {
 };
 
 export const permanentDeleteUser = (username: string, displayName: string) => {
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users/name/*', 'getUser');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users/name/*', 'getUser');
   verifyResponseStatusCode('@getUsers', 200);
   verifyResponseStatusCode('@getUser', 200);
-  interceptURL('GET', '/nexus/openmetadata/api/v1/search/query*', 'searchUser');
+  interceptURL('GET', '/audax/openmetadata/api/v1/search/query*', 'searchUser');
   cy.get('[data-testid="searchbar"]').type(username);
   verifyResponseStatusCode('@searchUser', 200);
   cy.get(`[data-testid="delete-user-btn-${username}"]`).click();
@@ -151,7 +151,7 @@ export const permanentDeleteUser = (username: string, displayName: string) => {
   cy.get('[data-testid="confirmation-text-input"]').type('DELETE');
   interceptURL(
     'DELETE',
-    'nexus/openmetadata/api/v1/users/*?hardDelete=true&recursive=false',
+    'audax/openmetadata/api/v1/users/*?hardDelete=true&recursive=false',
     'hardDeleteUser'
   );
   cy.get('[data-testid="confirm-button"]').click();
@@ -161,7 +161,7 @@ export const permanentDeleteUser = (username: string, displayName: string) => {
 
   interceptURL(
     'GET',
-    'nexus/openmetadata/api/v1/search/query?q=**&from=0&size=15&index=user_search_index',
+    'audax/openmetadata/api/v1/search/query?q=**&from=0&size=15&index=user_search_index',
     'searchUser'
   );
 
@@ -171,7 +171,7 @@ export const permanentDeleteUser = (username: string, displayName: string) => {
   cy.get('[data-testid="search-error-placeholder"]').should('be.exist');
 };
 export const visitUserListPage = () => {
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
   cy.settingClick(GlobalSettingOptions.USERS);
 };
 
@@ -225,7 +225,7 @@ export const editDisplayName = (editedUserName: string) => {
   cy.get('[data-testid="edit-displayName"]').click();
   cy.get('[data-testid="displayName"]').clear();
   cy.get('[data-testid="displayName"]').type(editedUserName);
-  interceptURL('PATCH', '/nexus/openmetadata/api/v1/users/*', 'updateName');
+  interceptURL('PATCH', '/audax/openmetadata/api/v1/users/*', 'updateName');
   cy.get('[data-testid="inline-save-btn"]').click();
   cy.get('[data-testid="edit-displayName"]').scrollIntoView();
   cy.get('[data-testid="user-name"]').should('contain', editedUserName);
@@ -236,7 +236,7 @@ export const editDescription = (updatedDescription: string) => {
   cy.get(descriptionBox).clear().type(updatedDescription);
   interceptURL(
     'PATCH',
-    '/nexus/openmetadata/api/v1/users/*',
+    '/audax/openmetadata/api/v1/users/*',
     'patchDescription'
   );
   cy.get('[data-testid="save"]').should('be.visible').click();
@@ -253,7 +253,7 @@ export const editTeams = (teamName: string) => {
   cy.get('.ant-select-selection-item-remove > .anticon').click();
   cy.get('[data-testid="team-select"]').click();
   cy.get('[data-testid="team-select"]').type(teamName);
-  interceptURL('PATCH', '/nexus/openmetadata/api/v1/users/*', 'updateTeams');
+  interceptURL('PATCH', '/audax/openmetadata/api/v1/users/*', 'updateTeams');
   cy.get('.filter-node > .ant-select-tree-node-content-wrapper').click();
   cy.get('[data-testid="inline-save-btn"]').click({ timeout: 10000 });
   verifyResponseStatusCode('@updateTeams', 200);
@@ -349,7 +349,7 @@ export const resetPassword = (password: string, newPassword: string) => {
   cy.get('[data-testid="input-confirm-newPassword"]').clear().type(newPassword);
   interceptURL(
     'PUT',
-    '/nexus/openmetadata/api/v1/users/changePassword',
+    '/audax/openmetadata/api/v1/users/changePassword',
     'changePassword'
   );
   cy.get('.ant-modal-footer > .ant-btn-primary')
@@ -360,13 +360,13 @@ export const resetPassword = (password: string, newPassword: string) => {
 };
 
 export const editRole = (username: string, role: string) => {
-  interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'getUsers');
+  interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'getUsers');
   verifyResponseStatusCode('@getUsers', 200);
 
   // Search the created user
   interceptURL(
     'GET',
-    '/nexus/openmetadata/api/v1/search/query?q=**&from=0&size=*&index=*',
+    '/audax/openmetadata/api/v1/search/query?q=**&from=0&size=*&index=*',
     'searchUser'
   );
   cy.get('[data-testid="searchbar"]').type(username);
@@ -380,7 +380,7 @@ export const editRole = (username: string, role: string) => {
     .click()
     .type(role);
   cy.get('.ant-select-item-option-content').contains(role).click();
-  interceptURL('PATCH', `/nexus/openmetadata/api/v1/users/*`, 'updateRole');
+  interceptURL('PATCH', `/audax/openmetadata/api/v1/users/*`, 'updateRole');
   cy.get('[data-testid="inline-save-btn"]').click();
   verifyResponseStatusCode('@updateRole', 200);
   cy.get('.ant-collapse-expand-icon > .anticon > svg').scrollIntoView();
