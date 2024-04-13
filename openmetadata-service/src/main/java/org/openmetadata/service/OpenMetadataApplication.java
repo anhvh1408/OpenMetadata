@@ -116,12 +116,46 @@ import org.openmetadata.service.util.MicrometerBundleSingleton;
 import org.openmetadata.service.util.incidentSeverityClassifier.IncidentSeverityClassifierInterface;
 import org.openmetadata.service.util.jdbi.DatabaseAuthenticationProviderFactory;
 import org.quartz.SchedulerException;
+import javax.servlet.*;
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ServletHolder;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.io.InputStream;
+import org.apache.commons.io.IOUtils;
 
 /** Main catalog application */
 @Slf4j
 public class OpenMetadataApplication extends Application<OpenMetadataApplicationConfig> {
   private Authorizer authorizer;
   private AuthenticatorHandler authenticatorHandler;
+
+
+public class SpaRoutingFilter implements Filter {
+    private final String indexPath = "/audax/openmetadata/index.html"; // This should point to the actual index.html path
+    private final String apiPathPrefix = "/audax/openmetadata/api/";
+    private final String assetsPathPrefix = "/audax/openmetadata/assets/";
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest req = (HttpServletRequest) request;
+        String uri = req.getRequestURI();
+
+        if (uri.startsWith(apiPathPrefix) || uri.startsWith(assetsPathPrefix) || uri.matches(".*\\.(js|css|png|jpg|jpeg|svg|gif|woff|woff2)$")) {
+            // It's an API call or a static asset, so let it go through normally
+            chain.doFilter(request, response);
+        } else {
+            // It's a front-end route, reroute to index.html
+            request.getRequestDispatcher(indexPath).forward(request, response);
+        }
+    }
+
+    // Implement other methods (init and destroy) as needed
+}
 
   @Override
   public void run(OpenMetadataApplicationConfig catalogConfig, Environment environment)
@@ -188,6 +222,11 @@ public class OpenMetadataApplication extends Application<OpenMetadataApplication
     // Unregister dropwizard default exception mappers
     ((DefaultServerFactory) catalogConfig.getServerFactory())
         .setRegisterDefaultExceptionMappers(false);
+
+    environment.servlets().addFilter("SpaRoutingFilter", new SpaRoutingFilter())
+            .addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+
+
     environment.jersey().property(ServerProperties.RESPONSE_SET_STATUS_OVER_SEND_ERROR, true);
     environment.jersey().register(MultiPartFeature.class);
     environment.jersey().register(CatalogGenericExceptionMapper.class);

@@ -11,6 +11,12 @@
  *  limitations under the License.
  */
 
+// import { createBrowserHistory } from 'history';
+//
+// export const history = createBrowserHistory();
+
 import { createBrowserHistory } from 'history';
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({
+  basename: '/audax/openmetadata',
+});
