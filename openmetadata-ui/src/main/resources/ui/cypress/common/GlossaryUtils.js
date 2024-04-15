@@ -24,7 +24,7 @@ import {
 export const visitGlossaryPage = () => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/glossaries?fields=*',
+    '/nexus/openmetadata/api/v1/glossaries?fields=*',
     'getGlossaries'
   );
 
@@ -36,7 +36,7 @@ export const visitGlossaryPage = () => {
 export const addReviewer = (reviewerName, entity) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/users?limit=25&isBot=false',
+    '/nexus/openmetadata/api/v1/users?limit=25&isBot=false',
     'getUsers'
   );
 
@@ -46,7 +46,7 @@ export const addReviewer = (reviewerName, entity) => {
 
   interceptURL(
     'GET',
-    `audax/openmetadata/api/v1/search/query?q=*${encodeURI(reviewerName)}*`,
+    `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(reviewerName)}*`,
     'searchOwner'
   );
 
@@ -54,7 +54,7 @@ export const addReviewer = (reviewerName, entity) => {
 
   verifyResponseStatusCode('@searchOwner', 200);
 
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/${entity}/*`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, 'patchOwner');
 
   cy.get(`.ant-popover [title="${reviewerName}"]`).click();
 
@@ -66,7 +66,7 @@ export const addReviewer = (reviewerName, entity) => {
 };
 
 export const removeReviewer = (entity) => {
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/${entity}/*`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, 'patchOwner');
 
   cy.get('[data-testid="edit-reviewer-button"]').click();
 
@@ -99,7 +99,7 @@ export const deleteGlossary = (glossary) => {
 
   interceptURL(
     'DELETE',
-    '/audax/openmetadata/api/v1/glossaries/*',
+    '/nexus/openmetadata/api/v1/glossaries/*',
     'getGlossary'
   );
 

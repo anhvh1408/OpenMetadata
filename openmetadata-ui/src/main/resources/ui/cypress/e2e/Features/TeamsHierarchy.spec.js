@@ -44,12 +44,12 @@ describe(
 
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/teams/name/*',
+        '/nexus/openmetadata/api/v1/teams/name/*',
         'getOrganization'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/permissions/team/name/*',
+        '/nexus/openmetadata/api/v1/permissions/team/name/*',
         'getPermissions'
       );
 

@@ -16,12 +16,12 @@ import { interceptURL } from '../common';
 export const upVoteEntity = ({ endPoint }: { endPoint: EntityType }) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/${endPoint}/name/*?fields=*`,
+    `/nexus/openmetadata/api/v1/${endPoint}/name/*?fields=*`,
     'getEntityDetail'
   );
   interceptURL(
     'PUT',
-    `/audax/openmetadata/api/v1/${endPoint}/*/vote`,
+    `/nexus/openmetadata/api/v1/${endPoint}/*/vote`,
     'upVoting'
   );
 
@@ -41,12 +41,12 @@ export const upVoteEntity = ({ endPoint }: { endPoint: EntityType }) => {
 export const downVoteEntity = ({ endPoint }: { endPoint: EntityType }) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/${endPoint}/name/*?fields=*`,
+    `/nexus/openmetadata/api/v1/${endPoint}/name/*?fields=*`,
     'getEntityDetail'
   );
   interceptURL(
     'PUT',
-    `/audax/openmetadata/api/v1/${endPoint}/*/vote`,
+    `/nexus/openmetadata/api/v1/${endPoint}/*/vote`,
     'downVoting'
   );
 

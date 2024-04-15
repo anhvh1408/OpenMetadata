@@ -274,7 +274,7 @@ export const ROUTES = {
   UPDATE_TAGS: `/update-tags/${PLACEHOLDER_ROUTE_ENTITY_TYPE}/${PLACEHOLDER_ROUTE_FQN}`,
   TASK_DETAIL: `/tasks/${PLACEHOLDER_TASK_ID}`,
 
-  ACTIVITY_PUSH_FEED: '/audax/openmetadata/api/v1/push/feed',
+  ACTIVITY_PUSH_FEED: '/nexus/openmetadata/api/v1/push/feed',
   ADD_ROLE: '/settings/access/roles/add-role',
   ADD_POLICY: '/settings/access/policies/add-policy',
   ADD_POLICY_RULE: `/settings/access/policies/${PLACEHOLDER_ROUTE_FQN}/add-rule`,

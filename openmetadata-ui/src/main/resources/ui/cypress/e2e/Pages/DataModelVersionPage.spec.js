@@ -46,7 +46,7 @@ describe(
 
         cy.request({
           method: 'PUT',
-          url: `/audax/openmetadata/api/v1/dashboard/datamodels`,
+          url: `/nexus/openmetadata/api/v1/dashboard/datamodels`,
           headers: { Authorization: `Bearer ${token}` },
           body: DATA_MODEL_DETAILS_FOR_VERSION_TEST,
         }).then((response) => {
@@ -55,7 +55,7 @@ describe(
 
           cy.request({
             method: 'PATCH',
-            url: `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}`,
+            url: `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}`,
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json-patch+json',
@@ -120,17 +120,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
         `getDataModelDetails`
       );
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/0.2`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -156,17 +156,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
         `getDataModelDetails`
       );
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/0.2`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/0.2`,
         'getSelectedVersionDetails'
       );
 
@@ -198,7 +198,7 @@ describe(
 
       interceptURL(
         'DELETE',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/*`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/*`,
         'deleteDataModel'
       );
 
@@ -211,17 +211,17 @@ describe(
 
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
         `getDataModelDetails`
       );
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
         'getVersionsList'
       );
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/0.3`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/0.3`,
         'getSelectedVersionDetails'
       );
 
@@ -249,7 +249,7 @@ describe(
 
       interceptURL(
         'PUT',
-        `/audax/openmetadata/api/v1/dashboard/datamodels/restore`,
+        `/nexus/openmetadata/api/v1/dashboard/datamodels/restore`,
         'restoreDataModel'
       );
 
@@ -278,7 +278,7 @@ describe(
 
       interceptURL(
         'DELETE',
-        `audax/openmetadata/api/v1/dashboard/datamodels/*?hardDelete=true&recursive=true`,
+        `nexus/openmetadata/api/v1/dashboard/datamodels/*?hardDelete=true&recursive=true`,
         `hardDeleteDataModel`
       );
       cy.get('[data-testid="confirm-button"]').should('not.be.disabled');

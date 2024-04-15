@@ -51,7 +51,7 @@ export const checkDataInsightSuccessStatus = (
 export const verifyKpiChart = () => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/analytics/dataInsights/charts/aggregate?*',
+    '/nexus/openmetadata/api/v1/analytics/dataInsights/charts/aggregate?*',
     'dataInsightsChart'
   );
   checkDataInsightSuccessStatus();

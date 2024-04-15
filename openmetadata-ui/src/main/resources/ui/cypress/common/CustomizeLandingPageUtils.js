@@ -46,7 +46,7 @@ export const navigateToCustomizeLandingPage = ({
   personaName,
   customPageDataResponse,
 }) => {
-  interceptURL('GET', '/audax/openmetadata/api/v1/personas*', 'getPersonas');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/personas*', 'getPersonas');
 
   cy.settingClick(GlobalSettingOptions.CUSTOMIZE_LANDING_PAGE);
 
@@ -54,12 +54,12 @@ export const navigateToCustomizeLandingPage = ({
 
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/docStore/name/persona.${personaName}.Page.LandingPage`,
+    `/nexus/openmetadata/api/v1/docStore/name/persona.${personaName}.Page.LandingPage`,
     'getCustomPageData'
   );
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/users/*?fields=follows%2C%20owns`,
+    `/nexus/openmetadata/api/v1/users/*?fields=follows%2C%20owns`,
     'getMyData'
   );
 
@@ -73,7 +73,7 @@ export const navigateToCustomizeLandingPage = ({
 
 export const saveLayout = () => {
   // Save layout
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/docStore/*`, 'getMyData');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/docStore/*`, 'getMyData');
 
   cy.get('[data-testid="save-button"]').click();
 
@@ -83,10 +83,10 @@ export const saveLayout = () => {
 };
 
 export const navigateToLandingPage = () => {
-  interceptURL('GET', `/audax/openmetadata/api/v1/feed*`, 'getFeedsData');
+  interceptURL('GET', `/nexus/openmetadata/api/v1/feed*`, 'getFeedsData');
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/analytics/dataInsights/charts/aggregate*`,
+    `/nexus/openmetadata/api/v1/analytics/dataInsights/charts/aggregate*`,
     'getDataInsightReport'
   );
 
@@ -99,7 +99,7 @@ export const navigateToLandingPage = () => {
 export const openAddWidgetModal = () => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/docStore?fqnPrefix=KnowledgePanel`,
+    `/nexus/openmetadata/api/v1/docStore?fqnPrefix=KnowledgePanel`,
     'getWidgetsList'
   );
 

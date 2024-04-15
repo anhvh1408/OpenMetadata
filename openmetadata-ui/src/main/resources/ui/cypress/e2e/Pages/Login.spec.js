@@ -32,12 +32,12 @@ describe('Login flow should work properly', { tags: 'Settings' }, () => {
   it('Signup and Login with signed up credentials', () => {
     interceptURL(
       'GET',
-      'audax/openmetadata/api/v1/system/config/auth',
+      'nexus/openmetadata/api/v1/system/config/auth',
       'getLoginPage'
     );
     interceptURL(
       'POST',
-      '/audax/openmetadata/api/v1/users/checkEmailInUse',
+      '/nexus/openmetadata/api/v1/users/checkEmailInUse',
       'createUser'
     );
     cy.visit('/');
@@ -87,7 +87,7 @@ describe('Login flow should work properly', { tags: 'Settings' }, () => {
       .should('be.visible')
       .invoke('text')
       .should('contain', `${CREDENTIALS.firstName}${CREDENTIALS.lastName}`);
-    interceptURL('GET', 'audax/openmetadata/api/v1/users/name/*', 'getUser');
+    interceptURL('GET', 'nexus/openmetadata/api/v1/users/name/*', 'getUser');
     cy.get('[data-testid="user-name"]')
       .should('be.visible')
       .click({ force: true });
@@ -118,7 +118,7 @@ describe('Login flow should work properly', { tags: 'Settings' }, () => {
   it('Forgot password and login with new password', () => {
     interceptURL(
       'GET',
-      'audax/openmetadata/api/v1/system/config/auth',
+      'nexus/openmetadata/api/v1/system/config/auth',
       'getLoginPage'
     );
     cy.visit('/');
@@ -149,7 +149,7 @@ describe('Cleanup', () => {
 
     cy.request({
       method: 'DELETE',
-      url: `/audax/openmetadata/api/v1/users/${CREDENTIALS.id}?hardDelete=true&recursive=false`,
+      url: `/nexus/openmetadata/api/v1/users/${CREDENTIALS.id}?hardDelete=true&recursive=false`,
       headers: { Authorization: `Bearer ${token}` },
     }).then((response) => {
       expect(response.status).to.eq(200);

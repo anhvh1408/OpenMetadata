@@ -27,8 +27,8 @@ const userEmail = `${userName}@gmail.com`;
 describe('Test Add role and assign it to the user', () => {
   beforeEach(() => {
     cy.login();
-    interceptURL('GET', '*audax/openmetadata/api/v1/roles*', 'getRoles');
-    interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'usersPage');
+    interceptURL('GET', '*nexus/openmetadata/api/v1/roles*', 'getRoles');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'usersPage');
   });
 
   it('Create role', () => {
@@ -78,7 +78,7 @@ describe('Test Add role and assign it to the user', () => {
 
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/users/generateRandomPwd',
+      '/nexus/openmetadata/api/v1/users/generateRandomPwd',
       'generatePassword'
     );
     cy.get('[data-testid="password-generator"]').scrollIntoView().click();
@@ -88,7 +88,7 @@ describe('Test Add role and assign it to the user', () => {
     cy.get(`.ant-select-dropdown [title="${roleName}"]`).click();
 
     cy.clickOutside();
-    interceptURL('POST', '/audax/openmetadata/api/v1/users', 'createUser');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/users', 'createUser');
     cy.get('[data-testid="save-user"]').scrollIntoView().click();
     verifyResponseStatusCode('@createUser', 201);
   });
@@ -99,12 +99,12 @@ describe('Test Add role and assign it to the user', () => {
 
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query?q=**&from=0&size=*&index=*',
+      '/nexus/openmetadata/api/v1/search/query?q=**&from=0&size=*&index=*',
       'searchUser'
     );
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/users/name/*',
+      '/nexus/openmetadata/api/v1/users/name/*',
       'userDetailsPage'
     );
     cy.get('[data-testid="searchbar"]').type(userName);

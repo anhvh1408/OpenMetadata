@@ -41,7 +41,7 @@ export const createCustomPropertyForEntity = ({
 }) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/metadata/types/name/*`,
+    `/nexus/openmetadata/api/v1/metadata/types/name/*`,
     'getEntity'
   );
 
@@ -64,7 +64,7 @@ export const createCustomPropertyForEntity = ({
 
   // Check if the property got added
   cy.intercept(
-    '/audax/openmetadata/api/v1/metadata/types/name/*?fields=customProperties'
+    '/nexus/openmetadata/api/v1/metadata/types/name/*?fields=customProperties'
   ).as('customProperties');
   cy.get('[data-testid="create-button"]').scrollIntoView().click();
 
@@ -81,12 +81,12 @@ export const deleteCustomPropertyForEntity = ({
 }) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/metadata/types/name/*`,
+    `/nexus/openmetadata/api/v1/metadata/types/name/*`,
     'getEntity'
   );
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/metadata/types/*`,
+    `/nexus/openmetadata/api/v1/metadata/types/*`,
     'patchEntity'
   );
   // Selecting the entity
@@ -120,7 +120,7 @@ export const setValueForProperty = (propertyName, value: string) => {
 
   cy.get('@editbutton').click();
 
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/*/*`, 'patchEntity');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/*/*`, 'patchEntity');
   // Checking for value text box or markdown box
   cy.get('body').then(($body) => {
     if ($body.find('[data-testid="value-input"]').length > 0) {
@@ -183,7 +183,7 @@ export const deleteCustomProperties = (
 ) => {
   cy.request({
     method: 'PATCH',
-    url: `/audax/openmetadata/api/v1/metadata/types/${tableSchemaId}`,
+    url: `/nexus/openmetadata/api/v1/metadata/types/${tableSchemaId}`,
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json-patch+json',

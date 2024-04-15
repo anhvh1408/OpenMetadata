@@ -87,7 +87,7 @@ describe(
         // Create a new user
         cy.request({
           method: 'POST',
-          url: `/audax/openmetadata/api/v1/users/signup`,
+          url: `/nexus/openmetadata/api/v1/users/signup`,
           headers: { Authorization: `Bearer ${token}` },
           body: USER_DETAILS,
         }).then((response) => {
@@ -97,7 +97,7 @@ describe(
         // Create a domain
         cy.request({
           method: 'PUT',
-          url: `/audax/openmetadata/api/v1/domains`,
+          url: `/nexus/openmetadata/api/v1/domains`,
           headers: { Authorization: `Bearer ${token}` },
           body: DOMAIN_CREATION_DETAILS,
         }).then((response) => {
@@ -120,14 +120,14 @@ describe(
         // Delete created domain
         cy.request({
           method: 'DELETE',
-          url: `/audax/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
+          url: `/nexus/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
           headers: { Authorization: `Bearer ${token}` },
         });
 
         // Delete created user
         cy.request({
           method: 'DELETE',
-          url: `/audax/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
+          url: `/nexus/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
           headers: { Authorization: `Bearer ${token}` },
         });
       });
@@ -136,24 +136,24 @@ describe(
     beforeEach(() => {
       interceptURL(
         'POST',
-        '/audax/openmetadata/api/v1/events/subscriptions',
+        '/nexus/openmetadata/api/v1/events/subscriptions',
         'createAlert'
       );
       interceptURL(
         'PUT',
-        '/audax/openmetadata/api/v1/events/subscriptions',
+        '/nexus/openmetadata/api/v1/events/subscriptions',
         'updateAlert'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/events/subscriptions/name/*',
+        '/nexus/openmetadata/api/v1/events/subscriptions/name/*',
         'alertDetails'
       );
       cy.login();
       cy.sidebarClick(SidebarItem.SETTINGS);
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/events/subscriptions?*',
+        '/nexus/openmetadata/api/v1/events/subscriptions?*',
         'alertsPage'
       );
       cy.get('[data-testid="notifications"]')

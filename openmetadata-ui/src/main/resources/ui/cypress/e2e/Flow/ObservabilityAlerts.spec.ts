@@ -90,7 +90,7 @@ describe(
         // Create a test suite and test case for table
         cy.request({
           method: 'POST',
-          url: `/audax/openmetadata/api/v1/dataQuality/testSuites/executable`,
+          url: `/nexus/openmetadata/api/v1/dataQuality/testSuites/executable`,
           headers: { Authorization: `Bearer ${token}` },
           body: {
             name: TEST_SUITE_FQN,
@@ -101,7 +101,7 @@ describe(
 
           cy.request({
             method: 'POST',
-            url: `/audax/openmetadata/api/v1/dataQuality/testCases`,
+            url: `/nexus/openmetadata/api/v1/dataQuality/testCases`,
             headers: { Authorization: `Bearer ${token}` },
             body: {
               name: TEST_CASE_NAME,
@@ -124,7 +124,7 @@ describe(
         // Create a pipeline
         cy.request({
           method: 'POST',
-          url: `/audax/openmetadata/api/v1/services/${PIPELINE_SERVICE.serviceType}`,
+          url: `/nexus/openmetadata/api/v1/services/${PIPELINE_SERVICE.serviceType}`,
           headers: { Authorization: `Bearer ${token}` },
           body: PIPELINE_SERVICE.service,
         }).then((pipelineServiceResponse) => {
@@ -132,7 +132,7 @@ describe(
 
           cy.request({
             method: 'POST',
-            url: `/audax/openmetadata/api/v1/${PIPELINE_SERVICE.entityType}`,
+            url: `/nexus/openmetadata/api/v1/${PIPELINE_SERVICE.entityType}`,
             headers: { Authorization: `Bearer ${token}` },
             body: PIPELINE_SERVICE.entity,
           });
@@ -140,7 +140,7 @@ describe(
           // Create a ingestion pipeline
           cy.request({
             method: 'POST',
-            url: `/audax/openmetadata/api/v1/services/ingestionPipelines`,
+            url: `/nexus/openmetadata/api/v1/services/ingestionPipelines`,
             headers: { Authorization: `Bearer ${token}` },
             body: {
               airflowConfig: {},
@@ -163,7 +163,7 @@ describe(
         // Create a new user
         cy.request({
           method: 'POST',
-          url: `/audax/openmetadata/api/v1/users/signup`,
+          url: `/nexus/openmetadata/api/v1/users/signup`,
           headers: { Authorization: `Bearer ${token}` },
           body: USER_DETAILS,
         }).then((response) => {
@@ -173,7 +173,7 @@ describe(
         // Create a domain
         cy.request({
           method: 'PUT',
-          url: `/audax/openmetadata/api/v1/domains`,
+          url: `/nexus/openmetadata/api/v1/domains`,
           headers: { Authorization: `Bearer ${token}` },
           body: DOMAIN_CREATION_DETAILS,
         }).then((response) => {
@@ -202,14 +202,14 @@ describe(
         // Delete created domain
         cy.request({
           method: 'DELETE',
-          url: `/audax/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
+          url: `/nexus/openmetadata/api/v1/domains/name/${DOMAIN_CREATION_DETAILS.name}`,
           headers: { Authorization: `Bearer ${token}` },
         });
 
         // Delete created user
         cy.request({
           method: 'DELETE',
-          url: `/audax/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
+          url: `/nexus/openmetadata/api/v1/users/${data.user.id}?hardDelete=true&recursive=false`,
           headers: { Authorization: `Bearer ${token}` },
         });
       });
@@ -218,22 +218,22 @@ describe(
     beforeEach(() => {
       interceptURL(
         'POST',
-        '/audax/openmetadata/api/v1/events/subscriptions',
+        '/nexus/openmetadata/api/v1/events/subscriptions',
         'createAlert'
       );
       interceptURL(
         'PUT',
-        '/audax/openmetadata/api/v1/events/subscriptions',
+        '/nexus/openmetadata/api/v1/events/subscriptions',
         'updateAlert'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/events/subscriptions/name/*',
+        '/nexus/openmetadata/api/v1/events/subscriptions/name/*',
         'alertDetails'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/events/subscriptions?*',
+        '/nexus/openmetadata/api/v1/events/subscriptions?*',
         'alertsPage'
       );
       cy.login();
@@ -416,7 +416,7 @@ describe(
             // Search and select filter input value
             interceptURL(
               'GET',
-              `/audax/openmetadata/api/v1/search/query?q=*`,
+              `/nexus/openmetadata/api/v1/search/query?q=*`,
               'getSearchResult'
             );
             cy.get(`[data-testid="${filter.inputSelector}"]`)
@@ -461,7 +461,7 @@ describe(
                 // Search and select domain
                 interceptURL(
                   'GET',
-                  `/audax/openmetadata/api/v1/search/query?q=*`,
+                  `/nexus/openmetadata/api/v1/search/query?q=*`,
                   'getSearchResult'
                 );
                 cy.get(`[data-testid="${input.inputSelector}"]`)
@@ -551,7 +551,7 @@ describe(
           cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
           interceptURL(
             'DELETE',
-            '/audax/openmetadata/api/v1/events/subscriptions/*',
+            '/nexus/openmetadata/api/v1/events/subscriptions/*',
             'deleteAlert'
           );
           cy.get('[data-testid="confirm-button"]').click();

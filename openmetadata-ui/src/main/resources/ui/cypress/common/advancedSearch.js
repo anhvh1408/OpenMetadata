@@ -198,7 +198,7 @@ export const searchForField = (
   if (!isLocalSearch) {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/aggregate?*',
+      '/nexus/openmetadata/api/v1/search/aggregate?*',
       'suggestApi'
     );
   }
@@ -266,7 +266,7 @@ export const checkmustPaths = (
 
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*must*${encodeURI(
+    `/nexus/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*must*${encodeURI(
       searchCriteria
     )}*`,
     'search'
@@ -297,7 +297,7 @@ export const checkmust_notPaths = (
   searchForField(condition, field, searchCriteria, index, isLocalSearch);
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*must_not*${encodeURI(
+    `/nexus/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*must_not*${encodeURI(
       searchCriteria
     )}*`,
     'search_must_not'
@@ -321,7 +321,7 @@ export const removeOwner = () => {
   });
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/${SEARCH_ENTITY_TABLE.table_1.entity}/*`,
+    `/nexus/openmetadata/api/v1/${SEARCH_ENTITY_TABLE.table_1.entity}/*`,
     'patchOwner'
   );
   cy.get('[data-testid="edit-owner"]').click();
@@ -339,7 +339,7 @@ export const addOwner = ({ ownerName, term, serviceName, entity }) => {
 
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/search/query?q=**%20AND%20teamType:Group&from=0&size=25&index=team_search_index&sort_field=displayName.keyword&sort_order=asc',
+    '/nexus/openmetadata/api/v1/search/query?q=**%20AND%20teamType:Group&from=0&size=25&index=team_search_index&sort_field=displayName.keyword&sort_order=asc',
     'waitForTeams'
   );
 
@@ -348,7 +348,7 @@ export const addOwner = ({ ownerName, term, serviceName, entity }) => {
   verifyResponseStatusCode('@waitForTeams', 200);
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/users?limit=25&isBot=false',
+    '/nexus/openmetadata/api/v1/users?limit=25&isBot=false',
     'getUsers'
   );
 
@@ -357,7 +357,7 @@ export const addOwner = ({ ownerName, term, serviceName, entity }) => {
 
   interceptURL(
     'GET',
-    `audax/openmetadata/api/v1/search/query?q=*${encodeURI(ownerName)}*`,
+    `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(ownerName)}*`,
     'searchOwner'
   );
 
@@ -365,7 +365,7 @@ export const addOwner = ({ ownerName, term, serviceName, entity }) => {
 
   verifyResponseStatusCode('@searchOwner', 200);
 
-  interceptURL('PATCH', '/audax/openmetadata/api/v1/tables/*', 'tablePatch');
+  interceptURL('PATCH', '/nexus/openmetadata/api/v1/tables/*', 'tablePatch');
 
   // Selecting the user
   cy.get(`[title="${ownerName}"]`)
@@ -482,7 +482,7 @@ export const checkAddGroupWithOperator = (
       if (!isLocalSearch) {
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/search/aggregate?*',
+          '/nexus/openmetadata/api/v1/search/aggregate?*',
           'suggestApi'
         );
       }
@@ -543,7 +543,7 @@ export const checkAddGroupWithOperator = (
       if (!isLocalSearch) {
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/search/aggregate?*',
+          '/nexus/openmetadata/api/v1/search/aggregate?*',
           'suggestApi'
         );
       }
@@ -567,7 +567,7 @@ export const checkAddGroupWithOperator = (
 
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*${encodeURI(
+    `/nexus/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*${encodeURI(
       searchCriteria_1
     )}*`,
     `search${searchCriteria_1}`
@@ -622,7 +622,7 @@ export const checkAddRuleWithOperator = (
     } else {
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/search/aggregate?*',
+        '/nexus/openmetadata/api/v1/search/aggregate?*',
         'suggestApi'
       );
 
@@ -675,7 +675,7 @@ export const checkAddRuleWithOperator = (
     } else {
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/search/aggregate?*',
+        '/nexus/openmetadata/api/v1/search/aggregate?*',
         'suggestApi'
       );
       cy.get('.widget--widget > .ant-select > .ant-select-selector')
@@ -696,7 +696,7 @@ export const checkAddRuleWithOperator = (
 
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*${filter_1}*${encodeURI(
+    `/nexus/openmetadata/api/v1/search/query?q=&index=*&from=0&size=10&deleted=false&query_filter=*${filter_1}*${encodeURI(
       searchCriteria_1
     )}*${filter_2}*${encodeURI(response_2)}*`,
     `search${searchCriteria_1}`
@@ -724,7 +724,7 @@ export const advanceSearchPreRequests = (token) => {
   // Create a new user
   cy.request({
     method: 'POST',
-    url: `/audax/openmetadata/api/v1/users/signup`,
+    url: `/nexus/openmetadata/api/v1/users/signup`,
     headers: { Authorization: `Bearer ${token}` },
     body: USER_CREDENTIALS,
   }).then((response) => {
@@ -734,12 +734,12 @@ export const advanceSearchPreRequests = (token) => {
   // Add owner to table 1
   cy.request({
     method: 'GET',
-    url: `/audax/openmetadata/api/v1/tables/name/${ADVANCE_SEARCH_TABLES.table1.databaseSchema}.${ADVANCE_SEARCH_TABLES.table1.name}`,
+    url: `/nexus/openmetadata/api/v1/tables/name/${ADVANCE_SEARCH_TABLES.table1.databaseSchema}.${ADVANCE_SEARCH_TABLES.table1.name}`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     cy.request({
       method: 'PATCH',
-      url: `/audax/openmetadata/api/v1/tables/${response.body.id}`,
+      url: `/nexus/openmetadata/api/v1/tables/${response.body.id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json-patch+json',
@@ -760,12 +760,12 @@ export const advanceSearchPreRequests = (token) => {
   // Add Tier to table 2
   cy.request({
     method: 'GET',
-    url: `/audax/openmetadata/api/v1/tables/name/${ADVANCE_SEARCH_TABLES.table2.databaseSchema}.${ADVANCE_SEARCH_TABLES.table2.name}`,
+    url: `/nexus/openmetadata/api/v1/tables/name/${ADVANCE_SEARCH_TABLES.table2.databaseSchema}.${ADVANCE_SEARCH_TABLES.table2.name}`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     cy.request({
       method: 'PATCH',
-      url: `/audax/openmetadata/api/v1/tables/${response.body.id}`,
+      url: `/nexus/openmetadata/api/v1/tables/${response.body.id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json-patch+json',
@@ -798,12 +798,12 @@ export const advanceSearchPreRequests = (token) => {
   // Add Tag to table 3
   cy.request({
     method: 'GET',
-    url: `/audax/openmetadata/api/v1/tables/name/${ADVANCE_SEARCH_TABLES.table3.databaseSchema}.${ADVANCE_SEARCH_TABLES.table3.name}`,
+    url: `/nexus/openmetadata/api/v1/tables/name/${ADVANCE_SEARCH_TABLES.table3.databaseSchema}.${ADVANCE_SEARCH_TABLES.table3.name}`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     cy.request({
       method: 'PATCH',
-      url: `/audax/openmetadata/api/v1/tables/${response.body.id}`,
+      url: `/nexus/openmetadata/api/v1/tables/${response.body.id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json-patch+json',

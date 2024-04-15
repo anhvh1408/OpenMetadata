@@ -75,12 +75,12 @@ const createCustomMetric = ({
 }) => {
   interceptURL(
     'PUT',
-    '/audax/openmetadata/api/v1/tables/*/customMetric',
+    '/nexus/openmetadata/api/v1/tables/*/customMetric',
     'createCustomMetric'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/tables/name/*?fields=customMetrics%2Ccolumns&include=all',
+    '/nexus/openmetadata/api/v1/tables/name/*?fields=customMetrics%2Ccolumns&include=all',
     'getCustomMetric'
   );
   visitEntityDetailsPage({
@@ -155,12 +155,12 @@ const editCustomMetric = ({
 }) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/tables/name/*?fields=customMetrics%2Ccolumns&include=all',
+    '/nexus/openmetadata/api/v1/tables/name/*?fields=customMetrics%2Ccolumns&include=all',
     'getCustomMetric'
   );
   interceptURL(
     'PUT',
-    '/audax/openmetadata/api/v1/tables/*/customMetric',
+    '/nexus/openmetadata/api/v1/tables/*/customMetric',
     'editCustomMetric'
   );
   visitEntityDetailsPage({
@@ -206,14 +206,14 @@ const deleteCustomMetric = ({
 }) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/tables/name/*?fields=customMetrics%2Ccolumns&include=all',
+    '/nexus/openmetadata/api/v1/tables/name/*?fields=customMetrics%2Ccolumns&include=all',
     'getCustomMetric'
   );
   interceptURL(
     'DELETE',
     isColumnMetric
-      ? `/audax/openmetadata/api/v1/tables/*/customMetric/${metric.column}/${metric.name}*`
-      : `/audax/openmetadata/api/v1/tables/*/customMetric/${metric.name}*`,
+      ? `/nexus/openmetadata/api/v1/tables/*/customMetric/${metric.column}/${metric.name}*`
+      : `/nexus/openmetadata/api/v1/tables/*/customMetric/${metric.name}*`,
     'deleteCustomMetric'
   );
   visitEntityDetailsPage({

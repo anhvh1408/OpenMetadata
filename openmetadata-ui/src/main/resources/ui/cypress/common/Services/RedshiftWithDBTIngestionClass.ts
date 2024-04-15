@@ -83,19 +83,19 @@ class RedshiftWithDBTIngestionClass extends ServiceBaseClass {
     it('Add DBT ingestion', () => {
       interceptURL(
         'POST',
-        '/audax/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
+        '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
         'deployIngestion'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
+        '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
         'pipelineStatus'
       );
       cy.sidebarClick(SidebarItem.SETTINGS);
       // Services page
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/services/*',
+        '/nexus/openmetadata/api/v1/services/*',
         'getServices'
       );
 
@@ -104,32 +104,32 @@ class RedshiftWithDBTIngestionClass extends ServiceBaseClass {
       verifyResponseStatusCode('@getServices', 200);
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/services/ingestionPipelines?*',
+        '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
         'ingestionData'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/system/config/pipeline-service-client',
+        '/nexus/openmetadata/api/v1/system/config/pipeline-service-client',
         'airflow'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/permissions/ingestionPipeline/name/*',
+        '/nexus/openmetadata/api/v1/permissions/ingestionPipeline/name/*',
         'ingestionPermissions'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/services/ingestionPipelines/status',
+        '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
         'getIngestionPipelineStatus'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/services/*/name/*',
+        '/nexus/openmetadata/api/v1/services/*/name/*',
         'serviceDetails'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/databases?*',
+        '/nexus/openmetadata/api/v1/databases?*',
         'databases'
       );
       searchServiceFromSettingPage(REDSHIFT.serviceName);
@@ -184,17 +184,17 @@ class RedshiftWithDBTIngestionClass extends ServiceBaseClass {
       cy.wait('@deployIngestion').then(() => {
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/services/ingestionPipelines?*',
+          '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
           'ingestionPipelines'
         );
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/permissions/*/name/*',
+          '/nexus/openmetadata/api/v1/permissions/*/name/*',
           'serviceDetailsPermission'
         );
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/services/*/name/*',
+          '/nexus/openmetadata/api/v1/services/*/name/*',
           'serviceDetails'
         );
         cy.get('[data-testid="view-service-button"]')
@@ -211,13 +211,13 @@ class RedshiftWithDBTIngestionClass extends ServiceBaseClass {
     it('Validate DBT is ingested properly', () => {
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/classifications?fields=termCount&limit=*`,
+        `/nexus/openmetadata/api/v1/classifications?fields=termCount&limit=*`,
         'fetchClassifications'
       );
       // Verify DBT tags
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/tags?*parent=${DBT.classification}*`,
+        `/nexus/openmetadata/api/v1/tags?*parent=${DBT.classification}*`,
         'getTagList'
       );
 

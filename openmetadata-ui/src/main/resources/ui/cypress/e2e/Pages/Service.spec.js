@@ -24,17 +24,17 @@ describe('Services page should work properly', { tags: 'Integration' }, () => {
   beforeEach(() => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/system/config/pipeline-service-client',
+      '/nexus/openmetadata/api/v1/system/config/pipeline-service-client',
       'pipelineServiceClient'
     );
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/*?service=${service.name}&fields=*`,
+      `/nexus/openmetadata/api/v1/*?service=${service.name}&fields=*`,
       'serviceDetails'
     );
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/services/ingestionPipelines?fields=*&service=${service.name}*`,
+      `/nexus/openmetadata/api/v1/services/ingestionPipelines?fields=*&service=${service.name}*`,
       'ingestionPipelines'
     );
     cy.login();
@@ -76,7 +76,7 @@ describe('Services page should work properly', { tags: 'Integration' }, () => {
     verifyResponseStatusCode('@pipelineServiceClient', 200);
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query?q=*%20AND%20teamType:Group&from=0&size=*&index=team_search_index&sort_field=displayName.keyword&sort_order=asc',
+      '/nexus/openmetadata/api/v1/search/query?q=*%20AND%20teamType:Group&from=0&size=*&index=team_search_index&sort_field=displayName.keyword&sort_order=asc',
       'editOwner'
     );
     cy.get('[data-testid="edit-owner"]')
@@ -93,12 +93,12 @@ describe('Services page should work properly', { tags: 'Integration' }, () => {
 
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/services/databaseServices/*',
+      '/nexus/openmetadata/api/v1/services/databaseServices/*',
       'updateService'
     );
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query?q=*%20AND%20isBot:false*&index=user_search_index',
+      '/nexus/openmetadata/api/v1/search/query?q=*%20AND%20isBot:false*&index=user_search_index',
       'searchApi'
     );
 
@@ -121,11 +121,11 @@ describe('Services page should work properly', { tags: 'Integration' }, () => {
   it('Remove owner from service', () => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/system/config/pipeline-service-client',
+      '/nexus/openmetadata/api/v1/system/config/pipeline-service-client',
       'getService'
     );
 
-    interceptURL('GET', '/audax/openmetadata/api/v1/users?*', 'waitForUsers');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/users?*', 'waitForUsers');
     searchServiceFromSettingPage(service.name);
     cy.get(`[data-testid="service-name-${service.name}"]`)
       .should('be.visible')
@@ -142,7 +142,7 @@ describe('Services page should work properly', { tags: 'Integration' }, () => {
 
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/services/databaseServices/*',
+      '/nexus/openmetadata/api/v1/services/databaseServices/*',
       'removeOwner'
     );
     cy.get('[data-testid="selectable-list"]')

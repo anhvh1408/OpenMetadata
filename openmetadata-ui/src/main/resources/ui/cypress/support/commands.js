@@ -86,7 +86,7 @@ Cypress.Commands.add('loginByGoogleApi', () => {
 Cypress.Commands.add('goToHomePage', (doNotNavigate) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/users/loggedInUser?fields=*',
+    '/nexus/openmetadata/api/v1/users/loggedInUser?fields=*',
     'userProfile'
   );
   !doNotNavigate && cy.visit('/');
@@ -108,7 +108,7 @@ Cypress.on('uncaught:exception', (err) => {
 
 Cypress.Commands.add('storeSession', (username, password) => {
   /* 
-  Reference docs for session https://docs.cypress.io/audax/openmetadata/api/commands/session
+  Reference docs for session https://docs.cypress.io/nexus/openmetadata/api/commands/session
   Its currently Experimental feature, but cypress is encouraging to use this feature
   as Cypress.Cookies.preserveOnce() and Cypress.Cookies.defaults() has been deprecated
   */
@@ -117,7 +117,7 @@ Cypress.Commands.add('storeSession', (username, password) => {
     cy.visit('/');
     cy.get('[id="email"]').should('be.visible').clear().type(username);
     cy.get('[id="password"]').should('be.visible').clear().type(password);
-    interceptURL('POST', '/audax/openmetadata/api/v1/users/login', 'login');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/users/login', 'login');
     cy.get('[data-testid="login"]').contains('Login').click();
     verifyResponseStatusCode('@login', 200);
     cy.url().should('not.eq', `${BASE_URL}/signin`);
@@ -128,7 +128,7 @@ Cypress.Commands.add('storeSession', (username, password) => {
     // Get version and set cookie to hide version banner
     cy.request({
       method: 'GET',
-      url: `audax/openmetadata/api/v1/system/version`,
+      url: `nexus/openmetadata/api/v1/system/version`,
     }).then((res) => {
       const version = res.body.version;
       const versionCookie = `VERSION_${version
@@ -162,7 +162,7 @@ Cypress.Commands.add('sidebarHoverOutside', function () {
 });
 
 Cypress.Commands.add('logout', () => {
-  interceptURL('POST', '/audax/openmetadata/api/v1/users/logout', 'logoutUser');
+  interceptURL('POST', '/nexus/openmetadata/api/v1/users/logout', 'logoutUser');
   cy.sidebarHover();
   cy.get(`[data-testid="app-bar-item-${SidebarItem.LOGOUT}"]`)
     .scrollIntoView()

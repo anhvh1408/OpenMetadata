@@ -76,10 +76,10 @@ const checkAssetsCount = (assetsCount) => {
 };
 
 const updateOwner = (newOwner) => {
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/domains/*`, 'patchOwner');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/domains/*`, 'patchOwner');
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/users?limit=25&isBot=false',
+    '/nexus/openmetadata/api/v1/users?limit=25&isBot=false',
     'getUsers'
   );
   cy.get('[data-testid="edit-owner"]').click();
@@ -88,7 +88,7 @@ const updateOwner = (newOwner) => {
 
   interceptURL(
     'GET',
-    `audax/openmetadata/api/v1/search/query?q=*${encodeURI(newOwner)}*`,
+    `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(newOwner)}*`,
     'searchOwner'
   );
 
@@ -117,7 +117,7 @@ const goToDataProductsTab = (domainObj) => {
 export const updateAssets = (domainObj) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*&index=domain_search_index*`,
+    `/nexus/openmetadata/api/v1/search/query?q=*&index=domain_search_index*`,
     'searchDomain'
   );
 
@@ -157,13 +157,13 @@ export const updateAssets = (domainObj) => {
 
 export const removeAssets = (domainObj) => {
   const entity = SEARCH_ENTITY_TABLE.table_2;
-  interceptURL('GET', '/audax/openmetadata/api/v1/search/query*', 'assetTab');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/search/query*', 'assetTab');
   // go assets tab
   goToAssetsTab(domainObj);
   verifyResponseStatusCode('@assetTab', 200);
 
-  interceptURL('GET', '/audax/openmetadata/api/v1/domain*', 'domains');
-  interceptURL('PATCH', '/audax/openmetadata/api/v1/tables/*', 'patchDomain');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/domain*', 'domains');
+  interceptURL('PATCH', '/nexus/openmetadata/api/v1/tables/*', 'patchDomain');
 
   cy.get('[data-testid="entity-header-display-name"]')
     .contains(entity.term)
@@ -189,7 +189,7 @@ export const removeAssets = (domainObj) => {
 };
 
 const updateDescription = (newDescription) => {
-  interceptURL('PATCH', '/audax/openmetadata/api/v1/domains/*', 'saveDomain');
+  interceptURL('PATCH', '/nexus/openmetadata/api/v1/domains/*', 'saveDomain');
   cy.get('[data-testid="edit-description"]').should('be.visible').click();
   cy.get('.ant-modal-wrap').should('be.visible');
   cy.get(descriptionBox).should('be.visible').as('description');
@@ -206,7 +206,7 @@ const updateDescription = (newDescription) => {
 const fillForm = (formObj, type) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/users?limit=25&isBot=false',
+    '/nexus/openmetadata/api/v1/users?limit=25&isBot=false',
     'getUsers'
   );
   cy.get('[data-testid="name"]').scrollIntoView().clear().type(formObj.name);
@@ -222,7 +222,7 @@ const fillForm = (formObj, type) => {
 
   interceptURL(
     'GET',
-    `audax/openmetadata/api/v1/search/query?q=*${encodeURI(formObj.owner)}*`,
+    `nexus/openmetadata/api/v1/search/query?q=*${encodeURI(formObj.owner)}*`,
     'searchOwner'
   );
 
@@ -262,7 +262,7 @@ const fillForm = (formObj, type) => {
 export const createDomain = (domainObj, validate) => {
   cy.get('[data-testid="add-domain"]').click();
 
-  interceptURL('POST', '/audax/openmetadata/api/v1/domains', 'createDomain');
+  interceptURL('POST', '/nexus/openmetadata/api/v1/domains', 'createDomain');
 
   // Redirecting to add domain page
   cy.get('[data-testid="form-heading"]')
@@ -307,7 +307,7 @@ export const deleteDomain = (domainObj) => {
 
   cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
 
-  interceptURL('DELETE', '/audax/openmetadata/api/v1/domains/*', 'getDomains');
+  interceptURL('DELETE', '/nexus/openmetadata/api/v1/domains/*', 'getDomains');
 
   cy.get('[data-testid="confirm-button"]').click();
 
@@ -361,7 +361,7 @@ export const createDataProducts = (dataProduct, domainObj) => {
 
   interceptURL(
     'POST',
-    '/audax/openmetadata/api/v1/dataProducts',
+    '/nexus/openmetadata/api/v1/dataProducts',
     'createDataProducts'
   );
 
@@ -382,7 +382,7 @@ export const createDataProducts = (dataProduct, domainObj) => {
 export const renameDomain = (domainObj) => {
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/domains/*`,
+    `/nexus/openmetadata/api/v1/domains/*`,
     'patchName&DisplayName'
   );
   cy.get('[data-testid="domain-left-panel"]').contains(domainObj.name).click();
@@ -422,7 +422,7 @@ export const addAssetsToDomain = (domainObj) => {
   domainObj.assets.forEach((asset) => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query*',
+      '/nexus/openmetadata/api/v1/search/query*',
       'searchAssets'
     );
     cy.get('[data-testid="asset-selection-modal"] [data-testid="searchbar"]')
@@ -449,7 +449,7 @@ export const removeAssetsFromDomain = (domainObj) => {
   domainObj.assets.forEach((asset, index) => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query*',
+      '/nexus/openmetadata/api/v1/search/query*',
       'searchAssets'
     );
 
@@ -460,7 +460,7 @@ export const removeAssetsFromDomain = (domainObj) => {
 
     goToDataProductsTab(domainObj);
 
-    interceptURL('GET', '/audax/openmetadata/api/v1/search/query*', 'assetTab');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/search/query*', 'assetTab');
     // go assets tab
     goToAssetsTab(domainObj);
     verifyResponseStatusCode('@assetTab', 200);
@@ -472,12 +472,12 @@ export const removeAssetsFromDomain = (domainObj) => {
 export const addAssetsToDataProduct = (dataProductObj, domainObj) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query**`,
+    `/nexus/openmetadata/api/v1/search/query**`,
     'getDataProductAssets'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/dataProducts/**',
+    '/nexus/openmetadata/api/v1/dataProducts/**',
     'getDataProductDetails'
   );
 
@@ -506,7 +506,7 @@ export const addAssetsToDataProduct = (dataProductObj, domainObj) => {
   dataProductObj.assets.forEach((asset) => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query*',
+      '/nexus/openmetadata/api/v1/search/query*',
       'searchAssets'
     );
     cy.get('[data-testid="asset-selection-modal"] [data-testid="searchbar"]')
@@ -540,7 +540,7 @@ export const removeAssetsFromDataProduct = (dataProductObj, domainObj) => {
   dataProductObj.assets.forEach((asset, index) => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query*',
+      '/nexus/openmetadata/api/v1/search/query*',
       'searchAssets'
     );
     cy.get(`[data-testid="manage-button-${asset.fullyQualifiedName}"]`).click();

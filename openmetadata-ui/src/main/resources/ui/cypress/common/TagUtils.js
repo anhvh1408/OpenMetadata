@@ -58,7 +58,7 @@ export const validateForm = () => {
 };
 
 export const visitClassificationPage = () => {
-  interceptURL('GET', '/audax/openmetadata/api/v1/tags*', 'getTags');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/tags*', 'getTags');
 
   cy.sidebarClick(SidebarItem.TAGS);
 
@@ -68,7 +68,7 @@ export const visitClassificationPage = () => {
 export const deleteClassification = (classificationDetails) => {
   interceptURL(
     'DELETE',
-    '/audax/openmetadata/api/v1/classifications/*',
+    '/nexus/openmetadata/api/v1/classifications/*',
     'deleteTagClassification'
   );
 

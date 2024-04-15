@@ -92,7 +92,7 @@ describe('Domain page should work properly', { tags: 'Governance' }, () => {
 
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query?q=%28domain.fullyQualifiedName%3A%22Cypress%20Space%22%29*',
+      '/nexus/openmetadata/api/v1/search/query?q=%28domain.fullyQualifiedName%3A%22Cypress%20Space%22%29*',
       'tableSearchQuery'
     );
 

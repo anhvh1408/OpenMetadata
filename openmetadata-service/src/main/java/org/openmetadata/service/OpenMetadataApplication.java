@@ -136,9 +136,9 @@ public class OpenMetadataApplication extends Application<OpenMetadataApplication
 
 
 public class SpaRoutingFilter implements Filter {
-    private final String indexPath = "/audax/openmetadata/index.html"; // This should point to the actual index.html path
-    private final String apiPathPrefix = "/audax/openmetadata/api/";
-    private final String assetsPathPrefix = "/audax/openmetadata/assets/";
+    private final String indexPath = "/nexus/openmetadata/index.html"; // This should point to the actual index.html path
+    private final String apiPathPrefix = "/nexus/openmetadata/api/";
+    private final String assetsPathPrefix = "/nexus/openmetadata/assets/";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -372,7 +372,7 @@ public class SpaRoutingFilter implements Filter {
             return configuration.getWebConfiguration();
           }
         });
-    bootstrap.addBundle(new AssetsBundle("/assets", "/audax/openmetadata", "index.html"));
+    bootstrap.addBundle(new AssetsBundle("/assets", "/nexus/openmetadata", "index.html"));
     super.initialize(bootstrap);
   }
 
@@ -504,7 +504,7 @@ public class SpaRoutingFilter implements Filter {
   private void initializeWebsockets(
       OpenMetadataApplicationConfig catalogConfig, Environment environment) {
     SocketAddressFilter socketAddressFilter;
-    String pathSpec = "/audax/openmetadata/api/v1/push/feed/*";
+    String pathSpec = "/nexus/openmetadata/api/v1/push/feed/*";
     if (catalogConfig.getAuthorizerConfiguration() != null) {
       socketAddressFilter =
           new SocketAddressFilter(

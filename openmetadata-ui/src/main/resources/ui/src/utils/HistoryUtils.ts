@@ -18,5 +18,5 @@
 import { createBrowserHistory } from 'history';
 
 export const history = createBrowserHistory({
-  basename: '/audax/openmetadata',
+  basename: '/nexus/openmetadata',
 });

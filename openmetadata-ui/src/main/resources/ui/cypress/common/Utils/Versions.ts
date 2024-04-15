@@ -16,7 +16,7 @@ import { interceptURL, verifyResponseStatusCode } from '../common';
 export const validateDomain = (domain: string, entityType: EntityType) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/${entityType}/*/versions/0.2`,
+    `/nexus/openmetadata/api/v1/${entityType}/*/versions/0.2`,
     'getVersion'
   );
   cy.get('[data-testid="version-button"]').should('contain', '0.2').click();

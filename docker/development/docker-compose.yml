@@ -285,7 +285,7 @@ services:
       AUTHENTICATION_PROVIDER: ${AUTHENTICATION_PROVIDER:-basic}
       AUTHENTICATION_RESPONSE_TYPE: ${AUTHENTICATION_RESPONSE_TYPE:-id_token}
       CUSTOM_OIDC_AUTHENTICATION_PROVIDER_NAME: ${CUSTOM_OIDC_AUTHENTICATION_PROVIDER_NAME:-""}
-      AUTHENTICATION_PUBLIC_KEYS: ${AUTHENTICATION_PUBLIC_KEYS:-[http://localhost:8585/audax/openmetadata/api/v1/system/config/jwks]}
+      AUTHENTICATION_PUBLIC_KEYS: ${AUTHENTICATION_PUBLIC_KEYS:-[http://localhost:8585/nexus/openmetadata/api/v1/system/config/jwks]}
       AUTHENTICATION_AUTHORITY: ${AUTHENTICATION_AUTHORITY:-https://accounts.google.com}
       AUTHENTICATION_CLIENT_ID: ${AUTHENTICATION_CLIENT_ID:-""}
       AUTHENTICATION_CALLBACK_URL: ${AUTHENTICATION_CALLBACK_URL:-""}
@@ -373,7 +373,7 @@ services:
       #eventMonitoringConfiguration
       EVENT_MONITOR: ${EVENT_MONITOR:-prometheus}
       EVENT_MONITOR_BATCH_SIZE: ${EVENT_MONITOR_BATCH_SIZE:-10}
-      EVENT_MONITOR_PATH_PATTERN: ${EVENT_MONITOR_PATH_PATTERN:-["/audax/openmetadata/api/v1/tables/*", "/audax/openmetadata/api/v1/health-check"]}
+      EVENT_MONITOR_PATH_PATTERN: ${EVENT_MONITOR_PATH_PATTERN:-["/nexus/openmetadata/api/v1/tables/*", "/nexus/openmetadata/api/v1/health-check"]}
       EVENT_MONITOR_LATENCY: ${EVENT_MONITOR_LATENCY:-[]}
 
       #pipelineServiceClientConfiguration

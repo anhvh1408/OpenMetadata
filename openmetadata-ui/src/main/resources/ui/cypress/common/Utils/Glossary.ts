@@ -20,7 +20,7 @@ export const assignGlossaryTerm = (
 ) => {
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/${endPoint}/*`,
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
     'addGlossaryTerm'
   );
   cy.get(
@@ -53,7 +53,7 @@ export const udpateGlossaryTerm = (
 ) => {
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/${endPoint}/*`,
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
     'addGlossaryTerm'
   );
   cy.get(
@@ -88,7 +88,7 @@ export const removeGlossaryTerm = (
     : [inputGlossaryTerm];
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/${endPoint}/*`,
+    `/nexus/openmetadata/api/v1/${endPoint}/*`,
     'removeTags'
   );
   glossaryTerms.forEach((glossaryTerm) => {
@@ -116,7 +116,7 @@ export const confirmationDragAndDropGlossary = (
 ) => {
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/glossaryTerms/*`,
+    `/nexus/openmetadata/api/v1/glossaryTerms/*`,
     'patchGlossaryTerm'
   );
 

@@ -99,7 +99,7 @@ const addRule = (rulename, ruleDescription, descriptionIndex) => {
 describe('Policy page should work properly', { tags: 'Settings' }, () => {
   beforeEach(() => {
     cy.login();
-    cy.intercept('GET', '*audax/openmetadata/api/v1/policies*').as(
+    cy.intercept('GET', '*nexus/openmetadata/api/v1/policies*').as(
       'getPolicies'
     );
 
@@ -179,7 +179,7 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
   it('Edit policy description', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/policies/name/${policyName}*`,
+      `/nexus/openmetadata/api/v1/policies/name/${policyName}*`,
       'getSelectedPolicy'
     );
     // Click on created policy name
@@ -203,14 +203,14 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
   it('Add new rule', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/policies/name/${policyName}*`,
+      `/nexus/openmetadata/api/v1/policies/name/${policyName}*`,
       'getSelectedPolicy'
     );
     // Click on created policy name
     cy.get('[data-testid="policy-name"]').contains(policyName).click();
     verifyResponseStatusCode('@getSelectedPolicy', 200);
 
-    interceptURL('GET', '/audax/openmetadata/api/v1/policies/*', 'addRulepage');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/policies/*', 'addRulepage');
     // Click on add rule button
     cy.get('[data-testid="add-rule"]').should('be.visible').click();
 
@@ -259,7 +259,7 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
   it('Edit rule name for created Rule', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/policies/name/${policyName}*`,
+      `/nexus/openmetadata/api/v1/policies/name/${policyName}*`,
       'getSelectedPolicy'
     );
     // Click on created policy name
@@ -273,7 +273,7 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
 
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/policies/*',
+      '/nexus/openmetadata/api/v1/policies/*',
       'editRulePage'
     );
     cy.get('[data-testid="edit-rule"]').should('be.visible').click();
@@ -286,7 +286,7 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
 
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/policies/*',
+      '/nexus/openmetadata/api/v1/policies/*',
       'updateRule'
     );
 
@@ -306,7 +306,7 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
   it('Delete new rule', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/policies/name/${policyName}*`,
+      `/nexus/openmetadata/api/v1/policies/name/${policyName}*`,
       'getSelectedPolicy'
     );
     // Click on created policy name
@@ -330,7 +330,7 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
   it('Delete last rule and validate', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/policies/name/${policyName}*`,
+      `/nexus/openmetadata/api/v1/policies/name/${policyName}*`,
       'getSelectedPolicy'
     );
     // Click on created policy name
@@ -344,7 +344,7 @@ describe('Policy page should work properly', { tags: 'Settings' }, () => {
       .click();
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/policies/*',
+      '/nexus/openmetadata/api/v1/policies/*',
       'deletelastPolicy'
     );
 

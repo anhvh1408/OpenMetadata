@@ -39,7 +39,7 @@ const annoucementForm = ({ title, description, startDate, endDate }) => {
 export const createAnnouncement = (announcement) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/audax/openmetadata/api/v1/feed?entityLink=*type=Announcement',
+    '/nexus/openmetadata/nexus/openmetadata/api/v1/feed?entityLink=*type=Announcement',
     'announcementFeed'
   );
   cy.get('[data-testid="manage-button"]').click();
@@ -79,12 +79,12 @@ export const createAnnouncement = (announcement) => {
 export const deleteAnnoucement = () => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/audax/openmetadata/api/v1/feed?entityLink=*type=Announcement',
+    '/nexus/openmetadata/nexus/openmetadata/api/v1/feed?entityLink=*type=Announcement',
     'announcementFeed'
   );
   interceptURL(
     'DELETE',
-    '/audax/openmetadata/audax/openmetadata/api/v1/feed/*',
+    '/nexus/openmetadata/nexus/openmetadata/api/v1/feed/*',
     'deleteFeed'
   );
 
@@ -111,7 +111,7 @@ export const createInactiveAnnouncement = (announcement) => {
   // Create InActive Announcement
   interceptURL(
     'GET',
-    '/audax/openmetadata/audax/openmetadata/api/v1/feed?entityLink=*type=Announcement',
+    '/nexus/openmetadata/nexus/openmetadata/api/v1/feed?entityLink=*type=Announcement',
     'announcementFeed'
   );
 

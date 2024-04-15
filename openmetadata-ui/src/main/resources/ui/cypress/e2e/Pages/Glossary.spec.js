@@ -63,12 +63,12 @@ let createdUserId = '';
 const visitGlossaryTermPage = (termName, fqn, fetchPermission) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*&from=0&size=*&index=glossary_term_search_index`,
+    `/nexus/openmetadata/api/v1/search/query?q=*&from=0&size=*&index=glossary_term_search_index`,
     'getGlossaryTerm'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/permissions/glossaryTerm/*',
+    '/nexus/openmetadata/api/v1/permissions/glossaryTerm/*',
     'waitForTermPermission'
   );
 
@@ -91,12 +91,12 @@ const createGlossary = (glossaryData) => {
   // Intercept API calls
   interceptURL(
     'POST',
-    '/audax/openmetadata/api/v1/glossaries',
+    '/nexus/openmetadata/api/v1/glossaries',
     'createGlossary'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/search/query?q=*disabled:false&index=tag_search_index&from=0&size=10&query_filter=%7B%7D',
+    '/nexus/openmetadata/api/v1/search/query?q=*disabled:false&index=tag_search_index&from=0&size=10&query_filter=%7B%7D',
     'fetchTags'
   );
 
@@ -292,7 +292,7 @@ const addAssetToGlossaryTerm = (glossaryTerm, glossary) => {
   glossaryTerm.assets.forEach((asset) => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query*',
+      '/nexus/openmetadata/api/v1/search/query*',
       'searchAssets'
     );
     cy.get('[data-testid="asset-selection-modal"] [data-testid="searchbar"]')
@@ -319,7 +319,7 @@ const removeAssetsFromGlossaryTerm = (glossaryTerm, glossary) => {
   glossaryTerm.assets.forEach((asset, index) => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/search/query*',
+      '/nexus/openmetadata/api/v1/search/query*',
       'searchAssets'
     );
     cy.get(`[data-testid="manage-button-${asset.fullyQualifiedName}"]`).click();
@@ -341,7 +341,7 @@ const createGlossaryTerm = (term, glossary, status, isMutually = false) => {
 
   interceptURL(
     'POST',
-    '/audax/openmetadata/api/v1/glossaryTerms',
+    '/nexus/openmetadata/api/v1/glossaryTerms',
     'createGlossaryTerms'
   );
   cy.get('[data-testid="save-glossary-term"]')
@@ -423,7 +423,7 @@ const goToAssetsTab = (name, fqn, fetchPermission) => {
 const selectActiveGlossary = (glossaryName) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/glossaryTerms*',
+    '/nexus/openmetadata/api/v1/glossaryTerms*',
     'getGlossaryTerms'
   );
   cy.get('.ant-menu-item').contains(glossaryName).click();
@@ -462,7 +462,7 @@ const updateTags = (inTerm) => {
   // visit glossary page
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/search/query?q=*&index=tag_search_index&from=0&size=*&query_filter=*',
+    '/nexus/openmetadata/api/v1/search/query?q=*&index=tag_search_index&from=0&size=*&query_filter=*',
     'tags'
   );
   cy.get('[data-testid="tags-container"] [data-testid="add-tag"]').click();
@@ -488,7 +488,7 @@ const updateTags = (inTerm) => {
 const updateTerms = (newTerm) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/search/query?q=**&from=0&size=10&index=glossary_search_index',
+    '/nexus/openmetadata/api/v1/search/query?q=**&from=0&size=10&index=glossary_search_index',
     'getGlossaryTerm'
   );
   cy.get('[data-testid="related-term-container"]')
@@ -533,13 +533,13 @@ const updateDescription = (newDescription, isGlossary) => {
   if (isGlossary) {
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/glossaries/*',
+      '/nexus/openmetadata/api/v1/glossaries/*',
       'saveGlossary'
     );
   } else {
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/glossaryTerms/*',
+      '/nexus/openmetadata/api/v1/glossaryTerms/*',
       'saveData'
     );
   }
@@ -607,13 +607,13 @@ const voteGlossary = (isGlossary) => {
   if (isGlossary) {
     interceptURL(
       'PUT',
-      '/audax/openmetadata/api/v1/glossaries/*/vote',
+      '/nexus/openmetadata/api/v1/glossaries/*/vote',
       'voteGlossary'
     );
   } else {
     interceptURL(
       'PUT',
-      '/audax/openmetadata/api/v1/glossaryTerms/*/vote',
+      '/nexus/openmetadata/api/v1/glossaryTerms/*/vote',
       'voteGlossaryTerm'
     );
   }
@@ -627,12 +627,12 @@ const voteGlossary = (isGlossary) => {
 const goToGlossaryPage = () => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/glossaryTerms*',
+    '/nexus/openmetadata/api/v1/glossaryTerms*',
     'getGlossaryTerms'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/glossaries?fields=*',
+    '/nexus/openmetadata/api/v1/glossaries?fields=*',
     'fetchGlossaries'
   );
   cy.sidebarClick(SidebarItem.GLOSSARY);
@@ -649,7 +649,7 @@ const approveGlossaryTermWorkflow = ({ glossary, glossaryTerm }) => {
 
   cy.get('[data-testid="activity_feed"]').click();
 
-  interceptURL('GET', '/audax/openmetadata/api/v1/feed*', 'activityFeed');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/feed*', 'activityFeed');
 
   cy.get('[data-testid="global-setting-left-panel"]').contains('Tasks').click();
 
@@ -657,7 +657,7 @@ const approveGlossaryTermWorkflow = ({ glossary, glossaryTerm }) => {
 
   interceptURL(
     'PUT',
-    '/audax/openmetadata/api/v1/feed/tasks/*/resolve',
+    '/nexus/openmetadata/api/v1/feed/tasks/*/resolve',
     'resolveTask'
   );
 
@@ -740,7 +740,7 @@ const deleteUser = () => {
 
   cy.request({
     method: 'DELETE',
-    url: `/audax/openmetadata/api/v1/users/${createdUserId}?hardDelete=true&recursive=false`,
+    url: `/nexus/openmetadata/api/v1/users/${createdUserId}?hardDelete=true&recursive=false`,
     headers: { Authorization: `Bearer ${token}` },
   }).then((response) => {
     expect(response.status).to.eq(200);
@@ -768,7 +768,7 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
   beforeEach(() => {
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/glossaryTerms/*',
+      '/nexus/openmetadata/api/v1/glossaryTerms/*',
       'saveGlossaryTermData'
     );
     cy.login();
@@ -826,7 +826,7 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
     cy.get('[data-testid="remove-tags"]').should('be.visible').click();
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/glossaries/*',
+      '/nexus/openmetadata/api/v1/glossaries/*',
       'updateGlossary'
     );
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
@@ -932,12 +932,12 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
     // visit glossary page
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/glossaryTerms?glossary=*`,
+      `/nexus/openmetadata/api/v1/glossaryTerms?glossary=*`,
       'glossaryTerm'
     );
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/permissions/glossary/*`,
+      `/nexus/openmetadata/api/v1/permissions/glossary/*`,
       'permissions'
     );
 
@@ -975,13 +975,13 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
 
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
+      `/nexus/openmetadata/api/v1/search/query?q=*%20AND%20disabled:false&index=tag_search_index*`,
       'suggestTag'
     );
-    interceptURL('POST', '/audax/openmetadata/api/v1/feed', 'taskCreated');
+    interceptURL('POST', '/nexus/openmetadata/api/v1/feed', 'taskCreated');
     interceptURL(
       'PUT',
-      '/audax/openmetadata/api/v1/feed/tasks/*/resolve',
+      '/nexus/openmetadata/api/v1/feed/tasks/*/resolve',
       'taskResolve'
     );
 
@@ -1077,7 +1077,7 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
 
         interceptURL(
           'PATCH',
-          '/audax/openmetadata/api/v1/tables/*',
+          '/nexus/openmetadata/api/v1/tables/*',
           'removeTags'
         );
         cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
@@ -1096,8 +1096,8 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
     cy.get(`[data-testid="tag-${glossary}.${term2}"]`).click();
     cy.get('[data-testid="tag-selector"]').should('contain', term2);
 
-    interceptURL('GET', '/audax/openmetadata/api/v1/tags', 'tags');
-    interceptURL('PATCH', '/audax/openmetadata/api/v1/tables/*', 'saveTag');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/tags', 'tags');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/tables/*', 'saveTag');
 
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView();
     cy.clickOutside();
@@ -1201,12 +1201,12 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
 
     selectActiveGlossary(NEW_GLOSSARY_1.name);
 
-    interceptURL('GET', '/audax/openmetadata/api/v1/search/query*', 'assetTab');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/search/query*', 'assetTab');
     // go assets tab
     goToAssetsTab(name, fullyQualifiedName);
     verifyResponseStatusCode('@assetTab', 200);
 
-    interceptURL('GET', '/audax/openmetadata/api/v1/feed*', 'entityDetails');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/feed*', 'entityDetails');
 
     cy.get('[data-testid="entity-header-display-name"]')
       .contains(entity.term)
@@ -1223,7 +1223,7 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
       .should('be.visible')
       .click({ multiple: true });
 
-    interceptURL('PATCH', '/audax/openmetadata/api/v1/tables/*', 'removeTags');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/tables/*', 'removeTags');
     cy.clickOutside();
     cy.get('[data-testid="saveAssociatedTag"]').scrollIntoView().click();
     verifyResponseStatusCode('@removeTags', 200);
@@ -1231,7 +1231,7 @@ describe('Glossary page should work properly', { tags: 'Glossary' }, () => {
     // Remove the added column tag from entity
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/tables/*',
+      '/nexus/openmetadata/api/v1/tables/*',
       'removeSchemaTags'
     );
 

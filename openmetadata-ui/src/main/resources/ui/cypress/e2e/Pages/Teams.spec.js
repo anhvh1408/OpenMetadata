@@ -54,12 +54,12 @@ describe('Teams flow should work properly', () => {
   beforeEach(() => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/users?fields=*`,
+      `/nexus/openmetadata/api/v1/users?fields=*`,
       'getUserDetails'
     );
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/permissions/team/name/*`,
+      `/nexus/openmetadata/api/v1/permissions/team/name/*`,
       'permissions'
     );
     cy.login();
@@ -95,10 +95,10 @@ describe('Teams flow should work properly', () => {
   });
 
   it('Update email of created team', () => {
-    interceptURL('PATCH', '/audax/openmetadata/api/v1/teams/*', 'updateEmail');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/teams/*', 'updateEmail');
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}?*`,
+      `/nexus/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}?*`,
       'getTeam'
     );
 
@@ -129,10 +129,10 @@ describe('Teams flow should work properly', () => {
   it('Add user to created team', () => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/users?limit=25&isBot=false',
+      '/nexus/openmetadata/api/v1/users?limit=25&isBot=false',
       'getUsers'
     );
-    interceptURL('PATCH', '/audax/openmetadata/api/v1/teams/*', 'updateTeam');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/teams/*', 'updateTeam');
     // Clicking on created team
     cy.get(`[data-row-key="${TEAM_DETAILS.name}"]`)
       .contains(TEAM_DETAILS.name)
@@ -159,10 +159,10 @@ describe('Teams flow should work properly', () => {
   it('Remove added user from created team', () => {
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/users?limit=25&isBot=false',
+      '/nexus/openmetadata/api/v1/users?limit=25&isBot=false',
       'getUsers'
     );
-    interceptURL('PATCH', '/audax/openmetadata/api/v1/teams/*', 'updateTeam');
+    interceptURL('PATCH', '/nexus/openmetadata/api/v1/teams/*', 'updateTeam');
     // Clicking on created team
     cy.get(`[data-row-key="${TEAM_DETAILS.name}"]`)
       .contains(TEAM_DETAILS.name)
@@ -182,7 +182,7 @@ describe('Teams flow should work properly', () => {
   });
 
   it('Join team should work properly', () => {
-    interceptURL('GET', '/audax/openmetadata/api/v1/users*', 'getUsers');
+    interceptURL('GET', '/nexus/openmetadata/api/v1/users*', 'getUsers');
     // Click on created team
     cy.get(`[data-row-key="${TEAM_DETAILS.name}"]`)
       .contains(TEAM_DETAILS.name)
@@ -204,10 +204,10 @@ describe('Teams flow should work properly', () => {
   it('Update display name for created team', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
       'getSelectedTeam'
     );
-    interceptURL('PATCH', `/audax/openmetadata/api/v1/teams/*`, 'patchTeam');
+    interceptURL('PATCH', `/nexus/openmetadata/api/v1/teams/*`, 'patchTeam');
     // Click on created team name
     cy.get(`[data-row-key="${TEAM_DETAILS.name}"]`)
       .contains(TEAM_DETAILS.name)
@@ -240,12 +240,12 @@ describe('Teams flow should work properly', () => {
   it('Update description for created team', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}?fields=*&include=all`,
+      `/nexus/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}?fields=*&include=all`,
       'getSelectedTeam'
     );
     interceptURL(
       'PATCH',
-      '/audax/openmetadata/api/v1/teams/*',
+      '/nexus/openmetadata/api/v1/teams/*',
       'patchDescription'
     );
     // Click on created team name
@@ -287,7 +287,7 @@ describe('Teams flow should work properly', () => {
   it('Leave team flow should work properly', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
       'getSelectedTeam'
     );
 
@@ -312,7 +312,7 @@ describe('Teams flow should work properly', () => {
   it('Permanently deleting soft deleted team should work properly', () => {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
       'getSelectedTeam'
     );
 
@@ -345,7 +345,7 @@ describe('Teams flow should work properly', () => {
 
     interceptURL(
       'DELETE',
-      '/audax/openmetadata/api/v1/teams/*',
+      '/nexus/openmetadata/api/v1/teams/*',
       'softDeleteTeam'
     );
 
@@ -365,17 +365,17 @@ describe('Teams flow should work properly', () => {
 
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
+      `/nexus/openmetadata/api/v1/teams/name/${TEAM_DETAILS.name}*`,
       'getSelectedTeam'
     );
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams?parentTeam=${TEAM_DETAILS.name}&include=all&limit=100000`,
+      `/nexus/openmetadata/api/v1/teams?parentTeam=${TEAM_DETAILS.name}&include=all&limit=100000`,
       'getTeamParent'
     );
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/teams?parentTeam=${TEAM_DETAILS.name}&include=all&fields=userCount%2CchildrenCount%2Cowns%2Cparents&limit=100000`,
+      `/nexus/openmetadata/api/v1/teams?parentTeam=${TEAM_DETAILS.name}&include=all&fields=userCount%2CchildrenCount%2Cowns%2Cparents&limit=100000`,
       'getChildrenCount'
     );
 
@@ -407,7 +407,7 @@ describe('Teams flow should work properly', () => {
 
     cy.get('[data-testid="confirmation-text-input"]').type('DELETE');
 
-    interceptURL('DELETE', '/audax/openmetadata/api/v1/teams/*', 'deleteTeam');
+    interceptURL('DELETE', '/nexus/openmetadata/api/v1/teams/*', 'deleteTeam');
     cy.get('[data-testid="confirm-button"]').click();
 
     verifyResponseStatusCode('@deleteTeam', 200);

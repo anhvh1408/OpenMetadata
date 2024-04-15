@@ -23,7 +23,7 @@ describe(
 
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/apps?limit=*',
+        '/nexus/openmetadata/api/v1/apps?limit=*',
         'getApplications'
       );
 
@@ -35,12 +35,12 @@ describe(
     it('Edit data insight application', () => {
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
         'getDataInsightDetails'
       );
       interceptURL(
         'PATCH',
-        '/audax/openmetadata/api/v1/apps/*',
+        '/nexus/openmetadata/api/v1/apps/*',
         'updateApplication'
       );
       cy.get(
@@ -60,17 +60,17 @@ describe(
     it('Uninstall application', () => {
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
         'getDataInsightDetails'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/apps?limit=*',
+        '/nexus/openmetadata/api/v1/apps?limit=*',
         'getApplications'
       );
       interceptURL(
         'DELETE',
-        '/audax/openmetadata/api/v1/apps/name/DataInsightsApplication?hardDelete=true',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?hardDelete=true',
         'deleteApplication'
       );
       cy.get(
@@ -90,12 +90,12 @@ describe(
     it('Install application', () => {
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/apps/marketplace?limit=*',
+        '/nexus/openmetadata/api/v1/apps/marketplace?limit=*',
         'getMarketPlace'
       );
       interceptURL(
         'POST',
-        '/audax/openmetadata/api/v1/apps',
+        '/nexus/openmetadata/api/v1/apps',
         'installApplication'
       );
       cy.get('[data-testid="add-application"]').click();
@@ -119,17 +119,17 @@ describe(
     it('Deploy & run application', () => {
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
+        '/nexus/openmetadata/api/v1/apps/name/DataInsightsApplication?fields=*',
         'getDataInsightDetails'
       );
       interceptURL(
         'POST',
-        '/audax/openmetadata/api/v1/apps/deploy/DataInsightsApplication',
+        '/nexus/openmetadata/api/v1/apps/deploy/DataInsightsApplication',
         'deploy'
       );
       interceptURL(
         'POST',
-        '/audax/openmetadata/api/v1/apps/trigger/DataInsightsApplication',
+        '/nexus/openmetadata/api/v1/apps/trigger/DataInsightsApplication',
         'triggerPipeline'
       );
       cy.get(

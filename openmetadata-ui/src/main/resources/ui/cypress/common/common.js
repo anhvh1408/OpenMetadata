@@ -125,22 +125,22 @@ export const handleIngestionRetry = (
 
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/ingestionPipelines?*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
     'ingestionPipelines'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/*/pipelineStatus?startTs=*&endTs=*',
     'pipelineStatuses'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/*/name/*',
+    '/nexus/openmetadata/api/v1/services/*/name/*',
     'serviceDetails'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/permissions?limit=100',
+    '/nexus/openmetadata/api/v1/permissions?limit=100',
     'allPermissions'
   );
 
@@ -207,17 +207,17 @@ export const handleIngestionRetry = (
 export const scheduleIngestion = (hasRetryCount = true) => {
   interceptURL(
     'POST',
-    '/audax/openmetadata/api/v1/services/ingestionPipelines',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines',
     'createIngestionPipelines'
   );
   interceptURL(
     'POST',
-    '/audax/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
     'deployPipeline'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/ingestionPipelines/status',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
     'getIngestionPipelineStatus'
   );
   // Schedule & Deploy
@@ -282,12 +282,12 @@ export const testServiceCreationAndIngestion = ({
     .type(serviceName);
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/ingestionPipelines/ip',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/ip',
     'ipApi'
   );
   interceptURL(
     'GET',
-    'audax/openmetadata/api/v1/services/ingestionPipelines/*',
+    'nexus/openmetadata/api/v1/services/ingestionPipelines/*',
     'ingestionPipelineStatus'
   );
   // intercept the service requirement md file fetch request
@@ -318,25 +318,25 @@ export const testServiceCreationAndIngestion = ({
   // Test the connection
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/testConnectionDefinitions/name/*',
+    '/nexus/openmetadata/api/v1/services/testConnectionDefinitions/name/*',
     'testConnectionStepDefinition'
   );
 
   interceptURL(
     'POST',
-    '/audax/openmetadata/api/v1/automations/workflows',
+    '/nexus/openmetadata/api/v1/automations/workflows',
     'createWorkflow'
   );
 
   interceptURL(
     'POST',
-    '/audax/openmetadata/api/v1/automations/workflows/trigger/*',
+    '/nexus/openmetadata/api/v1/automations/workflows/trigger/*',
     'triggerWorkflow'
   );
 
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/automations/workflows/*',
+    '/nexus/openmetadata/api/v1/automations/workflows/*',
     'getWorkflow'
   );
 
@@ -366,7 +366,7 @@ export const testServiceCreationAndIngestion = ({
   }
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/ingestionPipelines/status',
+    '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
     'getIngestionPipelineStatus'
   );
   cy.get('[data-testid="submit-btn"]').should('exist').click();
@@ -413,12 +413,12 @@ export const testServiceCreationAndIngestion = ({
 
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/services/ingestionPipelines?*',
+      '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
       'ingestionPipelines'
     );
     interceptURL(
       'GET',
-      '/audax/openmetadata/api/v1/services/*/name/*',
+      '/nexus/openmetadata/api/v1/services/*/name/*',
       'serviceDetails'
     );
 
@@ -437,7 +437,7 @@ export const deleteCreatedService = (
 ) => {
   // Click on settings page
   // Services page
-  interceptURL('GET', '/audax/openmetadata/api/v1/services/*', 'getServices');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/services/*', 'getServices');
 
   cy.settingClick(typeOfService);
 
@@ -445,7 +445,7 @@ export const deleteCreatedService = (
 
   interceptURL(
     'GET',
-    'audax/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
+    'nexus/openmetadata/api/v1/search/query?q=*&from=0&size=15&index=*',
     'searchService'
   );
   cy.get('[data-testid="searchbar"]').type(serviceName);
@@ -485,12 +485,12 @@ export const deleteCreatedService = (
     .type(DELETE_TERM);
   interceptURL(
     'DELETE',
-    `/audax/openmetadata/api/v1/services/${apiService}/*`,
+    `/nexus/openmetadata/api/v1/services/${apiService}/*`,
     'deleteService'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/*/name/*?fields=owner',
+    '/nexus/openmetadata/api/v1/services/*/name/*?fields=owner',
     'serviceDetails'
   );
 
@@ -507,7 +507,7 @@ export const goToAddNewServicePage = (service_type) => {
   // Services page
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/*',
+    '/nexus/openmetadata/api/v1/services/*',
     'getServiceList'
   );
   cy.settingClick(service_type);
@@ -644,7 +644,7 @@ export const addCustomPropertiesForEntity = (
 
   // Check if the property got added
   cy.intercept(
-    '/audax/openmetadata/api/v1/metadata/types/name/*?fields=customProperties'
+    '/nexus/openmetadata/api/v1/metadata/types/name/*?fields=customProperties'
   ).as('customProperties');
   cy.get('[data-testid="create-button"]').scrollIntoView().click();
 
@@ -679,7 +679,7 @@ export const editCreatedProperty = (propertyName, type) => {
 
   interceptURL(
     'PATCH',
-    '/audax/openmetadata/api/v1/metadata/types/*',
+    '/nexus/openmetadata/api/v1/metadata/types/*',
     'checkPatchForDescription'
   );
 
@@ -722,7 +722,7 @@ export const updateOwner = () => {
     .then((text) => {
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/users?limit=15',
+        '/nexus/openmetadata/api/v1/users?limit=15',
         'getUsers'
       );
       // Clicking on edit owner button
@@ -753,7 +753,7 @@ export const mySqlConnectionInput = () => {
 
 export const login = (username, password) => {
   cy.visit('/');
-  interceptURL('POST', '/audax/openmetadata/api/v1/users/login', 'loginUser');
+  interceptURL('POST', '/nexus/openmetadata/api/v1/users/login', 'loginUser');
   cy.get('[id="email"]').should('be.visible').clear().type(username);
   cy.get('[id="password"]').should('be.visible').clear().type(password);
 
@@ -763,7 +763,7 @@ export const login = (username, password) => {
   // Get version and set cookie to hide version banner
   cy.request({
     method: 'GET',
-    url: `audax/openmetadata/api/v1/system/version`,
+    url: `nexus/openmetadata/api/v1/system/version`,
   }).then((res) => {
     const version = res.body.version;
     const versionCookie = `VERSION_${version
@@ -801,7 +801,7 @@ export const selectTeamHierarchy = (index) => {
 };
 
 export const addTeam = (teamDetails, index, isHierarchy) => {
-  interceptURL('GET', '/audax/openmetadata/api/v1/teams*', 'addTeam');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/teams*', 'addTeam');
   // Fetching the add button and clicking on it
   if (index > 0) {
     cy.get('[data-testid="add-placeholder-button"]').click();
@@ -828,8 +828,8 @@ export const addTeam = (teamDetails, index, isHierarchy) => {
 
   cy.get(descriptionBox).type(teamDetails.description);
 
-  interceptURL('POST', '/audax/openmetadata/api/v1/teams', 'saveTeam');
-  interceptURL('GET', '/audax/openmetadata/api/v1/team*', 'createTeam');
+  interceptURL('POST', '/nexus/openmetadata/api/v1/teams', 'saveTeam');
+  interceptURL('GET', '/nexus/openmetadata/api/v1/team*', 'createTeam');
 
   // Saving the created team
   cy.get('[form="add-team-form"]').scrollIntoView().click();
@@ -858,7 +858,7 @@ export const deleteEntity = (
 
   interceptURL(
     'DELETE',
-    `audax/openmetadata/api/v1/${entity}/*?hardDelete=${
+    `nexus/openmetadata/api/v1/${entity}/*?hardDelete=${
       deletionType === 'hard'
     }&recursive=true`,
     `${deletionType}DeleteTable`
@@ -878,14 +878,14 @@ export const visitServiceDetailsPage = (
 ) => {
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*${
+    `/nexus/openmetadata/api/v1/search/query?q=*${
       isServiceDeleted ? 'deleted=true' : ''
     }`,
     'searchService'
   );
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/services/${serviceCategory}*`,
+    `/nexus/openmetadata/api/v1/services/${serviceCategory}*`,
     'getServices'
   );
   cy.settingClick(settingsMenuId);
@@ -897,7 +897,7 @@ export const visitServiceDetailsPage = (
 
   interceptURL(
     'GET',
-    `audax/openmetadata/api/v1/services/${serviceCategory}/name/${serviceName}*`,
+    `nexus/openmetadata/api/v1/services/${serviceCategory}/name/${serviceName}*`,
     'getServiceDetails'
   );
 
@@ -913,7 +913,7 @@ export const visitServiceDetailsPage = (
 export const visitDataModelPage = (dataModelFQN, dataModelName) => {
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/services/dashboardServices*',
+    '/nexus/openmetadata/api/v1/services/dashboardServices*',
     'getServices'
   );
   cy.settingClick(GlobalSettingOptions.DASHBOARDS);
@@ -921,12 +921,12 @@ export const visitDataModelPage = (dataModelFQN, dataModelName) => {
 
   interceptURL(
     'GET',
-    'audax/openmetadata/api/v1/services/dashboardServices/name/sample_looker*',
+    'nexus/openmetadata/api/v1/services/dashboardServices/name/sample_looker*',
     'getDashboardDetails'
   );
   interceptURL(
     'GET',
-    '/audax/openmetadata/api/v1/dashboard/datamodels?service=sample_looker*',
+    '/nexus/openmetadata/api/v1/dashboard/datamodels?service=sample_looker*',
     'getDataModels'
   );
 
@@ -941,7 +941,7 @@ export const visitDataModelPage = (dataModelFQN, dataModelName) => {
 
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
+    `/nexus/openmetadata/api/v1/dashboard/datamodels/name/${dataModelFQN}*`,
     'getDataModelDetails'
   );
 
@@ -957,7 +957,7 @@ export const signupAndLogin = (email, password, firstName, lastName) => {
     let createdUserId = '';
     interceptURL(
       'GET',
-      'audax/openmetadata/api/v1/system/config/auth',
+      'nexus/openmetadata/api/v1/system/config/auth',
       'getLoginPage'
     );
     cy.visit('/');
@@ -1003,7 +1003,7 @@ export const signupAndLogin = (email, password, firstName, lastName) => {
 
     interceptURL(
       'GET',
-      'audax/openmetadata/api/v1/users/name/*',
+      'nexus/openmetadata/api/v1/users/name/*',
       'getUserPage'
     );
 
@@ -1027,7 +1027,7 @@ export const addTags = (classificationName, tagName, entity) => {
 
   cy.get(`[data-testid="tag-${classificationName}.${tagName}"]`).click();
 
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/${entity}/*`, 'patchTag');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, 'patchTag');
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -1049,7 +1049,7 @@ export const removeTags = (classificationName, tagName, entity) => {
     `[data-testid="selected-tag-${classificationName}.${tagName}"] [data-testid="remove-tags"]`
   ).click();
 
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/${entity}/*`, `patchTag`);
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, `patchTag`);
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -1082,7 +1082,7 @@ export const addTableFieldTags = (
 
   cy.get(`[data-testid="tag-${classificationName}.${tagName}"]`).click();
 
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/${entity}/*`, 'patchTag');
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, 'patchTag');
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -1109,7 +1109,7 @@ export const removeTableFieldTags = (
     `[data-testid="selected-tag-${classificationName}.${tagName}"] [data-testid="remove-tags"]`
   ).click();
 
-  interceptURL('PATCH', `/audax/openmetadata/api/v1/${entity}/*`, `patchTag`);
+  interceptURL('PATCH', `/nexus/openmetadata/api/v1/${entity}/*`, `patchTag`);
 
   cy.get('[data-testid="saveAssociatedTag"]').click();
 
@@ -1133,7 +1133,7 @@ export const updateDescription = (description, entity) => {
 
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/${entity}/*`,
+    `/nexus/openmetadata/api/v1/${entity}/*`,
     'updateDescription'
   );
 
@@ -1155,7 +1155,7 @@ export const updateTableFieldDescription = (
 
   interceptURL(
     'PATCH',
-    `/audax/openmetadata/api/v1/${entity}/*`,
+    `/nexus/openmetadata/api/v1/${entity}/*`,
     'updateDescription'
   );
 
@@ -1182,7 +1182,7 @@ export const visitDatabaseDetailsPage = ({
   if (isDeleted) {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/databases*include=deleted*`,
+      `/nexus/openmetadata/api/v1/databases*include=deleted*`,
       'getDatabases'
     );
     cy.get('[data-testid="show-deleted"]').click();
@@ -1214,7 +1214,7 @@ export const visitDatabaseSchemaDetailsPage = ({
   if (isDeleted) {
     interceptURL(
       'GET',
-      `/audax/openmetadata/api/v1/databaseSchemas*include=deleted*`,
+      `/nexus/openmetadata/api/v1/databaseSchemas*include=deleted*`,
       'getDatabaseSchemas'
     );
     cy.get('[data-testid="show-deleted"]').click();

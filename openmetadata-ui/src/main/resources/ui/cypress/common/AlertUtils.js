@@ -32,7 +32,7 @@ export const deleteAlertSteps = (name) => {
   cy.get('[data-testid="confirmation-text-input"]').type(DELETE_TERM);
   interceptURL(
     'DELETE',
-    '/audax/openmetadata/api/v1/events/subscriptions/*',
+    '/nexus/openmetadata/api/v1/events/subscriptions/*',
     'deleteAlert'
   );
   cy.get('[data-testid="confirm-button"]').click();
@@ -58,7 +58,7 @@ export const addOwnerFilter = (
   // Search and select owner
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*`,
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
     'getSearchResult'
   );
   cy.get('[data-testid="owner-name-select"]').click().type(ownerName);
@@ -91,7 +91,7 @@ export const addEntityFQNFilter = (
   // Search and select entity
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*`,
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
     'getSearchResult'
   );
   cy.get('[data-testid="fqn-list-select"]').click().type(entityFQN);
@@ -121,7 +121,7 @@ export const addEventTypeFilter = (
   // Search and select event type
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*`,
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
     'getSearchResult'
   );
   cy.get('[data-testid="event-type-select"]').click().type(eventType);
@@ -158,7 +158,7 @@ export const addFilterWithUsersListInput = (
   // Search and select user
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*`,
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
     'getSearchResult'
   );
   cy.get('[data-testid="user-name-select"]').click().type(updaterName);
@@ -187,7 +187,7 @@ export const addDomainFilter = (filterNumber, domainName, exclude = false) => {
   // Search and select domain
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/search/query?q=*`,
+    `/nexus/openmetadata/api/v1/search/query?q=*`,
     'getSearchResult'
   );
   cy.get('[data-testid="domain-select"]').click().type(domainName);
@@ -246,7 +246,7 @@ export const addInternalDestination = (
         .click();
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/search/query?q=*`,
+        `/nexus/openmetadata/api/v1/search/query?q=*`,
         'getSearchResult'
       );
       cy.get(

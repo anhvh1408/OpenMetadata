@@ -74,17 +74,17 @@ class PostgresIngestionClass extends ServiceBaseClass {
     it('Add Usage ingestion', () => {
       interceptURL(
         'GET',
-        'audax/openmetadata/api/v1/teams/name/Organization?fields=*',
+        'nexus/openmetadata/api/v1/teams/name/Organization?fields=*',
         'getSettingsPage'
       );
       interceptURL(
         'POST',
-        '/audax/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
+        '/nexus/openmetadata/api/v1/services/ingestionPipelines/deploy/*',
         'deployIngestion'
       );
       interceptURL(
         'GET',
-        '/audax/openmetadata/api/v1/permissions/ingestionPipeline/name/*',
+        '/nexus/openmetadata/api/v1/permissions/ingestionPipeline/name/*',
         'ingestionPermissions'
       );
 
@@ -120,17 +120,17 @@ class PostgresIngestionClass extends ServiceBaseClass {
       cy.wait('@deployIngestion').then(() => {
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/services/ingestionPipelines?*',
+          '/nexus/openmetadata/api/v1/services/ingestionPipelines?*',
           'ingestionPipelines'
         );
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/services/*/name/*',
+          '/nexus/openmetadata/api/v1/services/*/name/*',
           'serviceDetails'
         );
         interceptURL(
           'GET',
-          '/audax/openmetadata/api/v1/services/ingestionPipelines/status',
+          '/nexus/openmetadata/api/v1/services/ingestionPipelines/status',
           'getIngestionPipelineStatus'
         );
         cy.get('[data-testid="view-service-button"]')
@@ -148,7 +148,7 @@ class PostgresIngestionClass extends ServiceBaseClass {
     it('Verify if usage is ingested properly', () => {
       interceptURL(
         'GET',
-        `/audax/openmetadata/api/v1/tables/name/${this.serviceName}.*.*${this.entityName}?fields=*&include=all`,
+        `/nexus/openmetadata/api/v1/tables/name/${this.serviceName}.*.*${this.entityName}?fields=*&include=all`,
         'entityDetailsPage'
       );
       visitEntityDetailsPage({
@@ -157,7 +157,7 @@ class PostgresIngestionClass extends ServiceBaseClass {
         entity: EntityType.Table,
       });
       verifyResponseStatusCode('@entityDetailsPage', 200);
-      interceptURL('GET', '/audax/openmetadata/api/v1/queries?*', 'queriesTab');
+      interceptURL('GET', '/nexus/openmetadata/api/v1/queries?*', 'queriesTab');
       cy.get('[data-testid="table_queries"]')
         .should('be.visible')
         .trigger('click');

@@ -36,17 +36,17 @@ export const visitEntityDetailsVersionPage = (
 
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
+    `/nexus/openmetadata/api/v1/${entityDetails.entity}/name/${entityFQN}?*include=all`,
     'getTableDetails'
   );
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/${entityDetails.entity}/${id}/versions`,
+    `/nexus/openmetadata/api/v1/${entityDetails.entity}/${id}/versions`,
     'getVersionsList'
   );
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/${entityDetails.entity}/${id}/versions/${
+    `/nexus/openmetadata/api/v1/${entityDetails.entity}/${id}/versions/${
       version ?? '*'
     }`,
     'getSelectedVersionDetails'
@@ -75,12 +75,12 @@ export const visitDataModelVersionPage = (
 
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
+    `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions`,
     'getVersionsList'
   );
   interceptURL(
     'GET',
-    `/audax/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/${
+    `/nexus/openmetadata/api/v1/dashboard/datamodels/${dataModelId}/versions/${
       version ?? '*'
     }`,
     'getSelectedVersionDetails'
