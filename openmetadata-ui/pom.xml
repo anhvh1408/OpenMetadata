@@ -13,9 +13,8 @@
 
   <properties>
     <dropwizard.swagger.version>2.0.12-1</dropwizard.swagger.version>
+    <!-- Don't upgrade from this version as tests don't work with later version-->
     <skipTests>false</skipTests>
-    <node.js.path>/usr/local/bin/node</node.js.path>
-    <yarn.path>/usr/local/bin/yarn</yarn.path>
   </properties>
 
   <profiles>
@@ -93,12 +92,24 @@
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
         <version>1.12.1</version>
+
+        <!-- optional -->
         <configuration>
           <workingDirectory>src/main/resources/ui/</workingDirectory>
-          <nodeVersion>${node.js.path}</nodeVersion>
-          <yarnVersion>${yarn.path}</yarnVersion>
+          <installDirectory>target</installDirectory>
         </configuration>
+
         <executions>
+          <execution>
+            <id>install node and yarn</id>
+            <goals>
+              <goal>install-node-and-yarn</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v18.19.0</nodeVersion>
+              <yarnVersion>v1.22.18</yarnVersion>
+            </configuration>
+          </execution>
           <execution>
             <id>yarn install --frozen-lockfile</id>
             <goals>
@@ -150,6 +161,7 @@
         <executions>
           <execution>
             <id>copy-resources</id>
+            <!-- here the phase you need -->
             <phase>prepare-package</phase>
             <goals>
               <goal>copy-resources</goal>
@@ -182,3 +194,4 @@
     </plugins>
   </build>
 </project>
+
